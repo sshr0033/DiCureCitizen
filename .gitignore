@@ -53,3 +53,7 @@ ml/models/
 # misc
 .DS_Store
 .vscode/
+DiCureCitizenFrontend/node_modules/
+DiCureCitizenFrontend/dist/
+DiCureCitizenFrontend/.vite/
+DiCureCitizenFrontend/*bak/

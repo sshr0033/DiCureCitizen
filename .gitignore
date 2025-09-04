@@ -1,48 +1,24 @@
-node_modules/
-dist/
-*.log
-.env
-.env.*
-backend/target/
+# === Frontend (Vite/React)
+DiCureCitizenFrontend/node_modules/
+DiCureCitizenFrontend/dist/
+DiCureCitizenFrontend/.vite/
+DiCureCitizenFrontend/*bak/
+
+# === Backend (Spring Boot)
+digitalCitizen/target/
 *.iml
 .idea/
 *.class
-ml/.venv*/
-ml/venv*/
-**/__pycache__/
-**/.pytest_cache/
-ml/models/
-*.onnx
-*.pt
-*.pth
-*.pkl
-*.joblib
-.DS_Store
-.vscode/
 
+# === Local H2 DB files (do NOT commit)
 digitalCitizen/data/*.db
 digitalCitizen/data/*.lock.db
 digitalCitizen/data/*.mv.db
 
-# node / vite
-node_modules/
-dist/
-*.log
-.env
-.env.*
-
-# spring
-**/target/
-*.iml
-.idea/
-*.class
-
-# python
+# === Python (FastAPI / ML)
 ml/.venv*/
 **/__pycache__/
 **/.pytest_cache/
-
-# models/binaries
 ml/models/
 *.onnx
 *.pt
@@ -50,6 +26,8 @@ ml/models/
 *.pkl
 *.joblib
 
-# misc
+# === General
 .DS_Store
 .vscode/
+.env
+.env.*

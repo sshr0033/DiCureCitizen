@@ -19,3 +19,37 @@ ml/models/
 *.joblib
 .DS_Store
 .vscode/
+
+digitalCitizen/data/*.db
+digitalCitizen/data/*.lock.db
+digitalCitizen/data/*.mv.db
+
+# node / vite
+node_modules/
+dist/
+*.log
+.env
+.env.*
+
+# spring
+**/target/
+*.iml
+.idea/
+*.class
+
+# python
+ml/.venv*/
+**/__pycache__/
+**/.pytest_cache/
+
+# models/binaries
+ml/models/
+*.onnx
+*.pt
+*.pth
+*.pkl
+*.joblib
+
+# misc
+.DS_Store
+.vscode/

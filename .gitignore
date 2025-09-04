@@ -1,59 +1,37 @@
-node_modules/
-dist/
-*.log
-.env
-.env.*
-backend/target/
-*.iml
-.idea/
-*.class
-ml/.venv*/
-ml/venv*/
-**/__pycache__/
-**/.pytest_cache/
-ml/models/
-*.onnx
-*.pt
-*.pth
-*.pkl
-*.joblib
-.DS_Store
-.vscode/
-
-digitalCitizen/data/*.db
-digitalCitizen/data/*.lock.db
-digitalCitizen/data/*.mv.db
-
-# node / vite
-node_modules/
-dist/
-*.log
-.env
-.env.*
-
-# spring
-**/target/
-*.iml
-.idea/
-*.class
-
-# python
-ml/.venv*/
-**/__pycache__/
-**/.pytest_cache/
-
-# models/binaries
-ml/models/
-*.onnx
-*.pt
-*.pth
-*.pkl
-*.joblib
-
-# misc
-.DS_Store
-.vscode/
+# === Frontend (Vite/React)
 DiCureCitizenFrontend/node_modules/
 DiCureCitizenFrontend/dist/
 DiCureCitizenFrontend/.vite/
 DiCureCitizenFrontend/*bak/
+
+# === Backend (Spring Boot)
+digitalCitizen/target/
+*.iml
+.idea/
+*.class
+
+# === Local H2 DB files (do NOT commit)
+digitalCitizen/data/*.db
+digitalCitizen/data/*.lock.db
+digitalCitizen/data/*.mv.db
+
+# === Python (FastAPI / ML)
+ml/.venv*/
+**/__pycache__/
+**/.pytest_cache/
+ml/models/
+*.onnx
+*.pt
+*.pth
+*.pkl
+*.joblib
+
+# === General
+.DS_Store
+.vscode/
+
+DiCureCitizenFrontend/node_modules/
+DiCureCitizenFrontend/dist/
+DiCureCitizenFrontend/.vite/
+DiCureCitizenFrontend/*bak/
+

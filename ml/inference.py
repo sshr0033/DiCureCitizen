@@ -15,7 +15,7 @@ warnings.filterwarnings("ignore")
 BASE_DIR = Path(__file__).resolve().parent
 OUT_DIR = Path(os.getenv("OUT_DIR", BASE_DIR / "artifacts"))
 MAX_LEN = int(os.getenv("MAX_LEN", "320"))
-BACKBONE_NAME = os.getenv("BACKBONE", "roberta-base")  # your training backbone
+BACKBONE_NAME = os.getenv("BACKBONE", "roberta-base")  
 
 if not OUT_DIR.exists():
     raise FileNotFoundError(
@@ -112,11 +112,8 @@ class PredictIn(BaseModel):
     text: str
 
 class PredictOut(BaseModel):
-    probability: float  # 0..1
+    probability: float  
 
-@app.get("/health")
-def health():
-    return {"ok": True, "device": device, "max_len": MAX_LEN}
 
 @app.post("/predict", response_model=PredictOut)
 def predict(inp: PredictIn):

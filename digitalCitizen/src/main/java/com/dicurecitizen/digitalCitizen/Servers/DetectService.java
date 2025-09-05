@@ -22,7 +22,7 @@ public class DetectService {
     @Value("${risk.lowMax:0.10}")
     private double LOW_MAX;
 
-    @Value("${risk.highMin:0.70}")
+    @Value("${risk.highMin:0.15}")
     private double HIGH_MIN;
 
     @Value("${python.api.base:}")

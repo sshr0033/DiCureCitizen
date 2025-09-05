@@ -97,7 +97,7 @@ main{flex:1}
 .header{position:sticky;top:0;background:#fff;border-bottom:1px solid var(--border);z-index:5}
 .header-inner{display:flex;align-items:center;justify-content:space-between;padding:12px 0}
 .brand{font-weight:800;font-size:18px;color:var(--text);letter-spacing:.3px;text-decoration: none;display: inline-flex;align-items: center;}
-.logo-icon {width: 25px;height:25px;border-radius:8px;margin-right:8px}
+.logo-icon {width: 64px;height:36px;border-radius:8px}
 .nav a{color:var(--text);text-decoration:none;margin:0 10px;font-size:18px;position: relative}
 .nav a:hover, .nav a.active{text-decoration:none}
 .nav a::after {content: ""; position: absolute; left: 0; bottom: -10px; height: 3px; width: 100%; 

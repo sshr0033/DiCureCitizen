@@ -53,9 +53,8 @@ public class DetectService {
             risk = "PASS";
         } else if (p >= HIGH_MIN && anyYes) {
             risk = "HIGH"; allowPdf = true;
-        } else if (p >= HIGH_MIN && !anyYes) {
-            risk = "MODERATE";
-        } else {
+        }
+        else {
             risk = anyYes ? "MODERATE" : "PASS";
         }
 

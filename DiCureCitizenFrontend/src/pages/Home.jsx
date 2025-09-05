@@ -70,7 +70,7 @@ const handleAQSubmit = async ({ q1, q2 }) => {
 
           <form className="compose-box" onSubmit={(e)=>e.preventDefault()} noValidate>
             <textarea
-              placeholder="Paste the message you received..."
+              placeholder="Paste or type your SMS here…"
               value={text}
               onChange={(e)=>setText(e.target.value)}
               aria-label="Message to analyse"

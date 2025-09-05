@@ -22,11 +22,25 @@ public class DetectController {
     public DetectController(DetectService service) {
         this.service = service;
     }
-
+    @CrossOrigin(
+            origins = {
+                    "http://localhost:5173",
+                   "https://dicurecitizen-1.onrender.com"
+            },
+            allowCredentials = "true"
+    )
     @PostMapping("/detect")
     public DetectResponse detect(@RequestBody DetectMessage req) {
         return service.analyze(req);
     }
+
+    @CrossOrigin(
+            origins = {
+                    "http://localhost:5173",
+                    "https://dicurecitizen-1.onrender.com"
+            },
+            allowCredentials = "true"
+    )
 
     @GetMapping("/safety-guide")
     public ResponseEntity<InputStreamResource> downloadSafetyGuide() throws IOException {

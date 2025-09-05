@@ -19,7 +19,8 @@ public class CorsConfig {
         cfg.setAllowCredentials(true);
         cfg.setAllowedOriginPatterns(List.of(
                 "http://localhost:5173",
-                "https://sshr0033.github.io"
+                "https://sshr0033.github.io",
+                "https://dicurecitizen-1.onrender.com"
         ));
         cfg.setExposedHeaders(List.of("Content-Disposition"));
 

@@ -1,14 +1,13 @@
-
 import { AppBar, Toolbar, Typography, Box, Button } from "@mui/material";
-import { NavLink } from "react-router-dom";
+import { NavLink, Link } from "react-router-dom";
 import Logo from "../assets/logo.jpeg";
 
 export default function NavBar() {
   const navItems = [
     { label: "Home", path: "/" },
     { label: "Detect Scam", path: "/detectscam" },
-    { label: "Help Center", path: "/help-center" },
-    { label: "Resources", path: "/resources" },
+    { label: "Help Center", path: "/helpcenter" },
+    { label: "Resources", path: "/detectscam#articles" },
     { label: "Test Your Understanding", path: "/test-understanding" },
   ];
 
@@ -19,14 +18,20 @@ export default function NavBar() {
       sx={{ bgcolor: "white", color: "black", borderBottom: "1px solid #e0e0e0" }}
     >
       <Toolbar sx={{ justifyContent: "space-between" }}>
-       
-        <Box sx={{ display: "flex", alignItems: "center" }}>
+        
+     
+        <Box
+          component={Link}
+          to="/"
+          sx={{ display: "flex", alignItems: "center", textDecoration: "none", color: "inherit" }}
+        >
           <Box component="img" src={Logo} alt="Logo" sx={{ height: 40, mr: 1 }} />
           <Typography variant="h6" sx={{ fontWeight: 800 }}>
             DiCureCitizen
           </Typography>
         </Box>
 
+      
         <Box>
           {navItems.map((item) => (
             <Button

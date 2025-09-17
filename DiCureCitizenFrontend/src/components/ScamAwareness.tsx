@@ -73,7 +73,7 @@ export default function ScamAwarenessSection() {
             textTransform: "none",
             "&:hover": { bgcolor: "#3a4a1c" },
           }}
-         onClick={() => navigate("/resources")}
+         onClick={() => navigate("/detectscam#articles")}
         >
           Checkout Resources
         </Button>

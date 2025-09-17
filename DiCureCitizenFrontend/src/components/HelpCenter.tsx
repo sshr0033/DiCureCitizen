@@ -9,12 +9,12 @@ export default function HelpCenterSection() {
         position: "relative",
         bgcolor: "black",
         color: "white",
-        py: { xs: 10, md: 16 }, 
+        py: { xs: 8, md: 12 },
         textAlign: "center",
         overflow: "hidden",
       }}
     >
-     
+    
       <Box
         sx={{
           position: "absolute",
@@ -22,56 +22,56 @@ export default function HelpCenterSection() {
           backgroundImage: `url(${HelpBg})`,
           backgroundSize: "cover",
           backgroundPosition: "center",
-          filter: "blur(8px)", 
-          transform: "scale(1.1)",
+          filter: "blur(7px)",  
+          transform: "scale(1.1)", 
         }}
       />
 
-   
+     
       <Box
         sx={{
           position: "absolute",
           inset: 0,
-          bgcolor: "rgba(0,0,0,0.45)",
+          bgcolor: "rgba(0,0,0,0.4)",
         }}
       />
 
      
       <Container maxWidth="md" sx={{ position: "relative", zIndex: 1 }}>
         <Typography
-          variant="h3" 
-          fontWeight={900}
+          variant="h4"
+          fontWeight={800}
           gutterBottom
           sx={{ color: "white" }}
         >
-          Scammed? <span style={{ color: "#fff" }}>we are here to help</span>
+          Scammed? <span style={{ color: "white" }}>we are here to help</span>
         </Typography>
 
         <Typography
-          variant="h5" 
+          variant="h6"
           sx={{
-            mb: 5,
+            mb: 4,
             fontWeight: 600,
             color: "#eae8da", 
           }}
         >
-          Explore our curated resources that include guides to help you prepare
-          your documents and get assistance from CyberHelp in Australia.
+          Explore our curated resources that includes help resources and guides you
+          on how to prepare your documents to get help from CyberHelp in Australia
         </Typography>
 
         <Button
           variant="contained"
           sx={{
-            px: 8, 
+            px: 6,
             py: 2,
             borderRadius: "50px",
             bgcolor: "#4c5f26",
             fontWeight: 700,
-            fontSize: "1.4rem", 
+            fontSize: "1.2rem",
             textTransform: "none",
             "&:hover": { bgcolor: "#3a4a1c" },
           }}
-          onClick={() => window.location.href = "/helpcenter"}
+          onClick={() => window.location.href = "/helpcenter"} 
         >
           Help Center
         </Button>

@@ -8,7 +8,7 @@ import SecurityIcon from "@mui/icons-material/Security";
 import PlagiarismIcon from '@mui/icons-material/Plagiarism';
 import SupportAgentIcon from "@mui/icons-material/SupportAgent";
 import MenuBookIcon from "@mui/icons-material/MenuBook";
-import QuizIcon from "@mui/icons-material/Quiz";
+
 
 import OldManImg from "../assets/oldmanpic.png";
 import ReadMan from "../assets/oldmanreading.jpg";
@@ -50,7 +50,7 @@ const slides = [
 const actionButtons = [
   { label: "Learn Good Digital Citizenship", link: "/#learnCitizenship", icon: <SecurityIcon sx={{ fontSize: 40, color: "#4c5f26" }} /> },
   { label: "Detect Scam", link: "/detectscam", icon: <PlagiarismIcon sx={{ fontSize: 40, color: "#4c5f26" }} /> },
-  { label: "Resources", link: "/detectscam#articles", icon: <MenuBookIcon sx={{ fontSize: 40, color: "#4c5f26" }} /> },
+  { label: "Know latest Scams", link: "/detectscam#articles", icon: <MenuBookIcon sx={{ fontSize: 40, color: "#4c5f26" }} /> },
   { label: "Help Center", link: "/helpcenter", icon: <SupportAgentIcon sx={{ fontSize: 40, color: "#4c5f26" }} /> },
 
 ];
@@ -76,7 +76,7 @@ export default function HeroBanner() {
   };
 
   return (
-    <Box component="section" sx={{ width: "100%", minHeight: "70vh", position: "relative" }}>
+    <Box component="section" sx={{ width: "100%", minHeight: "70vh", position: "relative",}}>
       <Swiper
         modules={[Navigation, Autoplay]}
         navigation
@@ -138,41 +138,48 @@ export default function HeroBanner() {
       </Swiper>
 
       <Box
+  sx={{
+    position: "absolute",
+    bottom: { xs: "-120px", md: "-50px" }, // more space on mobile
+    left: "50%",
+    transform: "translateX(-50%)",
+    display: "grid",
+    gridTemplateColumns: { xs: "1fr 1fr", sm: "1fr 1fr", md: "repeat(4, 1fr)" }, 
+    gap: { xs: 2, md: 3 },
+    justifyContent: "center",
+    width: { xs: "95%", md: "90%" },
+    zIndex: 10,
+  }}
+>
+  {actionButtons.map((btn) => (
+    <Paper
+      key={btn.label}
+      elevation={4}
+      sx={{
+        textAlign: "center",
+        bgcolor: "#fff",
+        p: { xs: 2, md: 3 }, // smaller padding on mobile
+        borderRadius: 2,
+        cursor: "pointer",
+        "&:hover": { bgcolor: "#f5f5f5" },
+      }}
+      onClick={() => handleNavigation(btn.link)}
+    >
+      <Box sx={{ mb: 1 }}>{btn.icon}</Box>
+      <Typography
+        variant="subtitle2"
         sx={{
-          position: "absolute",
-          bottom: "-50px",
-          left: "50%",
-          transform: "translateX(-50%)",
-          display: "flex",
-          gap: 3,
-          flexWrap: "wrap",
-          justifyContent: "center",
-          width: "90%",
-          zIndex: 10,
+          fontWeight: 700,
+          color: "#4c5f26",
+          fontSize: { xs: "0.8rem", sm: "0.9rem", md: "1rem" }, // shrink text on small screens
         }}
       >
-        {actionButtons.map((btn) => (
-          <Paper
-            key={btn.label}
-            elevation={4}
-            sx={{
-              flex: "1 1 220px",
-              textAlign: "center",
-              bgcolor: "#fff",
-              p: 3,
-              borderRadius: 2,
-              cursor: "pointer",
-              "&:hover": { bgcolor: "#f5f5f5" },
-            }}
-            onClick={() => handleNavigation(btn.link)}
-          >
-            <Box sx={{ mb: 1 }}>{btn.icon}</Box>
-            <Typography variant="subtitle1" sx={{ fontWeight: 700, color: "#4c5f26" }}>
-              {btn.label}
-            </Typography>
-          </Paper>
-        ))}
-      </Box>
+        {btn.label}
+      </Typography>
+    </Paper>
+  ))}
+</Box>
+
     </Box>
   );
 }

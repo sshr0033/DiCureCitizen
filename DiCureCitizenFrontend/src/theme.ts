@@ -1,29 +1,40 @@
-
 import { createTheme } from "@mui/material/styles";
-
-declare module "@mui/material/styles" {
-  interface Palette {
-    olive: Palette["primary"];
-  }
-  interface PaletteOptions {
-    olive?: PaletteOptions["primary"];
-  }
-}
 
 export const theme = createTheme({
   palette: {
-    mode: "light",
-    background: {
-      default: "#ffffff",
-      paper: "#ffffff",
-    },
-    olive: {
-     
-      main: "#6F7E5B",     
-      light: "#8EA07A",
-      dark: "#4F5F3F",
-      contrastText: "#ffffff",
+    primary: { main: "#4c5f26" },
+    secondary: { main: "#eae8da" },
+    olive: { main: "#6b775a" },
+  },
+  typography: {
+    fontFamily: "'Inter', sans-serif",
+    h4: { fontWeight: 800 },
+    h6: { fontWeight: 600 },
+    button: {
+      textTransform: "none",
+      borderRadius: "50px",
+      fontWeight: 700,
     },
   },
-  shape: { borderRadius: 12 },
+  components: {
+    MuiButton: {
+      styleOverrides: {
+        root: {
+          px: 4,
+          py: 1,
+          "&:hover": {
+            backgroundColor: "#3a4a1c",
+            color: "white",
+          },
+        },
+      },
+    },
+    MuiPaper: {
+      styleOverrides: {
+        root: {
+          borderRadius: 10,
+        },
+      },
+    },
+  },
 });

@@ -140,7 +140,7 @@ export default function HeroBanner() {
       <Box
   sx={{
     position: "absolute",
-    bottom: { xs: "-120px", md: "-50px" }, // more space on mobile
+    bottom: { xs: "-120px", md: "-50px" },
     left: "50%",
     transform: "translateX(-50%)",
     display: "grid",
@@ -158,7 +158,7 @@ export default function HeroBanner() {
       sx={{
         textAlign: "center",
         bgcolor: "#fff",
-        p: { xs: 2, md: 3 }, // smaller padding on mobile
+        p: { xs: 2, md: 3 }, 
         borderRadius: 2,
         cursor: "pointer",
         "&:hover": { bgcolor: "#f5f5f5" },
@@ -171,7 +171,7 @@ export default function HeroBanner() {
         sx={{
           fontWeight: 700,
           color: "#4c5f26",
-          fontSize: { xs: "0.8rem", sm: "0.9rem", md: "1rem" }, // shrink text on small screens
+          fontSize: { xs: "0.8rem", sm: "0.9rem", md: "1rem" }, 
         }}
       >
         {btn.label}

@@ -39,9 +39,12 @@ const steps = [
 ];
 
 export default function ScamReportPrepare() {
-  const [flippedCard, setFlippedCard] = useState(null);
+const [flippedCard, setFlippedCard] = useState<number | null>(null);
 
-  const handleFlip = (id) => {
+
+
+
+  const handleFlip = (id:number) => {
     setFlippedCard(flippedCard === id ? null : id);
   };
 
@@ -87,7 +90,7 @@ export default function ScamReportPrepare() {
 
         <Grid container spacing={6} justifyContent="center">
           {steps.map((step) => (
-            <Grid item key={step.id}>
+      
               <Box
                 sx={{
                   perspective: "1000px",
@@ -219,8 +222,8 @@ export default function ScamReportPrepare() {
                   </Card>
                 </Box>
               </Box>
-            </Grid>
-          ))}
+      
+          )) }
         </Grid>
 
         

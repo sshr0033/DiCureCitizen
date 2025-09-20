@@ -4,7 +4,7 @@ export const theme = createTheme({
   palette: {
     primary: { main: "#4c5f26" },
     secondary: { main: "#eae8da" },
-    olive: { main: "#6b775a" },
+    olive: { main: "#6b775a" } 
   },
   typography: {
     fontFamily: "'Inter', sans-serif",

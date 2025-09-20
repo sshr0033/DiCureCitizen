@@ -2,12 +2,14 @@ import { useState } from "react";
 import { Box, Typography, Card, CardContent, Button } from "@mui/material";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Navigation } from "swiper/modules";
-
-import { sectionStyles, cardStyles, buttonStyles } from "../styles";
-
+import { sectionStyles, cardStyles, buttonStyles } from "../styles"; 
 import PrivacyImg from "../assets/privacy.jpg";
 import RespectImg from "../assets/respect.jpg";
 import DigitalLiteracy from "../assets/literacy.jpg";
+
+ 
+
+
 import Contribution from "../assets/contribution.jpg";
 
 const cards = [
@@ -42,9 +44,10 @@ const cards = [
 ];
 
 export default function Article() {
-  const [flippedCard, setFlippedCard] = useState(null);
+ const [flippedCard, setFlippedCard] = useState<number | null>(null);
 
-  const handleFlip = (id) => {
+
+  const handleFlip = (id: number) => {
     setFlippedCard(flippedCard === id ? null : id);
   };
 

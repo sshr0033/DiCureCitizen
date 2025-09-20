@@ -48,10 +48,10 @@ const slides = [
 ];
 
 const actionButtons = [
-  { label: "Learn Good Digital Citizenship", link: "/#learnCitizenship", icon: <SecurityIcon sx={{ fontSize: 40, color: "#4c5f26" }} /> },
-  { label: "Detect Scam", link: "/detectscam", icon: <PlagiarismIcon sx={{ fontSize: 40, color: "#4c5f26" }} /> },
-  { label: "Know latest Scams", link: "/detectscam#articles", icon: <MenuBookIcon sx={{ fontSize: 40, color: "#4c5f26" }} /> },
-  { label: "Help Center", link: "/helpcenter", icon: <SupportAgentIcon sx={{ fontSize: 40, color: "#4c5f26" }} /> },
+  { label: "Learn how to become a Good Digital Citizen", link: "/#learnCitizenship", icon: <SecurityIcon sx={{ fontSize: 40, color: "#4c5f26" }} /> },
+  { label: "Confused if a message is a scam? Check here.", link: "/detectscam", icon: <PlagiarismIcon sx={{ fontSize: 40, color: "#4c5f26" }} /> },
+  { label: "How to safeguard yourself from Latest scam.", link: "/detectscam#articles", icon: <MenuBookIcon sx={{ fontSize: 40, color: "#4c5f26" }} /> },
+  { label: "Get Help if you are scammed", link: "/helpcenter", icon: <SupportAgentIcon sx={{ fontSize: 40, color: "#4c5f26" }} /> },
 
 ];
 
@@ -59,7 +59,7 @@ export default function HeroBanner() {
   const navigate = useNavigate();
   const location = useLocation();
 
-  const handleNavigation = (link) => {
+  const handleNavigation = (link: string) => {
     if (link.includes("#")) {
       const [path, hash] = link.split("#");
       if (location.pathname === path || (path === "/" && location.pathname === "/")) {
@@ -76,66 +76,67 @@ export default function HeroBanner() {
   };
 
   return (
-    <Box component="section" sx={{ width: "100%", minHeight: "70vh", position: "relative",}}>
-      <Swiper
-        modules={[Navigation, Autoplay]}
-        navigation
-        loop
-        autoplay={{ delay: 3000, disableOnInteraction: false }}
-      >
-        {slides.map((slide) => (
-          <SwiperSlide key={slide.id}>
-            <Box
-              sx={{
-                position: "relative",
-                display: "flex",
-                alignItems: "stretch",
-                minHeight: "70vh",
-                width: "100%",
-                overflow: "hidden",
-              }}
-            >
-              <Box
-                sx={{
-                  position: "absolute",
-                  top: 0,
-                  right: 0,
-                  bottom: 0,
-                  width: "65%",
-                  backgroundImage: `url(${slide.image})`,
-                  backgroundSize: "cover",
-                  backgroundPosition: "center",
-                  zIndex: 1,
-                }}
-              />
+   <Box component="section" sx={{ width: "100%", minHeight: "5vh", position: "relative" }}>
+  <Swiper
+    modules={[Navigation, Autoplay]}
+    navigation
+    loop
+    autoplay={{ delay: 3000, disableOnInteraction: false }}
+  >
+    {slides.map((slide) => (
+      <SwiperSlide key={slide.id}>
+        <Box
+          sx={{
+            position: "relative",
+            display: "flex",
+            alignItems: "stretch",
+            minHeight: "35vh",  
+            width: "100%",
+            overflow: "hidden",
+          }}
+        >
+          <Box
+            sx={{
+              position: "absolute",
+              top: 0,
+              right: 0,
+              bottom: 0,
+              width: "65%",
+              backgroundImage: `url(${slide.image})`,
+              backgroundSize: "cover",
+              backgroundPosition: "center",
+              zIndex: 1,
+            }}
+          />
 
-              <Box
-                sx={{
-                  flex: 1,
-                  bgcolor: "#eae8da",
-                  display: "flex",
-                  flexDirection: "column",
-                  justifyContent: "center",
-                  pl: { xs: 3, md: 8 },
-                  pr: { xs: 2, md: 4 },
-                  clipPath: {
-                    md: "polygon(0 0, 65% 0, 55% 100%, 0% 100%)",
-                    xs: "none",
-                  },
-                  zIndex: 2,
-                }}
-              >
-                <Typography variant="h4" sx={{ fontWeight: 800, mb: 2 }}>
-                  {slide.title}
-                </Typography>
-                <Typography variant="h6" sx={{ fontWeight: 600, mb: 4 }}>
-                  {slide.subtitle}
-                </Typography>
-              </Box>
-            </Box>
-          </SwiperSlide>
-        ))}
-      </Swiper>
+          <Box
+            sx={{
+              flex: 1,
+              bgcolor: "#eae8da",
+              display: "flex",
+              flexDirection: "column",
+              justifyContent: "center",
+              pl: { xs: 3, md: 8 },
+              pr: { xs: 2, md: 4 },
+              clipPath: {
+                md: "polygon(0 0, 65% 0, 55% 100%, 0% 100%)",
+                xs: "none",
+              },
+              zIndex: 2,
+            }}
+          >
+            <Typography variant="h5" sx={{ fontWeight: 800, mb: 2 }}>
+              {slide.title}
+            </Typography>
+            <Typography variant="subtitle1" sx={{ fontWeight: 600, mb: 4 }}>
+              {slide.subtitle}
+            </Typography>
+          </Box>
+        </Box>
+      </SwiperSlide>
+    ))}
+  </Swiper>
+
 
       <Box
   sx={{
@@ -181,5 +182,6 @@ export default function HeroBanner() {
 </Box>
 
     </Box>
+    
   );
 }

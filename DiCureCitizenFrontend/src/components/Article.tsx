@@ -49,7 +49,7 @@ export default function Article() {
   };
 
   return (
-    <Box id="learnCitizenship" component="section" sx={sectionStyles.articleSection}>
+    <Box id="articles" component="section" sx={sectionStyles.articleSection}>
       <Typography variant="h4" fontWeight={800}>
         Get to know the latest trending scams around Australia <br /> & how to avoid them.
       </Typography>

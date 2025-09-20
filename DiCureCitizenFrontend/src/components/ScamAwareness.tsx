@@ -1,7 +1,7 @@
 import { Box, Typography, Button, Container } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 
-export default function ScamAwarenessSection() {
+export default function ScamAwareness() {
       const navigate = useNavigate();
   return (
     <Box

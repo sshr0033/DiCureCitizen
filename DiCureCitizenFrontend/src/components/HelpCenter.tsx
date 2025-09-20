@@ -1,7 +1,9 @@
 import { Box, Typography, Button, Container } from "@mui/material";
 import HelpBg from "../assets/worriedman.jpg"; 
+import { useNavigate } from "react-router-dom";
 
-export default function HelpCenterSection() {
+export default function HelpCenter() {
+    const navigate = useNavigate();
   return (
     <Box
       component="section"
@@ -71,7 +73,7 @@ export default function HelpCenterSection() {
             textTransform: "none",
             "&:hover": { bgcolor: "#3a4a1c" },
           }}
-          onClick={() => window.location.href = "/helpcenter"} 
+            onClick={() => navigate("/helpcenter")}
         >
           Help Center
         </Button>

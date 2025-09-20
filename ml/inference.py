@@ -9,7 +9,7 @@ OUT_DIR = "./artifacts"
 MODEL_NAME = "roberta-base"
 MAX_LEN = 160   
 CANDIDATE_WEIGHTS = [
-    "scam_roberta_v2_joint.pt",   # text&url joint
+    # "scam_roberta_v2_joint.pt",   # text&url joint
     "scam_roberta_v1_1_link.pt",   # url specified
     "scam_roberta.pt",            # v1
 ]
@@ -57,31 +57,46 @@ def predict_proba(text: str) -> float:
 
 # Print probability
 if __name__ == "__main__":
-    spam_example = "Congratulations! You won a prize. Claim at http://bit.ly/fakeclaim"
-    ham_example  = "Your statement is available. Visit https://www.google.com"
-    print("Scam probability (spam example):", predict_proba(spam_example))
-    print("Scam probability (ham example):",  predict_proba(ham_example))
+    
+    user_input = input("Please Enter the Message: ")
+    print(predict_proba(user_input))
+
+    # spam_example = "Congratulations! You won a prize. Claim at http://bit.ly/fakeclaim"
+    # ham_example  = "Your statement is available. Visit https://www.google.com"
+    # print("Scam probability (spam example):", predict_proba(spam_example))
+    # print("Scam probability (ham example):",  predict_proba(ham_example))
 
 
-    test_example_1 = "You have a new message https://AuBusiness-Act.com/sec"
-    test_example_2 = """
-                Hi, I’m Ava from Recruit Australia.
-                We are currently hiring for a variety of positions across Australia, including part-time, freelance, and remote roles.
+    # test_example_1 = "You have a new message https://AuBusiness-Act.com/sec"
+    # test_example_2 = """
+    #             Hi, I’m Ava from Recruit Australia.
+    #             We are currently hiring for a variety of positions across Australia, including part-time, freelance, and remote roles.
 
-                💼 100% Remote – Work from Home
-                🕒 1–1.5 hours/day, 4 days/week
-                💰 AU$250–500 daily (after tax)
-                📆 Optional weekend shifts for higher income
-                🌴 15–20 days paid annual leave + public holidays
+    #             💼 100% Remote – Work from Home
+    #             🕒 1–1.5 hours/day, 4 days/week
+    #             💰 AU$250–500 daily (after tax)
+    #             📆 Optional weekend shifts for higher income
+    #             🌴 15–20 days paid annual leave + public holidays
 
-                Requirements:
-                ✔️ Minimum age: 23
-                ✔️ Basic English communication skills
+    #             Requirements:
+    #             ✔️ Minimum age: 23
+    #             ✔️ Basic English communication skills
 
-                Interested? Reply "Yes" for more details.
-                Questions? Reply "Okay".
+    #             Interested? Reply "Yes" for more details.
+    #             Questions? Reply "Okay".
 
-                Looking forward to your reply
-    """
-    print("Test Example probability 1:", predict_proba(test_example_1))
-    print("Test Example probability 2:", predict_proba(test_example_2))
+    #             Looking forward to your reply
+    # """
+    # test_example_3 = """
+    #             Hi Yiming,
+    #             I'm a Monash student studying Computer Science and found the lectures
+    #             pretty long and difficult to listen too, so I built a Chrome extension
+    #             that summarises them into notes in just a few seconds. Its built into
+    #             your browser so no need to do anything, just open it and summarise.
+    #             You can check it out here: lecturesummariser.com.au
+    #             It works for all classes, so if you try it and have feedback, please
+    #             let me know, I'm always trying to improve it.
+    # """
+    # print("Test Example probability 1:", predict_proba(test_example_1))
+    # print("Test Example probability 2:", predict_proba(test_example_2))
+    # print("Test Example probability 2:", predict_proba(test_example_3))

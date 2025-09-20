@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import  { useState } from "react";
 import {
   Box,
   Typography,
@@ -82,7 +82,7 @@ export default function PrivacyAwarenessGame({ onBack }: { onBack: () => void })
         max={2}
         step={1}
         value={level}
-        onChange={(e, val) => setLevel(val as number)}
+        onChange={(_, val) => setLevel(val as number)}
         marks
       />
       <Typography fontWeight="bold">{levels[level]}</Typography>

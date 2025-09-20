@@ -1,5 +1,5 @@
 
-import { ReactNode } from "react";
+import type { ReactNode } from "react";
 import NavBar from "./NavBar";
 import Footer from "./Footer";
 

@@ -2,8 +2,7 @@ name: Build and deploy Python app to Azure Web App - dicure-api
 
 on:
   push:
-    branches:
-      - main
+    branches: [ main ]
   workflow_dispatch:
 
 jobs:
@@ -17,18 +16,21 @@ jobs:
         with:
           python-version: '3.11'
 
+      # Optional sanity install (ensures requirements are OK)
       - name: Install dependencies
         run: |
           cd ml
-          python -m venv venv
-          source venv/bin/activate
+          python -m pip install --upgrade pip
           pip install -r ../requirements.txt
 
+      
       - name: Upload artifact
         uses: actions/upload-artifact@v4
         with:
           name: python-app
-          path: ml/
+          path: |
+            ml/
+            requirements.txt
 
   deploy:
     runs-on: ubuntu-latest
@@ -39,16 +41,11 @@ jobs:
         with:
           name: python-app
 
-      - name: Login to Azure
-        uses: azure/login@v2
-        with:
-          client-id: ${{ secrets.AZUREAPPSERVICE_CLIENTID }}
-          tenant-id: ${{ secrets.AZUREAPPSERVICE_TENANTID }}
-          subscription-id: ${{ secrets.AZUREAPPSERVICE_SUBSCRIPTIONID }}
-
-      - name: Deploy to Azure Web App
+      # No azure/login needed with publish profile
+      - name: Deploy to Azure Web App (publish profile)
         uses: azure/webapps-deploy@v3
         with:
-          app-name: 'dicure-api'
+          app-name: 'dicure-api'                
           slot-name: 'Production'
+          publish-profile: ${{ secrets.AZURE_WEBAPP_PUBLISH_PROFILE }}
           package: .

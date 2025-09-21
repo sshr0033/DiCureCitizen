@@ -26,7 +26,7 @@ jobs:
           docker build -t ${{ secrets.AZURE_REGISTRY }}/ml-app:latest .
           docker push ${{ secrets.AZURE_REGISTRY }}/ml-app:latest
 
-      - name: Deploy to Azure Web App (Container) using publish profile
+      - name: Deploy to Azure Web App (Container)
         uses: azure/webapps-deploy@v3
         with:
           app-name: ${{ secrets.AZURE_WEBAPP_NAME }}

@@ -11,7 +11,7 @@ Please **unzip** the `models.zip` and put all `pt` files into `artifacts` folder
 ```bash 
 # 1) Put model files in ./artifacts
 #    - scam_roberta.pt  (or your latest weights)
-#    - tokenizer files  (tokenizer.json / vocab.json / merges.txt / ...)
+#    - tokenizer files  (tokenizer.json / vocab.json / merges.txt / ...) 
 
 # 2) Install deps
 python -m venv .venv && . .venv/bin/activate      # Windows: .\.venv\Scripts\activate

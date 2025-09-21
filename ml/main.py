@@ -6,11 +6,9 @@ from pydantic import BaseModel
 from transformers import AutoTokenizer, AutoModel
 import uvicorn
 
-
 OUT_DIR = "./artifacts"
 MODEL_NAME = "roberta-base"
 MAX_LEN = 160
-
 
 class ScamClassifier(nn.Module):
     def __init__(self, name: str, dropout: float = 0.1):
@@ -23,10 +21,15 @@ class ScamClassifier(nn.Module):
         out = self.backbone(input_ids=input_ids, attention_mask=attention_mask)
         cls = out.last_hidden_state[:, 0]
         return self.head(cls).squeeze(-1)
-
 device = "cuda" if torch.cuda.is_available() else "cpu"
 
-tokenizer = AutoTokenizer.from_pretrained(OUT_DIR, use_fast=True)
+try:
+    tokenizer = AutoTokenizer.from_pretrained(OUT_DIR, use_fast=True)
+    print(f"[startup] Tokenizer loaded from local folder: {OUT_DIR}")
+except Exception:
+    tokenizer = AutoTokenizer.from_pretrained(MODEL_NAME, use_fast=True)
+    print(f"[startup] Tokenizer loaded from HuggingFace hub: {MODEL_NAME}")
+
 model = ScamClassifier(MODEL_NAME)
 weights_path = os.path.join(OUT_DIR, "scam_roberta.pt")  # apna weight file ka naam daal
 state = torch.load(weights_path, map_location="cpu")
@@ -55,6 +58,5 @@ def predict(req: TextIn):
     prob = predict_proba(req.text)
     return {"probability": prob}
 
-
 if __name__ == "__main__":
-    uvicorn.run("api:app", host="0.0.0.0", port=8000, reload=True)
+    uvicorn.run("main:app", host="0.0.0.0", port=8000, reload=True)

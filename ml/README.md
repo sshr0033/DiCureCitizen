@@ -8,7 +8,7 @@ Please **unzip** the `models.zip` and put all `pt` files into `artifacts` folder
 ---
 ## Run locally
 
-```bash
+```bash 
 # 1) Put model files in ./artifacts
 #    - scam_roberta.pt  (or your latest weights)
 #    - tokenizer files  (tokenizer.json / vocab.json / merges.txt / ...)

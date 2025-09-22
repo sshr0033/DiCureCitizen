@@ -2,50 +2,60 @@ import { useState } from "react";
 import { Box, Typography, Card, CardContent, Button } from "@mui/material";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Navigation } from "swiper/modules";
-import { sectionStyles, cardStyles, buttonStyles } from "../styles"; 
-import PrivacyImg from "../assets/privacy.jpg";
-import RespectImg from "../assets/respect.jpg";
-import DigitalLiteracy from "../assets/literacy.jpg";
-
- 
+import { sectionStyles, cardStyles, buttonStyles } from "../styles";
 
 
-import Contribution from "../assets/contribution.jpg";
+import FraudImg from "../assets/Realestate.png";
+import PropertyImg from "../assets/shock.jpeg";
+import BankImg from "../assets/cardscam.jpeg";
+import AtoImg from "../assets/readdocu.jpeg";
+
 
 const cards = [
   {
     id: 1,
-    image: PrivacyImg,
-    title: "Latest Scam 1",
-    text: "Do not overshare any of your private details...",
-    details: "Privacy is essential in the digital world...",
+    title: "Fraudulent Investments",
+    image: FraudImg,
+    text: "Beware of 'Too Good to be True' investments promising high returns...",
+    details:
+      "ABC News revealed Australians lost nearly $8M to GIM Trading, which promised safe bond investments but never invested the funds. A retired couple lost $750,000. ASIC described this as one of the most serious financial deceptions in recent years. Always verify on ASIC’s register and consult a licensed advisor.",
+    source:
+      "https://www.abc.net.au/news/2025-09-15/gim-trading-alleged-fraud-investors-bonds/105747410",
   },
   {
     id: 2,
-    image: RespectImg,
-    title: "Latest Scam 2",
-    text: "Always be courteous to others online...",
-    details: "Respect builds safe spaces online...",
+    title: "Property Scams on the Rise",
+    image: PropertyImg,
+    text: "Hackers intercept property settlement emails and steal deposits...",
+    details:
+      "Realestate.com.au reported losses rising from $13M in 2021 to $43.2M in 2024, with scams still increasing. Scammers impersonate solicitors and request urgent deposits to fake accounts. A Sydney couple lost $970,000. Always confirm bank details directly with your solicitor or agent before transferring money.",
+    source:
+      "https://www.realestate.com.au/news/popular-property-scam-on-rise-as-nearly-every-aussie-fooled/",
   },
   {
     id: 3,
-    image: DigitalLiteracy,
-    title: "Latest Scam 3",
-    text: "Keep yourself updated with the latest tools...",
-    details: "Being digitally literate means...",
+    title: "Fake Bank Messages",
+    image: BankImg,
+    text: "Phishing texts or emails disguised as official bank alerts...",
+    details:
+      "Commonwealth Bank warned customers of phishing scams causing $91M in losses in 2024. Messages ask users to redeem points or verify activity via malicious links. These mimic official bank communications, tricking especially seniors. Remember: your bank will never ask you to confirm details via SMS/email links.",
+    source:
+      "https://www.commbank.com.au/support/security/latest-scams-and-security-alerts.html",
   },
   {
     id: 4,
-    image: Contribution,
-    title: "Latest Scam 4",
-    text: "Be a positive digital citizen...",
-    details: "Positive contributions foster collaboration...",
+    title: "Government Refund Traps",
+    image: AtoImg,
+    text: "Scammers pose as ATO agents offering easy GST refunds...",
+    details:
+      "Over 57,000 people lodged false GST refund claims under 'Operation Protego', costing ~$2B. Victims were tricked via social media into sham businesses. A 62-year-old man was left with $72K debt. Always check refund schemes on the ATO’s official site and never trust ‘easy refund’ offers online.",
+    source:
+      "https://www.news.com.au/finance/money/costs/tax-scam-victims-face-crushing-debts-in-australias-largest-gst-fraud/news-story/31e4a7f967339040ceec7fe7b5961874",
   },
 ];
 
 export default function Article() {
- const [flippedCard, setFlippedCard] = useState<number | null>(null);
-
+  const [flippedCard, setFlippedCard] = useState<number | null>(null);
 
   const handleFlip = (id: number) => {
     setFlippedCard(flippedCard === id ? null : id);
@@ -53,7 +63,7 @@ export default function Article() {
 
   return (
     <Box id="articles" component="section" sx={sectionStyles.articleSection}>
-      <Typography variant="h4" fontWeight={800}>
+      <Typography variant="h4" fontWeight={800} textAlign="center">
         Get to know the latest trending scams around Australia <br /> & how to avoid them.
       </Typography>
 
@@ -61,6 +71,7 @@ export default function Article() {
         modules={[Navigation]}
         navigation
         loop
+        pagination={false} 
         spaceBetween={16}
         slidesPerView={1}
         breakpoints={{
@@ -74,37 +85,69 @@ export default function Article() {
           <SwiperSlide key={card.id}>
             <Box sx={cardStyles.container}>
               <Box sx={cardStyles.inner(flippedCard === card.id)}>
+                {/* FRONT OF CARD */}
                 <Card sx={cardStyles.front}>
-                  <Box component="img" src={card.image} alt={card.title} sx={cardStyles.image} />
+                  <Box
+                    component="img"
+                    src={card.image}
+                    alt={card.title}
+                    sx={{
+                      width: "100%",
+                      height: 180,
+                      objectFit: "cover",
+                      borderTopLeftRadius: 12,
+                      borderTopRightRadius: 12,
+                    }}
+                  />
                   <CardContent sx={cardStyles.content}>
-                    <Box>
-                      <Typography variant="h6" fontWeight={700} gutterBottom>
-                        {card.title}
-                      </Typography>
-                      <Typography variant="body2" color="text.secondary">
-                        {card.text}
-                      </Typography>
-                    </Box>
-                    <Button variant="contained" onClick={() => handleFlip(card.id)} sx={buttonStyles.learnMore}>
+                    <Typography variant="h6" fontWeight={700} gutterBottom>
+                      {card.title}
+                    </Typography>
+                    <Typography variant="body2" color="text.secondary">
+                      {card.text}
+                    </Typography>
+                    <Button
+                      variant="contained"
+                      onClick={() => handleFlip(card.id)}
+                      sx={buttonStyles.learnMore}
+                    >
                       Learn More
                     </Button>
                   </CardContent>
                 </Card>
 
-              
+                {/* BACK OF CARD */}
                 <Card sx={cardStyles.back}>
                   <CardContent sx={cardStyles.content}>
-                    <Box>
-                      <Typography variant="h6" fontWeight={700} gutterBottom>
-                        {card.title}
-                      </Typography>
-                      <Typography variant="body2" color="text.secondary">
-                        {card.details}
-                      </Typography>
+                    <Typography variant="h6" fontWeight={700} gutterBottom>
+                      {card.title}
+                    </Typography>
+                    <Typography
+                      variant="body2"
+                      color="text.secondary"
+                      sx={{ mb: 2 }}
+                    >
+                      {card.details}
+                    </Typography>
+
+                    <Box sx={{ display: "flex", gap: 2 }}>
+                      <Button
+                        variant="contained"
+                        href={card.source}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        sx={{ flex: 1 }}
+                      >
+                        Get Source
+                      </Button>
+                      <Button
+                        variant="outlined"
+                        onClick={() => handleFlip(card.id)}
+                        sx={{ flex: 1 }}
+                      >
+                        Back
+                      </Button>
                     </Box>
-                    <Button variant="contained" onClick={() => handleFlip(card.id)} sx={buttonStyles.back}>
-                      Back
-                    </Button>
                   </CardContent>
                 </Card>
               </Box>

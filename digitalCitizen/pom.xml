@@ -93,6 +93,7 @@
     </dependencies>
     <build>
     <plugins>
+        <!-- Compiler plugin -->
         <plugin>
             <groupId>org.apache.maven.plugins</groupId>
             <artifactId>maven-compiler-plugin</artifactId>
@@ -105,8 +106,23 @@
                 <executable>${JAVA_HOME}/bin/javac</executable>
             </configuration>
         </plugin>
+
+        <!-- Spring Boot plugin (makes jar runnable) -->
+        <plugin>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-maven-plugin</artifactId>
+            <version>3.5.5</version>
+            <executions>
+                <execution>
+                    <goals>
+                        <goal>repackage</goal>
+                    </goals>
+                </execution>
+            </executions>
+        </plugin>
     </plugins>
 </build>
+
 
 
 

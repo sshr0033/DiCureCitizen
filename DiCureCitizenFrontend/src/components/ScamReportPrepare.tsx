@@ -11,7 +11,6 @@ import PauseIcon from "@mui/icons-material/Pause";
 import PlayArrowIcon from "@mui/icons-material/PlayArrow";
 import ReportGuidePopUp from "../components/ReportGuidePopUp";
 import { useNavigate } from "react-router-dom";
-import { getConversations } from "../api"; 
 
 type Conversation = {
   conversationId: number;
@@ -32,14 +31,74 @@ const ScamReportPrepare: React.FC = () => {
   const navigate = useNavigate();
   const [openGuide, setOpenGuide] = useState(false);
 
+  // ✅ Hardcoded scam call conversations
+  const hardcodedConversations: Conversation[] = [
+    {
+      conversationId: 1,
+      label: 0,
+      conversation: `Person A: Hello, I'm calling from the bank and need to verify your account details.
+Person B: I wasn't expecting this call. Can you specify the reason for this verification?
+Person A: We noticed some unusual activities and need to secure your account.
+Person B: I understand the concern. Can you provide your employee ID for verification?
+Person A: Due to security protocols, I cannot share personal details.
+Person B: I appreciate that, but I need to ensure this call is legitimate. Can you provide an alternate method for me to verify this?
+Person A: Time is of the essence, and we need to rectify this promptly.
+Person B: I'd rather take the necessary steps to confirm this independently. Goodbye.`
+    },
+    {
+      conversationId: 2,
+      label: 0,
+      conversation: `Person A: Hello, this is Sarah from the credit card company. We need to verify your card details.
+Person B: I wasn't aware of any issues. Can you specify the reason for this verification?
+Person A: We detected some unauthorized transactions on your card.
+Person B: I see. Can you confirm your position at the credit card company and provide a direct line to your office?
+Person A: I'm unable to disclose that information due to privacy regulations.
+Person B: I appreciate that, but I need to ensure this call is legitimate. Can you provide an alternate method for me to verify this?
+Person A: Time is of the essence, and we need to rectify this promptly.
+Person B: I'd rather take the necessary steps to confirm this independently. Goodbye.`
+    },
+    {
+      conversationId: 3,
+      label: 0,
+      conversation: `Person A: Good day, I'm calling from a lottery company to inform you that you've won a substantial prize.
+Person B: Oh, really? Can you provide details on how I won this prize?
+Person A: You were randomly selected as a winner through our automated system.
+Person B: I see. Can you confirm the name of the lottery company and your position there?
+Person A: I'm unable to disclose that information due to privacy regulations.
+Person B: I understand, but I need to ensure this is a legitimate call. Can you provide a contact number for verification?
+Person A: I'm afraid I cannot do that, but I assure you this is a genuine call.
+Person B: Without proper verification, I'm hesitant to proceed. Can you offer an alternative method to confirm this?
+Person A: Time is of the essence, and we need to process your winnings promptly.
+Person B: I'd rather take the necessary steps to confirm this independently. Goodbye.`
+    },
+    {
+      conversationId: 4,
+      label: 0,
+      conversation: `Person A: Hello, I'm calling from the tax department and need to verify your tax information.
+Person B: I wasn't expecting this call. Can you specify the reason for this verification?
+Person A: We noticed some discrepancies in your recent filings and need to update your information.
+Person B: I understand the concern. Can you provide your employee ID for verification?
+Person A: Due to security protocols, I cannot share personal details.
+Person B: I appreciate that, but I need to ensure this call is legitimate. Can you provide an alternate method for me to verify this?
+Person A: Time is of the essence, and we need to rectify this promptly.
+Person B: I'd rather take the necessary steps to confirm this independently. Goodbye.`
+    },
+    {
+      conversationId: 5,
+      label: 0,
+      conversation: `Person A: Hi, I'm from your internet provider. Your connection will be suspended unless we verify your account.
+Person B: That sounds urgent. Can you provide your employee ID and official contact number?
+Person A: Unfortunately, I cannot share those details over the phone.
+Person B: Then I cannot proceed without verification. I’ll contact my provider directly. Goodbye.`
+    }
+  ];
 
   useEffect(() => {
-    getConversations()
-      .then((data) => setConversations(data))
-      .catch((err) => console.error("Error fetching conversations:", err));
+    // ✅ Instead of API, set hardcoded conversations
+    setConversations(hardcodedConversations);
   }, []);
 
- 
+  // 🔊 Voice loading
   useEffect(() => {
     const loadVoices = () => {
       const v = speechSynthesis.getVoices();
@@ -53,7 +112,6 @@ const ScamReportPrepare: React.FC = () => {
     speechSynthesis.onvoiceschanged = loadVoices;
   }, []);
 
-  
   const parseConversation = (text: string) => {
     const regex = /(Person A:|Person B:)/g;
     const parts = text.split(regex).map((p) => p.trim()).filter(Boolean);
@@ -67,7 +125,6 @@ const ScamReportPrepare: React.FC = () => {
     return sequence;
   };
 
-  
   const playAudio = (text: string) => {
     if (!text || voices.length === 0) return;
     speechSynthesis.cancel();
@@ -136,6 +193,9 @@ const ScamReportPrepare: React.FC = () => {
 
   const current = conversations[index];
   const sequence = parseConversation(current.conversation);
+
+  
+
 
   return (
     <Box>
@@ -226,13 +286,27 @@ const ScamReportPrepare: React.FC = () => {
               minWidth: { xs: 280, md: 420 },
             }}
           >
+            <Box sx={{paddingTop: 10}}>
+  <Typography variant="h5" sx={{ fontWeight: 700, mb: 1, color: "#333" }}>
+    Stay Alert, Stay Safe 
+  </Typography>
+  <Typography variant="body1" sx={{ fontSize: "1.1rem", maxWidth: 900, mx: "auto", color: "#555" }}>
+    Listen to these sample scam call conversations and get acquainted with the types of 
+    <b> personal details that should NEVER be shared</b> such as bank account numbers, 
+    card details, passwords.  
+    <br />
+    The goal is to help you recognize red flags and safeguard yourself from fraudsters. 
+  </Typography>
+  </Box>
+
             <Stack
               direction="row"
               spacing={2}
               alignItems="center"
               justifyContent="center"
-              sx={{ paddingTop: 25, mb: 4 }}
+              sx={{ paddingTop: 5, mb: 4 }}
             >
+
               <Button
                 variant="contained"
                 size="large"
@@ -254,7 +328,7 @@ const ScamReportPrepare: React.FC = () => {
                 sx={{ px: 3, py: 1.25, fontWeight: 700 }}
                 onClick={nextConversation}
               >
-                Next
+                Hear More Scam Calls
               </Button>
             </Stack>
 

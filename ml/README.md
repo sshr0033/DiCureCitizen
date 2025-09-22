@@ -3,7 +3,7 @@
 
 ## Important before run
 
-Please **unzip** the `models.zip` and put all `pt` files into `artifacts` folder before run
+Please **unzip** the `models.zip` and put all `pt` files into `artifacts` folder before run 
 
 ---
 ## Run locally

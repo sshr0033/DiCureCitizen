@@ -11,6 +11,7 @@ import PauseIcon from "@mui/icons-material/Pause";
 import PlayArrowIcon from "@mui/icons-material/PlayArrow";
 import ReportGuidePopUp from "../components/ReportGuidePopUp";
 import { useNavigate } from "react-router-dom";
+import { getConversations } from "../api"; 
 
 type Conversation = {
   conversationId: number;
@@ -28,17 +29,17 @@ const ScamReportPrepare: React.FC = () => {
   const [currentLineIndex, setCurrentLineIndex] = useState<number | null>(null);
 
   const scrollRef = useRef<HTMLDivElement | null>(null);
- const navigate = useNavigate();
-
+  const navigate = useNavigate();
   const [openGuide, setOpenGuide] = useState(false);
 
+
   useEffect(() => {
-    fetch("http://localhost:8080/api/conversations")
-      .then((res) => res.json())
-      .then((data: Conversation[]) => setConversations(data))
+    getConversations()
+      .then((data) => setConversations(data))
       .catch((err) => console.error("Error fetching conversations:", err));
   }, []);
 
+ 
   useEffect(() => {
     const loadVoices = () => {
       const v = speechSynthesis.getVoices();
@@ -52,6 +53,7 @@ const ScamReportPrepare: React.FC = () => {
     speechSynthesis.onvoiceschanged = loadVoices;
   }, []);
 
+  
   const parseConversation = (text: string) => {
     const regex = /(Person A:|Person B:)/g;
     const parts = text.split(regex).map((p) => p.trim()).filter(Boolean);
@@ -65,6 +67,7 @@ const ScamReportPrepare: React.FC = () => {
     return sequence;
   };
 
+  
   const playAudio = (text: string) => {
     if (!text || voices.length === 0) return;
     speechSynthesis.cancel();
@@ -76,7 +79,7 @@ const ScamReportPrepare: React.FC = () => {
         const { speaker, line } = sequence[i];
         const utter = new SpeechSynthesisUtterance(line);
         utter.voice = speaker === "A" ? maleVoice! : femaleVoice!;
-           utter.rate = 0.8; 
+        utter.rate = 0.8;
         setCurrentLineIndex(i);
 
         setTimeout(() => {
@@ -159,7 +162,6 @@ const ScamReportPrepare: React.FC = () => {
             gap: { xs: 4, md: 8 },
           }}
         >
-        
           <Box>
             <Box
               sx={{
@@ -214,7 +216,6 @@ const ScamReportPrepare: React.FC = () => {
             </Box>
           </Box>
 
-
           <Box
             sx={{
               display: "flex",
@@ -225,8 +226,13 @@ const ScamReportPrepare: React.FC = () => {
               minWidth: { xs: 280, md: 420 },
             }}
           >
-           
-            <Stack direction="row" spacing={2} alignItems="center" justifyContent="center" sx={{ paddingTop: 25, mb: 4}}>
+            <Stack
+              direction="row"
+              spacing={2}
+              alignItems="center"
+              justifyContent="center"
+              sx={{ paddingTop: 25, mb: 4 }}
+            >
               <Button
                 variant="contained"
                 size="large"
@@ -262,15 +268,14 @@ const ScamReportPrepare: React.FC = () => {
             >
               Report it now
             </Button>
-         <br></br>
+            <br />
             <Button
               variant="contained"
               onClick={() => navigate("/detectScam")}
               sx={{ px: 4, py: 1.5, fontWeight: 800, borderRadius: 3 }}
             >
-              Detect if you have recieved any scam message
+              Detect if you have received any scam message
             </Button>
-
 
             <ReportGuidePopUp open={openGuide} onClose={() => setOpenGuide(false)} />
           </Box>

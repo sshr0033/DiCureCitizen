@@ -17,6 +17,7 @@
     "@mui/material": "^7.3.2",
     "@mui/styled-engine-sc": "^7.3.2",
     "@mui/system": "^7.3.2",
+    "axios": "^1.12.2",
     "bootstrap": "^5.3.8",
     "framer-motion": "^12.23.16",
     "react": "^19.1.1",

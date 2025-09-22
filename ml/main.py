@@ -32,7 +32,7 @@ except Exception:
     print(f"[startup] Tokenizer loaded from HuggingFace hub: {MODEL_NAME}")
 
 model = ScamClassifier(MODEL_NAME)
-weights_path = os.path.join(OUT_DIR, "scam_roberta.pt")  # apna weight file ka naam daal
+weights_path = local_path
 state = torch.load(weights_path, map_location="cpu")
 state_dict = state.get("model_state", state)
 model.load_state_dict(state_dict)

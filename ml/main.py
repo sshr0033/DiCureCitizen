@@ -5,6 +5,7 @@ from fastapi import FastAPI
 from pydantic import BaseModel
 from transformers import AutoTokenizer, AutoModel
 import uvicorn
+from download_weights import local_path 
 
 OUT_DIR = "./artifacts"
 MODEL_NAME = "roberta-base"

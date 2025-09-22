@@ -43,6 +43,7 @@ if weight_path is None:
     raise FileNotFoundError(f"No weights found in {OUT_DIR}. Tried: {CANDIDATE_WEIGHTS}")
 
 model = ScamClassifier(MODEL_NAME)
+print(dict(model.__dict__))
 state = torch.load(weight_path, map_location="cpu")
 state_dict = state.get("model_state", state)
 model.load_state_dict(state_dict)
@@ -60,43 +61,3 @@ if __name__ == "__main__":
     
     user_input = input("Please Enter the Message: ")
     print(predict_proba(user_input))
-
-    # spam_example = "Congratulations! You won a prize. Claim at http://bit.ly/fakeclaim"
-    # ham_example  = "Your statement is available. Visit https://www.google.com"
-    # print("Scam probability (spam example):", predict_proba(spam_example))
-    # print("Scam probability (ham example):",  predict_proba(ham_example))
-
-
-    # test_example_1 = "You have a new message https://AuBusiness-Act.com/sec"
-    # test_example_2 = """
-    #             Hi, I’m Ava from Recruit Australia.
-    #             We are currently hiring for a variety of positions across Australia, including part-time, freelance, and remote roles.
-
-    #             💼 100% Remote – Work from Home
-    #             🕒 1–1.5 hours/day, 4 days/week
-    #             💰 AU$250–500 daily (after tax)
-    #             📆 Optional weekend shifts for higher income
-    #             🌴 15–20 days paid annual leave + public holidays
-
-    #             Requirements:
-    #             ✔️ Minimum age: 23
-    #             ✔️ Basic English communication skills
-
-    #             Interested? Reply "Yes" for more details.
-    #             Questions? Reply "Okay".
-
-    #             Looking forward to your reply
-    # """
-    # test_example_3 = """
-    #             Hi Yiming,
-    #             I'm a Monash student studying Computer Science and found the lectures
-    #             pretty long and difficult to listen too, so I built a Chrome extension
-    #             that summarises them into notes in just a few seconds. Its built into
-    #             your browser so no need to do anything, just open it and summarise.
-    #             You can check it out here: lecturesummariser.com.au
-    #             It works for all classes, so if you try it and have feedback, please
-    #             let me know, I'm always trying to improve it.
-    # """
-    # print("Test Example probability 1:", predict_proba(test_example_1))
-    # print("Test Example probability 2:", predict_proba(test_example_2))
-    # print("Test Example probability 2:", predict_proba(test_example_3))

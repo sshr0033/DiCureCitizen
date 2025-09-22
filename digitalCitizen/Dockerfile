@@ -1,11 +1,13 @@
-# Java 17 image le lo (Spring Boot 3.x ke liye best)
+# Use Java 17 (compatible with Spring Boot 3.x)
 FROM openjdk:17-jdk-slim
+COPY wallet /etc/wallet
 
-# app jar ka naam (maven build ke baad generate hota hai)
+# Set working dir
+WORKDIR /app
+
+# Copy target jar (pehle tu maven build karega)
 ARG JAR_FILE=target/digitalCitizen-0.0.1-SNAPSHOT.jar
-
-# jar ko container me copy kar do
 COPY ${JAR_FILE} app.jar
 
-# Spring Boot run
-ENTRYPOINT ["java","-jar","/app.jar"]
+# Run the Spring Boot app
+ENTRYPOINT ["java","-jar","app.jar"]

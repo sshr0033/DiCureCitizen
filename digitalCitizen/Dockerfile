@@ -1,25 +1,11 @@
-# syntax=docker/dockerfile:1
-FROM eclipse-temurin:21-jdk AS build
-WORKDIR /app
+# Java 17 image le lo (Spring Boot 3.x ke liye best)
+FROM openjdk:17-jdk-slim
 
-# If you have the Maven Wrapper (recommended)
-COPY .mvn/ .mvn/
-COPY mvnw pom.xml ./
-RUN chmod +x mvnw
-# Download deps first for better caching
-RUN ./mvnw -q -DskipTests dependency:go-offline
+# app jar ka naam (maven build ke baad generate hota hai)
+ARG JAR_FILE=target/digitalCitizen-0.0.1-SNAPSHOT.jar
 
-# Now add the source and build
-COPY src ./src
-RUN ./mvnw -q -DskipTests package
+# jar ko container me copy kar do
+COPY ${JAR_FILE} app.jar
 
-FROM eclipse-temurin:21-jre
-WORKDIR /app
-
-ENV PORT=8080
-
-COPY --from=build /app/target/*.jar /app/app.jar
-
-EXPOSE 8080
-
-CMD ["sh","-c","java -Dserver.port=${PORT} -jar /app/app.jar"]
+# Spring Boot run
+ENTRYPOINT ["java","-jar","/app.jar"]

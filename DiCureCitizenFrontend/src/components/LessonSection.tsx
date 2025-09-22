@@ -44,7 +44,7 @@ const LESSONS: Lesson[] = [
     Privacy is the right and ability to control personal information online, 
     and security is protecting that information from unauthorised access, damage, and theft. 
     Both of them are crucial for safe digital citizenship.
-    Imagine it to be like
+    Imagine it to be like 
     <b>locking the doors to your house and not sharing your keys with strangers. </b>  
     Everyttime you think of sharing your personal information online, ask yourself:  
     will you share it in person? Or will you give your house keys to a stranger?

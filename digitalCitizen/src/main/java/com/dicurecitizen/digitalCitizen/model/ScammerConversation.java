@@ -9,15 +9,13 @@ public class ScammerConversation {
 
     @Id
     @Column(name = "CONVERSATION_ID")
-    private Long conversationId;   // NUMBER -> Long
+    private Long conversationId;
 
     @Column(name = "CONVERSATION", length = 4000)
-    private String conversation;   // VARCHAR2(4000) -> String
+    private String conversation;
 
     @Column(name = "LABEL")
-    private BigDecimal label;      // NUMBER -> BigDecimal (safe)
-
-    // --- Getters and Setters ---
+    private BigDecimal label;
     public Long getConversationId() {
         return conversationId;
     }

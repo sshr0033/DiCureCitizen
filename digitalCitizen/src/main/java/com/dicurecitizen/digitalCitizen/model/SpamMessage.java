@@ -5,7 +5,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 
 @Entity
-@Table(name = "SPAM_COMBINED_CLEAN")  // exact table name in Oracle
+@Table(name = "SPAM_COMBINED_CLEAN")
 public class SpamMessage {
 
     @Id

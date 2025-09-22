@@ -1,52 +1,138 @@
-import { Box, Typography, Card, CardContent, CardMedia, Button, Grid } from "@mui/material";
-import { useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
+import {
+  Box,
+  Typography,
+  IconButton,
+  Button,
+  Stack,
+} from "@mui/material";
+import StopIcon from "@mui/icons-material/Stop";
+import PauseIcon from "@mui/icons-material/Pause";
+import PlayArrowIcon from "@mui/icons-material/PlayArrow";
+import ReportGuidePopUp from "../components/ReportGuidePopUp";
+import { useNavigate } from "react-router-dom";
 
-import ScamImg from "../assets/oldmanpic.png";
-import ReportImg from "../assets/oldmanreading.jpg";
-import FinaliseImg from "../assets/oldmantension.jpg";
+type Conversation = {
+  conversationId: number;
+  conversation: string;
+  label: number;
+};
 
-const steps = [
-  {
-    id: 1,
-    image: ScamImg,
-    title: "Identify the Scam",
-    description: "This is Scam this Type\nThis is Scam This type",
-    details: "More detailed explanation about identifying scams...",
-    buttonText: "Identify Scam",
-    buttonColor: "#4c5f26",
-  },
-  {
-    id: 2,
-    image: ReportImg,
-    title: "Prepare for Reports",
-    description: `Here are the documents needed for you to collect
-    Document 1: source to get
-    Document 2: Source to get
-    Document 3: Source to get`,
-    details: "Detailed steps on preparing reports...",
-    buttonText: "View All Documents",
-    buttonColor: "#4c5f26",
-  },
-  {
-    id: 3,
-    image: FinaliseImg,
-    title: "Finalise the report",
-    description: "Proceed ahead to the cyber.gov.au to finalise the report with the documents collected.",
-    details: "More info on finalising the report...",
-    buttonText: "Finalise Report",
-    buttonColor: "#4c5f26",
-  },
-];
+const ScamReportPrepare: React.FC = () => {
+  const [conversations, setConversations] = useState<Conversation[]>([]);
+  const [index, setIndex] = useState(0);
+  const [isPaused, setIsPaused] = useState(false);
+  const [voices, setVoices] = useState<SpeechSynthesisVoice[]>([]);
+  const [maleVoice, setMaleVoice] = useState<SpeechSynthesisVoice | null>(null);
+  const [femaleVoice, setFemaleVoice] = useState<SpeechSynthesisVoice | null>(null);
+  const [currentLineIndex, setCurrentLineIndex] = useState<number | null>(null);
 
-export default function ScamReportPrepare() {
-const [flippedCard, setFlippedCard] = useState<number | null>(null);
+  const scrollRef = useRef<HTMLDivElement | null>(null);
+ const navigate = useNavigate();
 
+  const [openGuide, setOpenGuide] = useState(false);
 
+  useEffect(() => {
+    fetch("http://localhost:8080/api/conversations")
+      .then((res) => res.json())
+      .then((data: Conversation[]) => setConversations(data))
+      .catch((err) => console.error("Error fetching conversations:", err));
+  }, []);
 
+  useEffect(() => {
+    const loadVoices = () => {
+      const v = speechSynthesis.getVoices();
+      if (v.length > 0) {
+        setVoices(v);
+        setMaleVoice(v[0]);
+        setFemaleVoice(v[1] || v[0]);
+      }
+    };
+    loadVoices();
+    speechSynthesis.onvoiceschanged = loadVoices;
+  }, []);
 
-  const handleFlip = (id:number) => {
-    setFlippedCard(flippedCard === id ? null : id);
+  const parseConversation = (text: string) => {
+    const regex = /(Person A:|Person B:)/g;
+    const parts = text.split(regex).map((p) => p.trim()).filter(Boolean);
+    const sequence: { speaker: "A" | "B"; line: string }[] = [];
+    for (let i = 0; i < parts.length; i += 2) {
+      const speaker = parts[i];
+      const line = parts[i + 1] || "";
+      if (speaker === "Person A:") sequence.push({ speaker: "A", line: line.trim() });
+      if (speaker === "Person B:") sequence.push({ speaker: "B", line: line.trim() });
+    }
+    return sequence;
   };
+
+  const playAudio = (text: string) => {
+    if (!text || voices.length === 0) return;
+    speechSynthesis.cancel();
+    const sequence = parseConversation(text);
+    let i = 0;
+
+    const speakNext = () => {
+      if (i < sequence.length) {
+        const { speaker, line } = sequence[i];
+        const utter = new SpeechSynthesisUtterance(line);
+        utter.voice = speaker === "A" ? maleVoice! : femaleVoice!;
+           utter.rate = 0.8; 
+        setCurrentLineIndex(i);
+
+        setTimeout(() => {
+          const el = document.getElementById(`line-${i}`);
+          if (scrollRef.current && el) {
+            el.scrollIntoView({ behavior: "smooth", block: "center" });
+          }
+        }, 80);
+
+        utter.onend = () => {
+          setTimeout(() => {
+            i++;
+            speakNext();
+          }, 300);
+        };
+
+        speechSynthesis.speak(utter);
+      } else {
+        setCurrentLineIndex(null);
+      }
+    };
+
+    speakNext();
+    setIsPaused(false);
+  };
+
+  const stopAudio = () => {
+    speechSynthesis.cancel();
+    setIsPaused(false);
+    setCurrentLineIndex(null);
+  };
+
+  const togglePause = () => {
+    if (!speechSynthesis.speaking) return;
+    if (isPaused) {
+      speechSynthesis.resume();
+      setIsPaused(false);
+    } else {
+      speechSynthesis.pause();
+      setIsPaused(true);
+    }
+  };
+
+  const nextConversation = () => {
+    setIndex((p) => (conversations.length > 0 ? (p + 1) % conversations.length : 0));
+    speechSynthesis.cancel();
+    setIsPaused(false);
+    setCurrentLineIndex(null);
+  };
+
+  if (conversations.length === 0) {
+    return <Typography sx={{ p: 3 }}>Loading conversation...</Typography>;
+  }
+
+  const current = conversations[index];
+  const sequence = parseConversation(current.conversation);
 
   return (
     <Box>
@@ -54,187 +140,144 @@ const [flippedCard, setFlippedCard] = useState<number | null>(null);
         component="section"
         sx={{
           bgcolor: "#eae8da",
-          py: { xs: 6, md: 10 },
+          py: { xs: 6, md: 8 },
           textAlign: "center",
         }}
       >
-        <Typography
-          variant="h4"
-          sx={{
-            fontWeight: 800,
-            mb: 2,
-          }}
-        >
-          Scammers are everywhere and <br />
-          so is the cyber crime police.
-        </Typography>
-
-        <Typography
-          variant="body1"
-          sx={{
-            maxWidth: "700px",
-            mx: "auto",
-            color: "text.secondary",
-            fontSize: "1.1rem",
-          }}
-        >
-          Australia provides help to every citizen who faces any kind of scam,
-          all you need to do is report it and the cyberpolice takes the rest.
+        <Typography variant="h5" sx={{ fontWeight: 600, mb: 2 }}>
+          Unsure About how Scammers try to trick you on call?
+          <br /> Hear Sample Conversation of a Scam Call and see how people safeguard themselves.
         </Typography>
       </Box>
 
-      <Box component="section" sx={{ py: 8, textAlign: "center" }}>
-        <Typography variant="h4" fontWeight={800} sx={{ mb: 4 }}>
-          What to do?
-        </Typography>
+      <Box sx={{ p: 2, maxWidth: 1200, mx: "auto" }}>
+        <Box
+          sx={{
+            display: "flex",
+            alignItems: "flex-start",
+            justifyContent: "center",
+            gap: { xs: 4, md: 8 },
+          }}
+        >
+        
+          <Box>
+            <Box
+              sx={{
+                width: 300,
+                height: 600,
+                borderRadius: "36px",
+                border: "4px solid #333",
+                bgcolor: "#000",
+                color: "#fff",
+                overflow: "hidden",
+                display: "flex",
+                flexDirection: "column",
+                mb: 2,
+              }}
+            >
+              <Box sx={{ bgcolor: "#111", textAlign: "center", py: 1, fontWeight: 800 }}>
+                Ongoing Call
+                <Typography variant="caption" sx={{ display: "block", color: "#cfcfcf" }}>
+                  from +61 123 456 789
+                </Typography>
+              </Box>
 
-        <Grid container spacing={6} justifyContent="center">
-          {steps.map((step) => (
-      
               <Box
+                ref={scrollRef}
                 sx={{
-                  perspective: "1000px",
-                  width: 300,
-                  height: 420,
+                  flex: 1,
+                  p: 2,
+                  bgcolor: "#111",
+                  overflowY: "auto",
+                  scrollbarWidth: "thin",
+                  "&::-webkit-scrollbar": { width: 6 },
+                  "&::-webkit-scrollbar-thumb": { background: "#555", borderRadius: 10 },
                 }}
               >
-                <Box
-                  sx={{
-                    position: "relative",
-                    width: "100%",
-                    height: "100%",
-                    transition: "transform 0.6s",
-                    transformStyle: "preserve-3d",
-                    transform: flippedCard === step.id ? "rotateY(180deg)" : "rotateY(0deg)",
-                  }}
-                >
-                  <Card
+                {sequence.map((s, i) => (
+                  <Typography
+                    id={`line-${i}`}
+                    key={i}
+                    variant="body1"
                     sx={{
-                      position: "absolute",
-                      width: "100%",
-                      height: "100%",
-                      backfaceVisibility: "hidden",
-                      display: "flex",
-                      flexDirection: "column",
-                      borderRadius: 3,
-                      boxShadow: 4,
-                      bgcolor: "#f7f6ef",
+                      mt: 1,
+                      whiteSpace: "pre-line",
+                      textAlign: s.speaker === "A" ? "left" : "right",
+                      color: currentLineIndex === i ? "#00ff7b" : "#fff",
+                      fontWeight: currentLineIndex === i ? 700 : 400,
                     }}
                   >
-                    <CardMedia
-                      component="img"
-                      image={step.image}
-                      alt={step.title}
-                      sx={{ height: 200, objectFit: "cover" }}
-                    />
-                    <CardContent
-                      sx={{
-                        flexGrow: 1,
-                        display: "flex",
-                        flexDirection: "column",
-                        justifyContent: "space-between",
-                        p: 2,
-                      }}
-                    >
-                      <Box sx={{ flexGrow: 1 }}>
-                        <Typography variant="h6" fontWeight={700} gutterBottom>
-                          {step.title}
-                        </Typography>
-                        <Typography
-                          variant="body2"
-                          color="text.secondary"
-                          sx={{ whiteSpace: "pre-line" }}
-                        >
-                          {step.description}
-                        </Typography>
-                      </Box>
-
-                      <Button
-                        variant="contained"
-                        onClick={() => handleFlip(step.id)}
-                        sx={{
-                          bgcolor: step.buttonColor,
-                          borderRadius: "50px",
-                          textTransform: "none",
-                          fontWeight: 700,
-                          px: 4,
-                          py: 1,
-                          mt: "auto",
-                          alignSelf: "center",
-                          width: "80%",
-                          "&:hover": { bgcolor: "#3a4a1c" },
-                        }}
-                      >
-                        {step.buttonText}
-                      </Button>
-                    </CardContent>
-                  </Card>
-
-                  <Card
-                    sx={{
-                      position: "absolute",
-                      width: "100%",
-                      height: "100%",
-                      backfaceVisibility: "hidden",
-                      transform: "rotateY(180deg)",
-                      display: "flex",
-                      flexDirection: "column",
-                      borderRadius: 3,
-                      boxShadow: 4,
-                      bgcolor: "#f7f6ef",
-                    }}
-                  >
-                    <CardContent
-                      sx={{
-                        flexGrow: 1,
-                        display: "flex",
-                        flexDirection: "column",
-                        justifyContent: "space-between",
-                        p: 2,
-                      }}
-                    >
-                      <Box sx={{ flexGrow: 1 }}>
-                        <Typography variant="h6" fontWeight={700} gutterBottom>
-                          {step.title} - Details
-                        </Typography>
-                        <Typography variant="body2" color="text.secondary">
-                          {step.details}
-                        </Typography>
-                      </Box>
-                      <Button
-                        variant="contained"
-                        onClick={() => handleFlip(step.id)}
-                        sx={{
-                          px: 4,
-                          py: 1,
-                          borderRadius: "50px",
-                          bgcolor: "#4c5f26",
-                          fontWeight: 700,
-                          mt: "auto",
-                          alignSelf: "center",
-                          width: "80%",
-                          "&:hover": { bgcolor: "#3a4a1c", color: "white" },
-                        }}
-                      >
-                        Back
-                      </Button>
-                    </CardContent>
-                  </Card>
-                </Box>
+                    {s.speaker}: {s.line}
+                  </Typography>
+                ))}
               </Box>
-      
-          )) }
-        </Grid>
+            </Box>
+          </Box>
 
-        
-        <Typography
-          variant="h5"
-          fontWeight={800}
-          sx={{ mt: 6, color: "black" }}
-        >
-          If Immediate threat to life and risk dial 000 now !
-        </Typography>
+
+          <Box
+            sx={{
+              display: "flex",
+              flexDirection: "column",
+              alignItems: "center",
+              justifyContent: "flex-start",
+              textAlign: "center",
+              minWidth: { xs: 280, md: 420 },
+            }}
+          >
+           
+            <Stack direction="row" spacing={2} alignItems="center" justifyContent="center" sx={{ paddingTop: 25, mb: 4}}>
+              <Button
+                variant="contained"
+                size="large"
+                sx={{ px: 3, py: 1.25, fontWeight: 700 }}
+                onClick={() => playAudio(current.conversation)}
+              >
+                Hear the Conversation
+              </Button>
+              <IconButton color="error" sx={{ width: 56, height: 56 }} onClick={stopAudio}>
+                <StopIcon fontSize="large" />
+              </IconButton>
+              <IconButton color="secondary" sx={{ width: 56, height: 56 }} onClick={togglePause}>
+                {isPaused ? <PlayArrowIcon fontSize="large" /> : <PauseIcon fontSize="large" />}
+              </IconButton>
+              <Button
+                variant="contained"
+                color="secondary"
+                size="large"
+                sx={{ px: 3, py: 1.25, fontWeight: 700 }}
+                onClick={nextConversation}
+              >
+                Next
+              </Button>
+            </Stack>
+
+            <Typography variant="h4" sx={{ fontWeight: 800, mb: 2 }}>
+              Have you received any calls like these?
+            </Typography>
+            <Button
+              variant="contained"
+              onClick={() => setOpenGuide(true)}
+              sx={{ px: 4, py: 1.5, fontWeight: 800, borderRadius: 3 }}
+            >
+              Report it now
+            </Button>
+         <br></br>
+            <Button
+              variant="contained"
+              onClick={() => navigate("/detectScam")}
+              sx={{ px: 4, py: 1.5, fontWeight: 800, borderRadius: 3 }}
+            >
+              Detect if you have recieved any scam message
+            </Button>
+
+
+            <ReportGuidePopUp open={openGuide} onClose={() => setOpenGuide(false)} />
+          </Box>
+        </Box>
       </Box>
     </Box>
   );
-}
+};
+
+export default ScamReportPrepare;

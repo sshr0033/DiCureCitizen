@@ -81,7 +81,7 @@ export default function HeroBanner() {
     modules={[Navigation, Autoplay]}
     navigation
     loop
-    autoplay={{ delay: 3000, disableOnInteraction: false }}
+    autoplay={{ delay: 4000, disableOnInteraction: false }}
   >
     {slides.map((slide) => (
       <SwiperSlide key={slide.id}>

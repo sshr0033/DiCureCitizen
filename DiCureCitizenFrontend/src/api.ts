@@ -1,9 +1,10 @@
 const API_URL = import.meta.env.VITE_API_URL;
 
-export async function getConversations() {
-  const res = await fetch(`${API_URL}/api/conversations`);
-  if (!res.ok) throw new Error(`Error: ${res.status}`);
-  return res.json();
-}
-
-console.log("API URL:", import.meta.env.VITE_API_URL);
+export const getConversations = async () => {
+  console.log("API URL:", API_URL);  // Debug ke liye
+  const response = await fetch(`${API_URL}/api/conversations`);
+  if (!response.ok) {
+    throw new Error("Failed to fetch conversations");
+  }
+  return response.json();
+};

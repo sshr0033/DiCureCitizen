@@ -1,13 +1,21 @@
-# Use Java 17 (compatible with Spring Boot 3.x)
-FROM openjdk:17-jdk-slim
-COPY wallet /etc/wallet
-
-# Set working dir
+# Stage 1: Build stage
+FROM maven:3.9.6-eclipse-temurin-17 AS build
 WORKDIR /app
 
-# Copy target jar (pehle tu maven build karega)
-ARG JAR_FILE=target/digitalCitizen-0.0.1-SNAPSHOT.jar
-COPY ${JAR_FILE} app.jar
+# Copy pom.xml and download deps first (cache optimization)
+COPY pom.xml .
+RUN mvn dependency:go-offline -B
 
-# Run the Spring Boot app
-ENTRYPOINT ["java","-jar","app.jar"]
+# Copy source code and build jar
+COPY src ./src
+RUN mvn clean package -DskipTests
+
+# Stage 2: Run stage
+FROM openjdk:17-jdk-slim
+WORKDIR /app
+COPY --from=build /app/target/digitalCitizen-0.0.1-SNAPSHOT.jar app.jar
+
+# Wallet copy (agar local wallet hai to add karo)
+COPY wallet /etc/wallet
+
+ENTRYPOINT ["java", "-jar", "app.jar"]

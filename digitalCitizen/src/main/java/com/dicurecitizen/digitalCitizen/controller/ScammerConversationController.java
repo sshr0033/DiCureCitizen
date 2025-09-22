@@ -13,7 +13,10 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/conversations")
-@CrossOrigin(origins = "http://localhost:5173")
+@CrossOrigin(origins = {
+        "http://localhost:5173",
+        "https://dicurecitizen-1.onrender.com"
+})
 public class ScammerConversationController {
 
     @Autowired

@@ -243,7 +243,7 @@ const ScamReportPrepare: React.FC = () => {
               spacing={2}
               alignItems="center"
               justifyContent="center"
-              sx={{ paddingTop: 25, mb: 4 }}
+              sx={{ paddingTop: 5, mb: 4 }}
             >
               <Button
                 variant="contained"

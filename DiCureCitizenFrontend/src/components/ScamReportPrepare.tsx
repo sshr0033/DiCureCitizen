@@ -226,6 +226,18 @@ const ScamReportPrepare: React.FC = () => {
               minWidth: { xs: 280, md: 420 },
             }}
           >
+             <Box sx={{paddingTop: 10}}>
+  <Typography variant="h5" sx={{ fontWeight: 700, mb: 1, color: "#333" }}>
+    Stay Alert, Stay Safe 
+  </Typography>
+  <Typography variant="body1" sx={{ fontSize: "1.1rem", maxWidth: 900, mx: "auto", color: "#555" }}>
+    Listen to these sample scam call conversations and get acquainted with the types of 
+    <b> personal details that should NEVER be shared</b> such as bank account numbers, 
+    card details, passwords.  
+    <br />
+    The goal is to help you recognize red flags and safeguard yourself from fraudsters. 
+  </Typography>
+  </Box>
             <Stack
               direction="row"
               spacing={2}

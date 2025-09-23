@@ -6,28 +6,27 @@ import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import org.springframework.web.filter.CorsFilter;
 
-import java.util.List;
+import java.util.Arrays;
 
 @Configuration
 public class CorsConfig {
+
     @Bean
     public CorsFilter corsFilter() {
-        CorsConfiguration cfg = new CorsConfiguration();
-        cfg.setAllowedOrigins(List.of("http://localhost:5173"));
-        cfg.setAllowedMethods(List.of("GET","POST","OPTIONS"));
-        cfg.setAllowedHeaders(List.of("*"));
-        cfg.setAllowCredentials(true);
-        cfg.setAllowedOriginPatterns(List.of(
-                "http://localhost:5173",
-                "https://sshr0033.github.io",
-                "https://dicurecitizen-1.onrender.com"
-        ));
-        cfg.setExposedHeaders(List.of("Content-Disposition"));
+        CorsConfiguration config = new CorsConfiguration();
+        config.setAllowCredentials(true);
 
+        // Dono domains allow
+        config.setAllowedOrigins(Arrays.asList(
+                "https://dicurecitizen.com",
+                "https://www.dicurecitizen.com"
+        ));
+
+        config.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE", "OPTIONS"));
+        config.setAllowedHeaders(Arrays.asList("*"));
 
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
-        source.registerCorsConfiguration("/**", cfg);
+        source.registerCorsConfiguration("/**", config);
         return new CorsFilter(source);
-
     }
 }

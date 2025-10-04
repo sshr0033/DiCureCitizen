@@ -7,6 +7,7 @@ import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import org.springframework.web.filter.CorsFilter;
 
 import java.util.Arrays;
+import java.util.Collections;
 
 @Configuration
 public class CorsConfig {
@@ -16,14 +17,14 @@ public class CorsConfig {
         CorsConfiguration config = new CorsConfiguration();
         config.setAllowCredentials(true);
 
-        // Dono domains allow
-        config.setAllowedOrigins(Arrays.asList(
-                "https://dicurecitizen.com",
-                "https://www.dicurecitizen.com"
-        ));
+
+        config.setAllowedOriginPatterns(Collections.singletonList("*"));
+
 
         config.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE", "OPTIONS"));
-        config.setAllowedHeaders(Arrays.asList("*"));
+
+
+        config.setAllowedHeaders(Collections.singletonList("*"));
 
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         source.registerCorsConfiguration("/**", config);

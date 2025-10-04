@@ -1,25 +1,21 @@
-# syntax=docker/dockerfile:1
-FROM eclipse-temurin:21-jdk AS build
+# Stage 1: Build stage
+FROM maven:3.9.6-eclipse-temurin-17 AS build
 WORKDIR /app
 
-# If you have the Maven Wrapper (recommended)
-COPY .mvn/ .mvn/
-COPY mvnw pom.xml ./
-RUN chmod +x mvnw
-# Download deps first for better caching
-RUN ./mvnw -q -DskipTests dependency:go-offline
+# Copy pom.xml and download deps first (cache optimization)
+COPY pom.xml .
+RUN mvn dependency:go-offline -B
 
-# Now add the source and build
+# Copy source code and build jar
 COPY src ./src
-RUN ./mvnw -q -DskipTests package
+RUN mvn clean package -DskipTests
 
-FROM eclipse-temurin:21-jre
+# Stage 2: Run stage
+FROM openjdk:17-jdk-slim
 WORKDIR /app
+COPY --from=build /app/target/digitalCitizen-0.0.1-SNAPSHOT.jar app.jar
 
-ENV PORT=8080
+# Wallet copy (agar local wallet hai to add karo)
+COPY wallet /etc/wallet
 
-COPY --from=build /app/target/*.jar /app/app.jar
-
-EXPOSE 8080
-
-CMD ["sh","-c","java -Dserver.port=${PORT} -jar /app/app.jar"]
+ENTRYPOINT ["java", "-jar", "app.jar"]

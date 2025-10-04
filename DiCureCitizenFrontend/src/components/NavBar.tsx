@@ -14,6 +14,7 @@ import {
 import { NavLink, Link } from "react-router-dom";
 import MenuIcon from "@mui/icons-material/Menu";
 import Logo from "../assets/logo.jpeg";
+import { navBarStyles } from "../styles";
 
 export default function NavBar() {
   const [mobileOpen, setMobileOpen] = useState(false);
@@ -57,11 +58,10 @@ export default function NavBar() {
     <>
       <AppBar
         position="sticky"
-        elevation={4}
+        elevation={0}
         sx={{
-          bgcolor: "white",
-          color: "black",
-          borderBottom: "1px solid #e0e0e0",
+          bgcolor: "transparent",
+          color: "white",
         }}
       >
         <Toolbar sx={{ justifyContent: "space-between" }}>
@@ -69,12 +69,15 @@ export default function NavBar() {
           <Box
             component={Link}
             to="/"
-            sx={{
+            sx={[
+              navBarStyles.navStyle,
+              {
               display: "flex",
               alignItems: "center",
               textDecoration: "none",
               color: "inherit",
-            }}
+              p: 2,
+            }]}
           >
             <Box
               component="img"
@@ -87,16 +90,26 @@ export default function NavBar() {
             </Typography>
           </Box>
 
-          <Box sx={{ display: { xs: "none", md: "block" } }}>
+          <Box sx={[ 
+            navBarStyles.navStyle, 
+            { 
+              display: { xs: "none", md: "flex" }, 
+              p: 1,
+              position: "absolute", 
+              left: "50%", 
+              transform: "translateX(-50%)", 
+              }]}>
             {navItems.map((item) => (
               <Button
                 key={item.label}
                 component={NavLink}
                 to={item.path}
                 sx={{
-                  color: "black",
+                  color: "white",
                   fontWeight: 600,
-                  "&.active": { color: "olive" },
+                  borderRadius: "20px",
+                  "&.active": { bgcolor: "rgba(255, 255, 255, 0.3)" },
+                  "&:hover": { bgcolor: "rgba(255, 255, 255, 0.3)" },
                 }}
               >
                 {item.label}
@@ -107,7 +120,12 @@ export default function NavBar() {
           <IconButton
             color="inherit"
             edge="end"
-            sx={{ display: { md: "none" } }}
+            sx={[ 
+              navBarStyles.navStyle,
+              {
+                display: { md: "none" },
+                "&:hover": { bgcolor: "rgba(0, 0, 0, 0.3)"}
+              }]}
             onClick={handleDrawerToggle}
           >
             <MenuIcon />

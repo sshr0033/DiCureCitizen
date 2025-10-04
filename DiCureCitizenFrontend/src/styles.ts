@@ -87,5 +87,14 @@ export const buttonStyles = {
   },
 };
 
+export const navBarStyles = {
+  navStyle: {
+    bgcolor: "rgba(0, 0, 0, 0.5)", 
+    borderRadius: "25px",
+    border: "rgba(255, 255, 255, 0.2)",
+    backdropFilter: "blur(10px)",
+    height:"60px",
+  },
+};
 
 

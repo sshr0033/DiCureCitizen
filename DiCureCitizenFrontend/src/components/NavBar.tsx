@@ -34,7 +34,7 @@ export default function NavBar() {
   const drawer = (
     <Box onClick={handleDrawerToggle} sx={{ textAlign: "center" }}>
       
-      <List>
+      <List sx={{ px: 2 }}>
         {navItems.map((item) => (
           <ListItem
             key={item.label}
@@ -42,9 +42,11 @@ export default function NavBar() {
             to={item.path}
             sx={{
               textAlign: "center",
-              color: "black",
+              color: "white",
               textDecoration: "none",
-              "&.active": { color: "olive", fontWeight: 700 },
+              borderRadius: "18px",
+              "&.active": { color: "white", fontWeight: 700, bgcolor: "rgba(255, 255, 255, 0.3)" },
+              "&:hover": { bgcolor: "rgba(255, 255, 255, 0.3)" },
             }}
           >
             <ListItemText primary={item.label} />
@@ -124,6 +126,7 @@ export default function NavBar() {
               navBarStyles.navStyle,
               {
                 display: { md: "none" },
+                p: 2.5,
                 "&:hover": { bgcolor: "rgba(0, 0, 0, 0.3)"}
               }]}
             onClick={handleDrawerToggle}
@@ -138,7 +141,12 @@ export default function NavBar() {
         open={mobileOpen}
         onClose={handleDrawerToggle}
         ModalProps={{ keepMounted: true }}
-        sx={{ display: { xs: "block", md: "none" } }}
+        sx={{ display: { xs: "block", md: "none" },
+        "& .MuiDrawer-paper": {
+          bgcolor: "rgba(0, 0, 0, 0.5)",
+          backdropFilter: "blur(10px)",
+          width: 300,
+        }}}
       >
         {drawer}
       </Drawer>

@@ -49,6 +49,7 @@ const slides = [
 
 const actionButtons = [
   { label: "Learn how to become a Good Digital Citizen", link: "/#learnCitizenship", icon: <SecurityIcon sx={{ fontSize: 40, color: "#4c5f26" }} /> },
+  { label: "Stay up to date on the Latest Scams", link: "/visualization", icon: <SecurityIcon sx={{ fontSize: 40, color: "#4c5f26" }} /> },
   { label: "Confused if a message is a scam? Check here.", link: "/detectscam", icon: <PlagiarismIcon sx={{ fontSize: 40, color: "#4c5f26" }} /> },
   { label: "How to safeguard yourself from Latest scam.", link: "/detectscam#articles", icon: <MenuBookIcon sx={{ fontSize: 40, color: "#4c5f26" }} /> },
   { label: "Want to know How scammers sound over call? Listen them here", link: "/helpcenter", icon: <SupportAgentIcon sx={{ fontSize: 40, color: "#4c5f26" }} /> },

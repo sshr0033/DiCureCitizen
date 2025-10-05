@@ -3,6 +3,7 @@ import HeroBanner from "../components/HeroBanner";
 import LessonSection from "../components/LessonSection";
 import ScamAwarenessSection from "../components/ScamAwareness";
 import Helpcenter from "../components/HelpCenter";
+import DataVisualization from "../components/DataVisualization";
 import { useLocation,  } from "react-router-dom";
 import { useEffect } from "react";
 
@@ -22,6 +23,7 @@ export default function HomePage() {
     <Layout>
       <HeroBanner/>
       <LessonSection />
+      <DataVisualization />
       <ScamAwarenessSection />
       <Helpcenter />
     </Layout>

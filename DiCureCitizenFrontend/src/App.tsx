@@ -5,7 +5,7 @@ import DetectScam from "./pages/DetectSpam";
 import HomePage from "./pages/HomePage";
 import ScamReport from "./pages/ScamReport";
 import LoginPage from "./components/LoginPage";
-
+import Visualization from "./pages/Visualization";
 
 
 export default function App() {
@@ -16,6 +16,7 @@ export default function App() {
         <LoginPage>
           <Routes>
             <Route path="/detectscam" element={<DetectScam />} />
+            <Route path="/visualization" element={<Visualization />} />
             <Route path="/" element={<HomePage />} />
             <Route path="/helpcenter" element={<ScamReport />} />
           </Routes>

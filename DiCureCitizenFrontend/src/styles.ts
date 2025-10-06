@@ -95,6 +95,10 @@ export const navBarStyles = {
     backdropFilter: "blur(10px)",
     height:"60px",
   },
+  iconStyle: {
+    p: 2.5,
+    "&:hover": { bgcolor: "rgba(0, 0, 0, 0.3)"},
+  }
 };
 
 

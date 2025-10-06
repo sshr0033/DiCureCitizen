@@ -125,10 +125,9 @@ export default function NavBar() {
             edge="end"
             sx={[ 
               navBarStyles.navStyle,
+              navBarStyles.iconStyle,
               {
                 display: { md: "none" },
-                p: 2.5,
-                "&:hover": { bgcolor: "rgba(0, 0, 0, 0.3)"}
               }]}
             onClick={handleDrawerToggle}
           >

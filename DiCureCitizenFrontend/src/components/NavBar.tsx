@@ -13,7 +13,7 @@ import {
 } from "@mui/material";
 import { NavLink, Link } from "react-router-dom";
 import MenuIcon from "@mui/icons-material/Menu";
-import Logo from "../assets/logo.jpeg";
+import Logo from "../assets/logo.png";
 import { navBarStyles } from "../styles";
 
 export default function NavBar() {

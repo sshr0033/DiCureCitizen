@@ -73,14 +73,8 @@ export default function NavBar() {
             component={Link}
             to="/"
             sx={[
-              navBarStyles.navStyle,
-              {
-              display: "flex",
-              alignItems: "center",
-              textDecoration: "none",
-              color: "inherit",
-              p: 2,
-            }]}
+              navBarStyles.nav,
+              navBarStyles.logo,]}
           >
             <Box
               component="img"
@@ -94,7 +88,7 @@ export default function NavBar() {
           </Box>
 
           <Box sx={[ 
-            navBarStyles.navStyle, 
+            navBarStyles.nav, 
             { 
               display: { xs: "none", md: "flex" }, 
               p: 1,
@@ -124,8 +118,8 @@ export default function NavBar() {
             color="inherit"
             edge="end"
             sx={[ 
-              navBarStyles.navStyle,
-              navBarStyles.iconStyle,
+              navBarStyles.nav,
+              navBarStyles.icon,
               {
                 display: { md: "none" },
               }]}

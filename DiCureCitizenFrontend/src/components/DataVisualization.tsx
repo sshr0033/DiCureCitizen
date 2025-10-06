@@ -8,7 +8,6 @@ export default function DataVisualization() {
       component="section"
       sx={{
         position: "relative",
-        background: "linear-gradient(to bottom, #f5f5f5 0%, #ffffffff 50%, #ffffffff 100%)",
         color: "black",
         py: { xs: 12, md: 16 },
         textAlign: "center",

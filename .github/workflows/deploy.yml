@@ -14,7 +14,6 @@ env:
 jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
-
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -27,7 +26,6 @@ jobs:
           aws-region: ${{ secrets.AWS_REGION }}
 
       - name: Login to Amazon ECR
-        id: login-ecr
         uses: aws-actions/amazon-ecr-login@v2
 
       - name: Prepare image tags
@@ -37,18 +35,17 @@ jobs:
           echo "sha_tag=$GIT_SHA" >> $GITHUB_OUTPUT
           echo "image_uri=${{ env.ECR_REGISTRY }}/${{ env.ECR_REPOSITORY }}" >> $GITHUB_OUTPUT
 
-      - name: Build & Push (linux/amd64)
+      - name: Build & Push (linux/amd64) from digitalCitizen/
         run: |
           IMAGE_URI="${{ steps.prep.outputs.image_uri }}"
           TAG_SHA="${{ steps.prep.outputs.sha_tag }}"
-          # buildx is preinstalled on ubuntu-latest
           docker buildx build \
             --platform linux/amd64 \
+            -f digitalCitizen/Dockerfile \
             -t "$IMAGE_URI:$TAG_SHA" \
             -t "$IMAGE_URI:latest" \
-            --push .
+            --push digitalCitizen
 
-      # --- Deploy on EC2 over SSH ---
       - name: Add EC2 host to known_hosts
         run: |
           mkdir -p ~/.ssh
@@ -59,7 +56,7 @@ jobs:
           echo "${{ secrets.EC2_SSH_KEY }}" > ~/.ssh/ec2_key.pem
           chmod 600 ~/.ssh/ec2_key.pem
 
-      - name: Trigger deploy script on EC2
+      - name: Trigger deploy on EC2
         env:
           TAG_SHA: ${{ steps.prep.outputs.sha_tag }}
         run: |

@@ -1,0 +1,69 @@
+name: Build & Deploy to EC2 via ECR
+
+on:
+  push:
+    branches: [ "main" ]
+  workflow_dispatch: {}
+
+env:
+  AWS_REGION: ${{ secrets.AWS_REGION }}
+  ECR_ACCOUNT_ID: ${{ secrets.ECR_ACCOUNT_ID }}
+  ECR_REGISTRY: ${{ secrets.ECR_ACCOUNT_ID }}.dkr.ecr.${{ secrets.AWS_REGION }}.amazonaws.com
+  ECR_REPOSITORY: ${{ secrets.ECR_REPOSITORY }}
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ${{ secrets.AWS_REGION }}
+
+      - name: Login to Amazon ECR
+        id: login-ecr
+        uses: aws-actions/amazon-ecr-login@v2
+
+      - name: Prepare image tags
+        id: prep
+        run: |
+          GIT_SHA=$(git rev-parse --short HEAD)
+          echo "sha_tag=$GIT_SHA" >> $GITHUB_OUTPUT
+          echo "image_uri=${{ env.ECR_REGISTRY }}/${{ env.ECR_REPOSITORY }}" >> $GITHUB_OUTPUT
+
+      - name: Build & Push (linux/amd64)
+        run: |
+          IMAGE_URI="${{ steps.prep.outputs.image_uri }}"
+          TAG_SHA="${{ steps.prep.outputs.sha_tag }}"
+          # buildx is preinstalled on ubuntu-latest
+          docker buildx build \
+            --platform linux/amd64 \
+            -t "$IMAGE_URI:$TAG_SHA" \
+            -t "$IMAGE_URI:latest" \
+            --push .
+
+      # --- Deploy on EC2 over SSH ---
+      - name: Add EC2 host to known_hosts
+        run: |
+          mkdir -p ~/.ssh
+          ssh-keyscan -H "${{ secrets.EC2_HOST }}" >> ~/.ssh/known_hosts
+
+      - name: Write SSH key
+        run: |
+          echo "${{ secrets.EC2_SSH_KEY }}" > ~/.ssh/ec2_key.pem
+          chmod 600 ~/.ssh/ec2_key.pem
+
+      - name: Trigger deploy script on EC2
+        env:
+          TAG_SHA: ${{ steps.prep.outputs.sha_tag }}
+        run: |
+          ssh -i ~/.ssh/ec2_key.pem \
+            -o StrictHostKeyChecking=yes \
+            ${{ secrets.EC2_USER }}@${{ secrets.EC2_HOST }} \
+            "AWS_REGION='${{ secrets.AWS_REGION }}' AWS_PAGER='' ~/deploy_dc.sh $TAG_SHA"

@@ -5,6 +5,7 @@
     "@mui/material": "^7.3.2",
     "@mui/system": "^7.3.2",
     "framer-motion": "^12.23.16",
-    "react-beautiful-dnd": "^13.1.1"
+    "react-beautiful-dnd": "^13.1.1",
+    "react-scroll": "^1.9.3"
   }
 }

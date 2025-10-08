@@ -13,7 +13,6 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/conversations")
-@CrossOrigin(origins = "*")
 
 public class ScammerConversationController {
 

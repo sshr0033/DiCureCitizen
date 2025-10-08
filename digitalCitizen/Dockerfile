@@ -1,21 +1,25 @@
-# Stage 1: Build stage
-FROM maven:3.9.6-eclipse-temurin-17 AS build
+# ---- build stage ----
+FROM maven:3.9-eclipse-temurin-17 AS build
+WORKDIR /app
+COPY . .
+RUN mvn -q -DskipTests package
+
+# ---- run stage ----
+FROM amazoncorretto:17-alpine
 WORKDIR /app
 
-# Copy pom.xml and download deps first (cache optimization)
-COPY pom.xml .
-RUN mvn dependency:go-offline -B
+RUN apk add --no-cache ca-certificates && update-ca-certificates
 
-# Copy source code and build jar
-COPY src ./src
-RUN mvn clean package -DskipTests
+COPY --from=build /app/target/*.jar /app/app.jar
 
-# Stage 2: Run stage
-FROM openjdk:17-jdk-slim
-WORKDIR /app
-COPY --from=build /app/target/digitalCitizen-0.0.1-SNAPSHOT.jar app.jar
+COPY rds-ca/rds-truststore.jks /opt/rds/rds-truststore.jks
+ENV RDS_TRUSTSTORE=/opt/rds/rds-truststore.jks
+ENV RDS_TRUSTSTORE_PASS=changeit
 
-# Wallet copy (agar local wallet hai to add karo)
-COPY wallet /etc/wallet
 
-ENTRYPOINT ["java", "-jar", "app.jar"]
+RUN adduser -D appuser
+USER appuser
+
+ENV SERVER_PORT=8080
+EXPOSE 8080
+ENTRYPOINT ["java","-jar","/app/app.jar"]

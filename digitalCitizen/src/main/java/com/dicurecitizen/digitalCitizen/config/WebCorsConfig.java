@@ -16,10 +16,14 @@ public class WebCorsConfig implements WebMvcConfigurer {
     public void addCorsMappings(CorsRegistry registry) {
         registry.addMapping("/**")
                 .allowedOriginPatterns(
+
+                        "https://dicurecitizen.com",
                         "https://www.dicurecitizen.com",
                         "https://*.dicurecitizen.com",
-                        "http://localhost:*",
+                        "http://localhost:3000",
+                        "http://localhost:5173",
                         "http://13.237.240.102"
+
                 )
                 .allowedMethods("GET","POST","PUT","PATCH","DELETE","OPTIONS")
                 .allowedHeaders("*")

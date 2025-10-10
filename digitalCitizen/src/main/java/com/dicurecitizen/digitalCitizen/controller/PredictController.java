@@ -14,13 +14,17 @@ public class PredictController {
     private final PredictServices service;
     public PredictController(PredictServices service) { this.service = service; }
 
+
     @PostMapping("/predict")
     public ResponseEntity<PredictResponse> predict(@RequestBody PredictSpam req) {
         try {
             int pct = service.predictPercent(req);
             return ResponseEntity.ok(new PredictResponse(pct));
         } catch (Exception ex) {
-            return ResponseEntity.status(502).body(new PredictResponse(0));
+
+            ex.printStackTrace();
+            return ResponseEntity.ok(new PredictResponse(0));
         }
     }
+
 }

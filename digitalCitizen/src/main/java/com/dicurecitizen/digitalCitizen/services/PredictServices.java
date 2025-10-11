@@ -21,7 +21,7 @@ public class PredictServices {
     }
 
     public String predict(String text) throws Exception {
-        // ✅ Build minimal JSON body
+
         String json = "{\"text\":\"" + text.replace("\"", "") + "\"}";
 
         HttpRequest request = HttpRequest.newBuilder()
@@ -32,12 +32,13 @@ public class PredictServices {
                 .build();
 
         HttpResponse<String> response = http.send(request, HttpResponse.BodyHandlers.ofString());
+        System.out.println(response.body());
 
         if (response.statusCode() < 200 || response.statusCode() >= 300) {
             throw new RuntimeException("Upstream HTTP " + response.statusCode());
         }
 
-        // ✅ Return Python API’s raw JSON response
+
         return response.body();
     }
 }

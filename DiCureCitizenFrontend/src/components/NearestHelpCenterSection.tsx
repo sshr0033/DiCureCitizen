@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect } from "react";
+import { useState, useRef, useEffect } from "react";
 import {
   Box,
   Button,
@@ -133,7 +133,7 @@ export default function NearesrHelpCenterSection() {
           <ToggleButtonGroup
             value={category}
             exclusive
-            onChange={(e, val) => val && setCategory(val)}
+            onChange={(_, val) => val && setCategory(val)}
             sx={styles.toggleGroup}
           >
             <ToggleButton value="police" sx={styles.toggleButton}>

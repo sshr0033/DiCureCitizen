@@ -1,7 +1,7 @@
 
 
 
-import React, { useState } from "react";
+import  { useState } from "react";
 import {
   Box,
   Paper,
@@ -52,7 +52,7 @@ import {
   dividerBottom,
 } from "../styles/lessonSectionStyles";
 
-// 🟡 highlight util
+
 function highlightText(text: string, needles: string[] = []) {
   if (!needles.length) return text;
   const esc = (s: string) => s.replace(/[-\\^$*+?.()|[\]{}]/g, "\\$&");
@@ -225,6 +225,12 @@ const LESSONS = [
     theme: "#F0FFF0",
   },
 ];
+
+/* 
+@author Team marshmellow
+@version 0.0.1
+Footer class to provide a general Footer to the entire website. 
+*/
 
 export default function LessonSection() {
   const [idx, setIdx] = useState(0);

@@ -1,37 +1,76 @@
-# === Frontend (Vite/React)
+# ========================================
+# FRONTEND (Vite + React)
+# ========================================
 DiCureCitizenFrontend/node_modules/
 DiCureCitizenFrontend/dist/
 DiCureCitizenFrontend/.vite/
 DiCureCitizenFrontend/*bak/
+DiCureCitizenFrontend/.env*
+DiCureCitizenFrontend/npm-debug.log*
+DiCureCitizenFrontend/yarn-debug.log*
+DiCureCitizenFrontend/yarn-error.log*
 
-# === Backend (Spring Boot)
+# ========================================
+# BACKEND (Spring Boot / Maven)
+# ========================================
 digitalCitizen/target/
-*.iml
-.idea/
+digitalCitizen/.mvn/wrapper/maven-wrapper.jar
+!**/src/main/**/target/
+!**/src/test/**/target/
 *.class
+*.log
+*.out
+*.jar
+*.war
+*.ear
 
-# === Local H2 DB files (do NOT commit)
+# IntelliJ / Eclipse / STS files
+.idea/
+*.iml
+.project
+.classpath
+.settings/
+.sts4-cache/
+.factorypath
+
+# ========================================
+# LOCAL DATABASE (H2 / SQLite)
+# ========================================
 digitalCitizen/data/*.db
 digitalCitizen/data/*.lock.db
 digitalCitizen/data/*.mv.db
 
-# === Python (FastAPI / ML)
+# ========================================
+#  MACHINE LEARNING (Python / FastAPI)
+# ========================================
 ml/.venv*/
-**/__pycache__/
-**/.pytest_cache/
+ml/__pycache__/
+ml/.pytest_cache/
 ml/models/
+ml/outputs/
 *.onnx
 *.pt
 *.pth
 *.pkl
 *.joblib
+*.h5
+*.csv
 
-# === General
-.DS_Store
+# ========================================
+# DEVELOPMENT & OS FILES
+# ========================================
 .vscode/
+.DS_Store
+Thumbs.db
+*.swp
+*.swo
+*.bak
+*.tmp
 
-DiCureCitizenFrontend/node_modules/
-DiCureCitizenFrontend/dist/
-DiCureCitizenFrontend/.vite/
-DiCureCitizenFrontend/*bak/
-
+# ========================================
+# TEST / COVERAGE
+# ========================================
+coverage/
+reports/
+*.lcov
+*.coverage

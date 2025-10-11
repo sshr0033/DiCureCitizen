@@ -1,23 +1,54 @@
-HELP.md
+# ===================================
+#  Node / React (Frontend)
+# ===================================
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+package-lock.json
+
+# Production build
+dist/
+build/
+
+# Environment variables
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+# ===================================
+# Spring Boot / Maven (Backend)
+# ===================================
 target/
 .mvn/wrapper/maven-wrapper.jar
 !**/src/main/**/target/
 !**/src/test/**/target/
 
-### STS ###
-.apt_generated
-.classpath
-.factorypath
-.project
-.settings
-.springBeans
-.sts4-cache
+# Log files
+*.log
+logs/
+*.out
+
+# ===================================
+# IDE / Editor Settings
+# ===================================
 
 ### IntelliJ IDEA ###
-.idea
+.idea/
 *.iws
 *.iml
 *.ipr
+
+### Eclipse / Spring Tool Suite ###
+.apt_generated/
+.classpath
+.factorypath
+.project
+.settings/
+.springBeans/
+.sts4-cache/
 
 ### NetBeans ###
 /nbproject/private/
@@ -31,3 +62,28 @@ build/
 
 ### VS Code ###
 .vscode/
+.history/
+
+# ===================================
+#  OS Specific (macOS, Windows)
+# ===================================
+.DS_Store
+Thumbs.db
+ehthumbs.db
+Icon?
+Desktop.ini
+
+# ===================================
+#  Test / Coverage Artifacts
+# ===================================
+coverage/
+*.lcov
+*.coverage
+reports/
+
+# ===================================
+#  Misc
+# ===================================
+HELP.md
+*.swp
+*.swo

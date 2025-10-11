@@ -14,7 +14,7 @@ import {
 import { NavLink, Link } from "react-router-dom";
 import MenuIcon from "@mui/icons-material/Menu";
 import Logo from "../assets/logo.png";
-import { navBarStyles } from "../styles";
+import { glassStyles, navBarStyles } from "../styles";
 
 export default function NavBar() {
   const [mobileOpen, setMobileOpen] = useState(false);
@@ -64,7 +64,7 @@ export default function NavBar() {
         elevation={0}
         sx={{
           bgcolor: "transparent",
-          color: "white",
+          color: "black",
         }}
       >
         <Toolbar sx={{ justifyContent: "space-between" }}>
@@ -76,6 +76,10 @@ export default function NavBar() {
               navBarStyles.nav,
               navBarStyles.logo,]}
           >
+            <Box sx={glassStyles.effect} />
+            <Box sx={glassStyles.tint} />
+            <Box sx={glassStyles.shine} />
+            <Box sx={navBarStyles.content}>
             <Box
               component="img"
               src={Logo}
@@ -85,6 +89,7 @@ export default function NavBar() {
             <Typography variant="h6" sx={{ fontWeight: 800 }}>
               DiCureCitizen
             </Typography>
+            </Box>
           </Box>
 
           <Box sx={[ 
@@ -96,22 +101,27 @@ export default function NavBar() {
               left: "50%", 
               transform: "translateX(-50%)", 
               }]}>
+            <Box sx={glassStyles.effect} />
+            <Box sx={glassStyles.tint} />
+            <Box sx={glassStyles.shine} />
+            <Box sx={navBarStyles.content}>
             {navItems.map((item) => (
               <Button
                 key={item.label}
                 component={NavLink}
                 to={item.path}
                 sx={{
-                  color: "white",
+                  color: "black",
                   fontWeight: 600,
                   borderRadius: "20px",
                   "&.active": { bgcolor: "rgba(255, 255, 255, 0.3)" },
-                  "&:hover": { bgcolor: "rgba(255, 255, 255, 0.3)" },
+                  "&:hover": { bgcolor: "rgba(255, 255, 255, 0.7)", color: "black"},
                 }}
               >
                 {item.label}
               </Button>
             ))}
+            </Box>
           </Box>
 
           <IconButton
@@ -125,7 +135,12 @@ export default function NavBar() {
               }]}
             onClick={handleDrawerToggle}
           >
+            <Box sx={glassStyles.effect} />
+            <Box sx={glassStyles.tint} />
+            <Box sx={glassStyles.shine} />
+            <Box sx={navBarStyles.content}>
             <MenuIcon />
+            </Box>
           </IconButton>
         </Toolbar>
       </AppBar>

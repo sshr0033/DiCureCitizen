@@ -87,9 +87,49 @@ export const buttonStyles = {
   },
 };
 
+export const glassStyles = {
+  wrapper: {
+    position: 'relative',
+    display: 'flex',
+    fontWeight: 600,
+    overflow: 'hidden',
+    color: 'black',
+    cursor: 'pointer',
+    boxShadow: '0 6px 6px rgba(0, 0, 0, 0.2), 0 0 20px rgba(0, 0, 0, 0.1)',
+    transition: 'all 0.4s cubic-bezier(0.175, 0.885, 0.32, 2.2)',
+  },
+  effect: {
+    position: 'absolute',
+    zIndex: 0,
+    inset: 0,
+    backdropFilter: 'blur(3px)',
+    overflow: 'hidden',
+    isolation: 'isolate',
+  },
+  tint: {
+    zIndex: 1,
+    position: 'absolute',
+    inset: 0,
+    background: 'rgba(255, 255, 255, 0.25)',
+  },
+  shine: {
+    position: 'absolute',
+    inset: 0,
+    zIndex: 2,
+    overflow: 'hidden',
+    boxShadow: 'inset 2px 2px 1px 0 rgba(255, 255, 255, 0.5), inset -1px -1px 1px 1px rgba(255, 255, 255, 0.5)',
+  },
+  text: {
+    zIndex: 3,
+    fontSize: '2rem',
+    color: 'black',
+  },
+};
+
 export const navBarStyles = {
   nav: {
-    bgcolor: "rgba(0, 0, 0, 0.5)", 
+    ...glassStyles.wrapper,
+    bgcolor: "rgba(255, 255, 255, 0.1)", 
     borderRadius: "25px",
     border: "rgba(255, 255, 255, 0.2)",
     backdropFilter: "blur(10px)",
@@ -106,6 +146,12 @@ export const navBarStyles = {
     color: "inherit",
     p: 2,
   },
+  content: {
+    ...glassStyles.text,
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+  }
 };
 
 

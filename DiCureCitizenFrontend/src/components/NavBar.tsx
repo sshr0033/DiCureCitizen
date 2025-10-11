@@ -2,8 +2,8 @@ import { useState } from "react";
 import {
   AppBar,
   Toolbar,
-  Typography,
   Box,
+  Typography,
   Button,
   IconButton,
   Drawer,
@@ -11,42 +11,42 @@ import {
   ListItem,
   ListItemText,
 } from "@mui/material";
-import { NavLink, Link } from "react-router-dom";
 import MenuIcon from "@mui/icons-material/Menu";
-import Logo from "../assets/logo.jpeg";
+import { Link as RouterLink } from "react-router-dom";
+import Logo from "../assets/logo.png";
+import * as styles from "../styles/navBarStyles";
+
+const navItems = [
+  { label: "Home", path: "/" },
+  { label: "Detect Scam", path: "/detectscam" },
+  { label: "Listen to Scam Audios", path: "/scamAudio" },
+   { label: "Learn Digital Citizenship", path: "/lessons" },
+  { label: "Resources", path: "/detectscam#articles" }
+ 
+];
 
 export default function NavBar() {
   const [mobileOpen, setMobileOpen] = useState(false);
+  const handleDrawerToggle = () => setMobileOpen((prev) => !prev);
 
-  const navItems = [
-    { label: "Home", path: "/" },
-    { label: "Detect Scam", path: "/detectscam" },
-    { label: "Help Center", path: "/helpcenter" },
-    { label: "Resources", path: "/detectscam#articles" },
-  ];
-
-  const handleDrawerToggle = () => {
-    setMobileOpen(!mobileOpen);
-  };
-
-
-  const drawer = (
-    <Box onClick={handleDrawerToggle} sx={{ textAlign: "center" }}>
-      
+  const drawerContent = (
+    <Box onClick={handleDrawerToggle} sx={styles.drawerContainer}>
+      <Box sx={styles.drawerHeader}>
+        <Box component="img" src={Logo} alt="Logo" sx={styles.drawerLogo} />
+        <Typography sx={styles.drawerTitle}>DiCureCitizen</Typography>
+      </Box>
       <List>
         {navItems.map((item) => (
           <ListItem
             key={item.label}
-            component={NavLink}
+            component={RouterLink}
             to={item.path}
-            sx={{
-              textAlign: "center",
-              color: "black",
-              textDecoration: "none",
-              "&.active": { color: "olive", fontWeight: 700 },
-            }}
+            sx={styles.drawerItem}
           >
-            <ListItemText primary={item.label} />
+            <ListItemText
+              primary={item.label}
+              primaryTypographyProps={{ fontSize: "1rem", fontWeight: 500 }}
+            />
           </ListItem>
         ))}
       </List>
@@ -55,74 +55,50 @@ export default function NavBar() {
 
   return (
     <>
-      <AppBar
-        position="sticky"
-        elevation={4}
-        sx={{
-          bgcolor: "white",
-          color: "black",
-          borderBottom: "1px solid #e0e0e0",
-        }}
-      >
-        <Toolbar sx={{ justifyContent: "space-between" }}>
-         
-          <Box
-            component={Link}
-            to="/"
-            sx={{
-              display: "flex",
-              alignItems: "center",
-              textDecoration: "none",
-              color: "inherit",
-            }}
-          >
-            <Box
-              component="img"
-              src={Logo}
-              alt="Logo"
-              sx={{ height: 40, mr: 1 }}
-            />
-            <Typography variant="h6" sx={{ fontWeight: 800 }}>
-              DiCureCitizen
-            </Typography>
+      <AppBar position="fixed" elevation={0} sx={styles.appBar}>
+        <Toolbar disableGutters sx={styles.toolbar}>
+          {/* Left: Logo */}
+          <Box component={RouterLink} to="/" sx={styles.logoBox}>
+            <Box component="img" src={Logo} alt="Logo" sx={styles.logoImg} />
+            <Typography sx={styles.logoText}>DiCureCitizen</Typography>
           </Box>
 
-          <Box sx={{ display: { xs: "none", md: "block" } }}>
+          {/* Center: Desktop Navigation */}
+          <Box sx={styles.navLinksContainer}>
             {navItems.map((item) => (
               <Button
                 key={item.label}
-                component={NavLink}
+                component={RouterLink}
                 to={item.path}
-                sx={{
-                  color: "black",
-                  fontWeight: 600,
-                  "&.active": { color: "olive" },
-                }}
+                disableRipple
+                sx={styles.navButton}
               >
                 {item.label}
               </Button>
             ))}
           </Box>
 
-          <IconButton
-            color="inherit"
-            edge="end"
-            sx={{ display: { md: "none" } }}
-            onClick={handleDrawerToggle}
-          >
-            <MenuIcon />
-          </IconButton>
+          {/* Right: Icons */}
+          <Box sx={styles.iconGroup}>
+            {/* Mobile menu */}
+            <IconButton onClick={handleDrawerToggle} sx={styles.menuButtonMobile}>
+              <MenuIcon />
+            </IconButton>
+
+           
+          </Box>
         </Toolbar>
       </AppBar>
 
+      {/* Drawer for mobile */}
       <Drawer
         anchor="right"
         open={mobileOpen}
         onClose={handleDrawerToggle}
         ModalProps={{ keepMounted: true }}
-        sx={{ display: { xs: "block", md: "none" } }}
+        sx={styles.drawer}
       >
-        {drawer}
+        {drawerContent}
       </Drawer>
     </>
   );

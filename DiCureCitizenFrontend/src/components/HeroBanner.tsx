@@ -1,187 +1,195 @@
-import { Box, Typography, Paper } from "@mui/material";
-import { Swiper, SwiperSlide } from "swiper/react";
-import { Navigation, Autoplay } from "swiper/modules";
-import { useNavigate, useLocation } from "react-router-dom";
+import { useState } from "react";
+import { Box, Typography, Button, Stack } from "@mui/material";
+import CountUp from "react-countup";
+import { Link as RouterLink } from "react-router-dom";
+import KeyboardArrowUpIcon from "@mui/icons-material/KeyboardArrowUp";
+import phoneFrame from "../assets/iPhone Air - Light Gold - Portrait.png";
+import wallpaper from "../assets/wallpaper1.jpg";
+import {
+  bounce,
+  liquidButtonStyle,
+  heroContainer,
+  heroLeft,
+  phoneBox,
+  wallpaperBox,
+  frameBox,
+  buttonStack,
+  swipeBox,
+} from "../styles/heroBannerStyles";
 
 
-import SecurityIcon from "@mui/icons-material/Security";
-import PlagiarismIcon from '@mui/icons-material/Plagiarism';
-import SupportAgentIcon from "@mui/icons-material/SupportAgent";
-import MenuBookIcon from "@mui/icons-material/MenuBook";
+type HoverKey = "default" | "detect" | "learn" | "insights" | "help";
+
+interface HeroContent {
+  number: number | string;
+  subtitle: string;
+  description: string;
+}
 
 
-import OldManImg from "../assets/oldmanpic.png";
-import ReadMan from "../assets/oldmanreading.jpg";
-import HelpCenterImg from "../assets/oldmantension.jpg";
-
-const slides = [
-  {
-    id: 1,
-    title: (
-      <>
-        Securing your privacy and data are a <br /> key aspect of digital citizenship.
-      </>
-    ),
-    subtitle: "Small lessons that make big differences in your online safety.",
-    image: OldManImg,
+const content: Record<HoverKey, HeroContent> = {
+  default: {
+    number: 1189600,
+    subtitle: "Victims, number update per month",
+    description:
+      "Between 2021 and 2023, scams cost Australians AU$7.8 billion and affected more than one million people.",
   },
-  {
-    id: 2,
-    title: (
-      <>
-        Did You Know Seniors in Australia Lost <br /> $100 Million to Scams in 2024?
-      </>
-    ),
-    subtitle: "Stay updated and protect yourself with us.",
-    image: ReadMan,
+  detect: {
+    number: "97%",
+    subtitle: "Accurate detection rate",
+    description:
+      "Our AI-powered system analyses messages and calls to instantly detect scams with 97% accuracy in real time. Download our scam guide pdf that guides you with how to safe guard yourself from such scammers.",
   },
-  {
-    id: 3,
-    title: (
-      <>
-        Every Year Seniors in <br /> Australia lose over $66.5 million in scams.
-      </>
-    ),
-    subtitle: "We are here to help, know what to do next. File a report or get help.",
-    image: HelpCenterImg,
+  learn: {
+    number: 9,
+    subtitle: "Learning modules to protect yourself, with rewarding CERTIFICATE",
+    description:
+      "Get step-by-step guides, real examples, and prevention tips to identify and stop scams before they reach you. Earn Certificate of being a Good Digital Citizen",
   },
-];
-
-const actionButtons = [
-  { label: "Learn how to become a Good Digital Citizen", link: "/#learnCitizenship", icon: <SecurityIcon sx={{ fontSize: 40, color: "#4c5f26" }} /> },
-  { label: "Confused if a message is a scam? Check here.", link: "/detectscam", icon: <PlagiarismIcon sx={{ fontSize: 40, color: "#4c5f26" }} /> },
-  { label: "How to safeguard yourself from Latest scam.", link: "/detectscam#articles", icon: <MenuBookIcon sx={{ fontSize: 40, color: "#4c5f26" }} /> },
-  { label: "Want to know How scammers sound over call? Listen them here", link: "/helpcenter", icon: <SupportAgentIcon sx={{ fontSize: 40, color: "#4c5f26" }} /> },
-
-];
+  insights: {
+    number: 2000,
+    subtitle: "Scam reports analysed this quarter",
+    description:
+      "Explore interactive insights about scam trends, regions most affected, and emerging tactics used by scammers.",
+  },
+  help: {
+    number: 4,
+    subtitle: "Major support channels available near you",
+    description:
+      "Get help if you've been scammed access recovery tools, government hotlines, and verified community support.",
+  },
+};
 
 export default function HeroBanner() {
-  const navigate = useNavigate();
-  const location = useLocation();
+  const [hovered, setHovered] = useState<HoverKey>("default");
 
-  const handleNavigation = (link: string) => {
-    if (link.includes("#")) {
-      const [path, hash] = link.split("#");
-      if (location.pathname === path || (path === "/" && location.pathname === "/")) {
-        const element = document.getElementById(hash);
-        if (element) {
-          element.scrollIntoView({ behavior: "smooth" });
-        }
-      } else {
-        navigate(link);
-      }
-    } else {
-      navigate(link);
-    }
-  };
+  const { number, subtitle, description } = content[hovered];
 
   return (
-   <Box component="section" sx={{ width: "100%", minHeight: "5vh", position: "relative" }}>
-  <Swiper
-    modules={[Navigation, Autoplay]}
-    navigation
-    loop
-    autoplay={{ delay: 4000, disableOnInteraction: false }}
-  >
-    {slides.map((slide) => (
-      <SwiperSlide key={slide.id}>
-        <Box
+    <Box sx={heroContainer}>
+    
+      <Box sx={heroLeft}>
+        <Typography
+          variant="h1"
           sx={{
-            position: "relative",
-            display: "flex",
-            alignItems: "stretch",
-            minHeight: "35vh",  
-            width: "100%",
-            overflow: "hidden",
+            fontSize: {
+              xs: "2.5rem",
+              sm: "4rem",
+              md: "6rem",
+              lg: "8rem",
+              xl: "10rem",
+            },
+            fontFamily: "serif",
+            fontWeight: 400,
+            wordBreak: "break-word",
+            transition: "all 0.4s ease",
           }}
         >
-          <Box
-            sx={{
-              position: "absolute",
-              top: 0,
-              right: 0,
-              bottom: 0,
-              width: "65%",
-              backgroundImage: `url(${slide.image})`,
-              backgroundSize: "cover",
-              backgroundPosition: "center",
-              zIndex: 1,
-            }}
-          />
+          {typeof number === "number" ? (
+            <CountUp start={0} end={number} duration={1.25} separator="," />
+          ) : (
+            number
+          )}
+        </Typography>
 
-          <Box
-            sx={{
-              flex: 1,
-              bgcolor: "#eae8da",
-              display: "flex",
-              flexDirection: "column",
-              justifyContent: "center",
-              pl: { xs: 3, md: 8 },
-              pr: { xs: 2, md: 4 },
-              clipPath: {
-                md: "polygon(0 0, 65% 0, 55% 100%, 0% 100%)",
-                xs: "none",
-              },
-              zIndex: 2,
-            }}
+        <Typography
+          variant="subtitle1"
+          sx={{
+            mt: 1,
+            fontSize: { xs: "0.9rem", sm: "1.2rem", md: "1.6rem", lg: "2rem" },
+            transition: "all 0.3s ease",
+          }}
+        >
+          {subtitle}
+        </Typography>
+
+        <Typography
+          variant="body1"
+          sx={{
+            color: "rgba(255,255,255,0.85)",
+            mt: 2,
+            lineHeight: 1.6,
+            fontSize: { xs: "0.85rem", sm: "1rem", md: "1.3rem", lg: "1.5rem" },
+            maxWidth: "600px",
+            transition: "opacity 0.3s ease",
+          }}
+        >
+          {description}
+        </Typography>
+      </Box>
+
+    
+      <Box sx={phoneBox}>
+        <Box sx={wallpaperBox(wallpaper)} />
+        <Box component="img" src={phoneFrame} alt="Phone Frame" sx={frameBox} />
+
+        <Stack spacing={2} sx={buttonStack}>
+          <Button
+            variant="contained"
+            component={RouterLink}
+            to="/detectscam"
+            sx={liquidButtonStyle}
+            onMouseEnter={() => setHovered("detect")}
+            onMouseLeave={() => setHovered("default")}
           >
-            <Typography variant="h5" sx={{ fontWeight: 800, mb: 2 }}>
-              {slide.title}
-            </Typography>
-            <Typography variant="subtitle1" sx={{ fontWeight: 600, mb: 4 }}>
-              {slide.subtitle}
-            </Typography>
-          </Box>
-        </Box>
-      </SwiperSlide>
-    ))}
-  </Swiper>
+            Detect Scam
+          </Button>
+          <Button
+            variant="contained"
+            sx={liquidButtonStyle}
+            onMouseEnter={() => setHovered("learn")}
+            onMouseLeave={() => setHovered("default")}
+          >
+            Learn
+          </Button>
+          <Button
+            variant="contained"
+            sx={liquidButtonStyle}
+            onMouseEnter={() => setHovered("insights")}
+            onMouseLeave={() => setHovered("default")}
+          >
+            Insights
+          </Button>
+          <Button
+            variant="contained"
+            sx={liquidButtonStyle}
+            onMouseEnter={() => setHovered("help")}
+            onMouseLeave={() => setHovered("default")}
+          >
+            Help Center
+          </Button>
+        </Stack>
+      </Box>
 
-
-      <Box
-  sx={{
-    position: "absolute",
-    bottom: { xs: "-120px", md: "-50px" },
-    left: "50%",
-    transform: "translateX(-50%)",
-    display: "grid",
-    gridTemplateColumns: { xs: "1fr 1fr", sm: "1fr 1fr", md: "repeat(4, 1fr)" }, 
-    gap: { xs: 2, md: 3 },
-    justifyContent: "center",
-    width: { xs: "95%", md: "90%" },
-    zIndex: 10,
+     
+      {/* Swipe Up */}
+<Box
+  sx={swipeBox}
+  onClick={() => {
+    const scamSection = document.getElementById("scam-awareness");
+    if (scamSection) {
+      scamSection.scrollIntoView({ behavior: "smooth" });
+    }
   }}
 >
-  {actionButtons.map((btn) => (
-    <Paper
-      key={btn.label}
-      elevation={4}
-      sx={{
-        textAlign: "center",
-        bgcolor: "#fff",
-        p: { xs: 2, md: 3 }, 
-        borderRadius: 2,
-        cursor: "pointer",
-        "&:hover": { bgcolor: "#f5f5f5" },
-      }}
-      onClick={() => handleNavigation(btn.link)}
-    >
-      <Box sx={{ mb: 1 }}>{btn.icon}</Box>
-      <Typography
-        variant="subtitle2"
-        sx={{
-          fontWeight: 700,
-          color: "#4c5f26",
-          fontSize: { xs: "0.8rem", sm: "0.9rem", md: "1rem" }, 
-        }}
-      >
-        {btn.label}
-      </Typography>
-    </Paper>
-  ))}
+  <Typography
+    sx={{
+      fontSize: { xs: "0.7rem", md: "0.9rem" },
+      fontWeight: 600,
+      cursor: "pointer",
+    }}
+  >
+    Swipe up to explore
+  </Typography>
+  <KeyboardArrowUpIcon
+    sx={{
+      fontSize: { xs: "1.5rem", md: "2rem" },
+      animation: `${bounce} 1.5s infinite ease-in-out`,
+      cursor: "pointer",
+    }}
+  />
 </Box>
 
     </Box>
-    
   );
 }

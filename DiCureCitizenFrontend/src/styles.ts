@@ -7,6 +7,8 @@ export const sectionStyles = {
   },
 };
 
+
+
 export const cardStyles = {
   container: {
     perspective: "1000px",

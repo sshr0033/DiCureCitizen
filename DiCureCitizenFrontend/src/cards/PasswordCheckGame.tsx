@@ -78,10 +78,21 @@ const checkPassword = () => {
       {feedback && (
         <Box mt={3}>
           {feedback === "weak" ? (
-            <Stack direction="row" spacing={1} alignItems="center">
-              <CancelIcon color="error" />
-              <Typography color="error" fontWeight="bold">
-                Weak password! Try something stronger.
+           <Stack direction="column" spacing={1}>
+              <Stack direction="row" spacing={1} alignItems="center">
+                <CancelIcon sx={{ color: "tomato" }} />
+                <Typography color="error" fontWeight="bold">
+                  Weak password!
+                </Typography>
+              </Stack>
+              <Typography variant="body2" sx={{ color: "red" }}>
+                A strong password should:
+                <ul style={{ marginTop: 4, paddingLeft: 18 }}>
+                  <li>Be at least 12 characters long</li>
+                  <li>Contain upper & lower case letters</li>
+                  <li>Include numbers and special characters (!, @, #, $)</li>
+                  <li>Avoid common words or repeated characters</li>
+                </ul>
               </Typography>
             </Stack>
           ) : (

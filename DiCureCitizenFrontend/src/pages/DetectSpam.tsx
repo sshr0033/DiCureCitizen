@@ -1,4 +1,4 @@
-import Article from "../components/Article";
+
 import Layout from "../components/Layout";
 import SpamBox from "../components/SpamBox";
 import { useLocation } from "react-router-dom";
@@ -22,8 +22,7 @@ export default function DetectScam() {
     <Layout>
         
       <SpamBox/>
-      <Article/>
-      
+    
     </Layout>
   );
 }

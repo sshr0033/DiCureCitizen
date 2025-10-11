@@ -1,159 +1,162 @@
 import { useState } from "react";
 import {
   Box,
-  Container,
   Typography,
   Button,
   TextField,
-  Card,
-  CardContent,
+  Paper,
+  CircularProgress,
+  Fade,
+  Alert,
 } from "@mui/material";
+import phoneFramePortrait from "../assets/iPhone Air - Light Gold - Portrait.png";
+import handIcon from "../assets/hand.png";
+import screenRecording from "../assets/messageRecord.mp4";
+import { predictText, type PredictResponse } from "../api.ts";
+import * as styles from "../styles/scamCheckStyles.ts"; // 🎨 imported styles
 
-const questions = [
-  { id: 1, text: "Did they ask you to click a link?" },
-  { id: 2, text: "Did they ask for your bank details?" },
-  { id: 3, text: "Did they offer you a prize or lottery you never joined?" },
-];
+export default function ScamCheck() {
+  const [input, setInput] = useState("");
+  const [loading, setLoading] = useState(false);
+  const [result, setResult] = useState<number | null>(null);
+  const [error, setError] = useState<string | null>(null);
 
-export default function SpamBox() {
-  const [showQuestions, setShowQuestions] = useState(false);
-  const [step, setStep] = useState(0);
+  async function handleDetect() {
+    const text = input
+      .replace(/\\n|\\r|\r|\n/g, " ")
+      .replace(/\s+/g, " ")
+      .trim();
+    if (!text) return;
 
-  const handleAnswer = () => {
-    if (step < questions.length - 1) {
-      setStep(step + 1); 
-    } else {
-      setStep(questions.length); 
-    }
-  };
+    setLoading(true);
+    setError(null);
+    setResult(null);
+
+    const ctrl = new AbortController();
+    const timer = setTimeout(() => ctrl.abort(), 10_000);
+try {
+  const data: PredictResponse = await predictText(text);
+
+  // 🧠 Smart percentage converter
+  let prob: number | null = null;
+
+  if (typeof data === "number") {
+    // If API gives 0–1, multiply by 100
+    prob = data <= 1 ? Math.round(data * 100) : Math.round(data);
+  } else if (typeof data === "object" && data !== null) {
+    // If API gives object like { probability: 0.87 } or { score: 87 }
+    const value =
+      (data ).probability ??
+      0;
+    prob = value <= 1 ? Number((value * 100).toFixed(1)) : Number(value.toFixed(1));
+  } else {
+    prob = 0;
+  }
+
+  setResult(prob);
+} catch (err: unknown) {
+  const msg =
+    err instanceof DOMException && err.name === "AbortError"
+      ? "Request timed out. Please try again."
+      : err instanceof Error
+      ? err.message
+      : "Something went wrong. Please try again.";
+  setError(msg);
+} finally {
+  clearTimeout(timer);
+  setLoading(false);
+}
+
+  }
 
   return (
-    <>
-  
-      <Box
-        component="section"
-        sx={{ bgcolor: "background.default", py: { xs: 4, md: 5 } }}
-      >
-        <Container maxWidth="md" sx={{ textAlign: "center" }}>
-          <Typography variant="h4" fontWeight={800} gutterBottom>
-            Trusted by the seniors of Australia, with 85% spam detection accuracy.
+    <Box sx={styles.mainContainer}>
+      <Box sx={styles.innerLayout}>
+        <Paper elevation={0} sx={styles.leftCard}>
+          <Typography variant="h5" sx={styles.cardTitle}>
+            One-tap Scam Check
           </Typography>
-          <Typography variant="subtitle1">
-            Just enter your text below and receive accurate results in 2 minutes.
+          <Typography variant="body2" sx={styles.cardSubtitle}>
+            Paste text, link or phone number. Or upload a screenshot. We return
+            risk, evidence and clear next steps.
           </Typography>
-        </Container>
+
+          {error && (
+            <Alert severity="error" sx={styles.errorAlert}>
+              {error}
+            </Alert>
+          )}
+
+          <TextField
+            multiline
+            rows={4}
+            placeholder="Paste suspicious message here"
+            variant="outlined"
+            value={input}
+            onChange={(e) => setInput(e.target.value)}
+            sx={styles.textInput}
+          />
+
+          <Button
+            onClick={handleDetect}
+            disabled={!input.trim() || loading}
+            sx={styles.detectButton}
+          >
+            {loading ? <CircularProgress size={24} /> : "Detect"}
+          </Button>
+        </Paper>
+
+        {result !== null && (
+          <Fade in>
+            <Paper elevation={0} sx={styles.resultCard}>
+              <Typography variant="h5" sx={styles.cardTitle}>
+                Results
+              </Typography>
+              <Typography variant="body2" sx={styles.cardSubtitle}>
+                We do not store your data without your permission
+              </Typography>
+
+              <Paper sx={styles.resultBox(result)}>
+                <Typography variant="body2">
+                  The scam probability of this message is
+                </Typography>
+                <Typography variant="h3" sx={styles.resultPercent(result)}>
+                  {result}%
+                </Typography>
+              </Paper>
+
+              <Box sx={styles.helpSection}>
+                <Typography variant="body2" sx={styles.helpText}>
+                  Already clicked the link?
+                </Typography>
+                <Button sx={styles.helpButton}>Help</Button>
+              </Box>
+            </Paper>
+          </Fade>
+        )}
+
+        {/* 🟩 Phone Mock */}
+        <Box sx={styles.phoneContainer}>
+          <Box
+            component="video"
+            src={screenRecording}
+            autoPlay
+            loop
+            muted
+            playsInline
+            sx={styles.phoneVideo}
+          />
+          <Box
+            component="img"
+            src={phoneFramePortrait}
+            alt="Phone Frame"
+            sx={styles.phoneFrame}
+          />
+        </Box>
       </Box>
 
-   
-      <Box
-        component="section"
-        sx={{ bgcolor: "olive.main", py: { xs: 6, md: 8 } }}
-      >
-        <Container maxWidth="md">
-          <Box
-            sx={{
-              maxWidth: 840,
-              mx: "auto",
-              bgcolor: "#0d0d0d",
-              borderRadius: 3,
-              p: { xs: 2.5, md: 4 },
-              boxShadow: 6,
-              border: "2px solid #000",
-            }}
-          >
-            {!showQuestions ? (
-              <>
-                <TextField
-                  fullWidth
-                  multiline
-                  minRows={7}
-                  placeholder="Paste your message here..."
-                  variant="outlined"
-                  sx={{
-                    "& .MuiOutlinedInput-root": {
-                      bgcolor: "#fff",
-                      borderRadius: 2,
-                    },
-                  }}
-                />
-                <Box sx={{ display: "flex", justifyContent: "center", mt: 3 }}>
-                  <Button
-                    variant="contained"
-                    sx={{
-                      px: 4,
-                      borderRadius: 999,
-                      textTransform: "none",
-                      fontWeight: 700,
-                      bgcolor: "#5c7a2d",
-                      "&:hover": { bgcolor: "#4b6524" },
-                    }}
-                    onClick={() => setShowQuestions(true)}
-                  >
-                    Detect Scam
-                  </Button>
-                </Box>
-              </>
-            ) : (
-              <Card sx={{ p: 3, textAlign: "center", borderRadius: 3 }}>
-                <CardContent>
-                  {step < questions.length ? (
-                    <>
-                      <Typography variant="h6" sx={{ mb: 3, fontWeight: 600 }}>
-                        {questions[step].text}
-                      </Typography>
-                      <Box
-                        sx={{ display: "flex", justifyContent: "center", gap: 2 }}
-                      >
-                        <Button
-                          variant="contained"
-                          color="success"
-                          onClick={handleAnswer}
-                        >
-                          Yes
-                        </Button>
-                        <Button
-                          variant="outlined"
-                          color="error"
-                          onClick={handleAnswer}
-                        >
-                          No
-                        </Button>
-                      </Box>
-                    </>
-                  ) : (
-                    <>
-                      <Typography variant="h6" sx={{ mb: 2, fontWeight: 600 }}>
-                        Thank you for your response!
-                      </Typography>
-                      <Typography variant="body1">
-                        Your answers have been recorded.
-                      </Typography>
-                      <Box sx={{ mt: 3 }}>
-                        <Button
-                          variant="contained"
-                          onClick={() => {
-                            setStep(0);
-                            setShowQuestions(false);
-                          }}
-                          sx={{
-                            px: 4,
-                            borderRadius: 999,
-                            fontWeight: 700,
-                            bgcolor: "#5c7a2d",
-                            "&:hover": { bgcolor: "#4b6524" },
-                          }}
-                        >
-                          Restart
-                        </Button>
-                      </Box>
-                    </>
-                  )}
-                </CardContent>
-              </Card>
-            )}
-          </Box>
-        </Container>
-      </Box>
-    </>
+      {/* 🟩 Animated Hand Pointer */}
+      <Box component="img" src={handIcon} alt="Hand" sx={styles.handPointer} />
+    </Box>
   );
 }

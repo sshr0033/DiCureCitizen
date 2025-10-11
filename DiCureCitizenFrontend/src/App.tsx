@@ -3,8 +3,12 @@ import { theme } from "./theme";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import DetectScam from "./pages/DetectSpam";
 import HomePage from "./pages/HomePage";
-import ScamReport from "./pages/ScamReport";
 import LoginPage from "./components/LoginPage";
+import QuizAndLessons from "./pages/QuizAndLessons";
+import NearestHelpPage from "./pages/NearestHelpPage";
+import ScamAudio from "./pages/ScamAudioPage";
+
+
 
 
 
@@ -17,7 +21,11 @@ export default function App() {
           <Routes>
             <Route path="/detectscam" element={<DetectScam />} />
             <Route path="/" element={<HomePage />} />
-            <Route path="/helpcenter" element={<ScamReport />} />
+             <Route path="/lessons" element={<QuizAndLessons />} />
+             <Route path="/scamAudio" element={<ScamAudio />} />
+
+            <Route path="/helpcenter" element={<NearestHelpPage/>} />
+        
           </Routes>
         </LoginPage>
       </Router>

@@ -1,86 +1,51 @@
-import { Box, Typography, Button, Container } from "@mui/material";
+import { Box, Typography, Button, Paper, Stack } from "@mui/material";
+import phoneFrameLandscape from "../assets/iPhone Air - Light Gold - Landscape.png";
+import * as styles from "../styles/scamAwarenessStyles"; // 🟢 import external styles
 import { useNavigate } from "react-router-dom";
 
 export default function ScamAwareness() {
-      const navigate = useNavigate();
+  const navigate = useNavigate();
   return (
-    <Box
-    id= "latestScams"
-  component="section"
-  sx={{
-    bgcolor: "#eae8da",
-    py: { xs: 6, md: 8 },
-  }}
->
-  <Container maxWidth="xl" sx={{ px: { xs: 2, md: 4 } }}> 
-    <Box
-      sx={{
-        display: "flex",
-        flexDirection: { xs: "column", md: "row" },
-        alignItems: "center",
-        justifyContent: "flex-start",
-        gap: 4,
-      }}
-    >
-    
-      <Box
-        sx={{
-          flex: 2,
-          maxWidth: "65%",    
-          position: "relative",
-          paddingTop: "45%",
-          borderRadius: 2,
-          overflow: "hidden",
-          boxShadow: 4,
-        }}
-      >
-        <iframe
-          src="https://www.youtube.com/embed/89RaMNLoo-Y?autoplay=1&mute=1&si=4AFJRC5Pd-azmiET"
-          title="YouTube video"
-          style={{
-            position: "absolute",
-            top: 0,
-            left: 0,
-            width: "100%",
-            height: "100%",   
-            border: "0",
-          }}
-          allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-    referrerPolicy="strict-origin-when-cross-origin"
-          allowFullScreen
-        ></iframe>
+    <Box id="scam-awareness" sx={styles.sectionBox}>
+      {/* -------------- PHONE PREVIEW -------------- */}
+      <Box sx={styles.phoneWrapper}>
+        <Box sx={styles.videoContainer}>
+          <iframe
+            width="100%"
+            height="100%"
+            src="https://www.youtube.com/embed/89RaMNLoo-Y?autoplay=1&mute=1"
+            title="Scam Awareness Video"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+            allowFullScreen
+            style={{ border: "none" }}
+          />
+        </Box>
+
+        <Box
+          component="img"
+          src={phoneFrameLandscape}
+          alt="Phone Frame"
+          sx={styles.phoneFrame}
+        />
       </Box>
 
-      <Box sx={{ flex: 1, pr: { md: 6 } }}> 
-        <Typography variant="h5" fontWeight={800} gutterBottom>
-          Scams are evolving everyday,
-          <br />
-          beat it by staying ahead,
-          <br />
-          Stay alert of the latest scam around Australia.
+      {/* -------------- TEXT & BUTTONS -------------- */}
+      <Paper elevation={3} sx={styles.paperCard}>
+        <Typography variant="h3" sx={styles.heading}>
+         Know Scams Happening around Australia !
         </Typography>
 
-        <Button
-          variant="contained"
-          sx={{
-            mt: 3,
-            px: 4,
-            py: 1.5,
-            borderRadius: "50px",
-            bgcolor: "#4c5f26",
-            fontWeight: 700,
-            fontSize: "1rem",
-            textTransform: "none",
-            "&:hover": { bgcolor: "#3a4a1c" },
-          }}
-         onClick={() => navigate("/detectscam#articles")}
-        >
-          Checkout Resources
-        </Button>
-      </Box>
-    </Box>
-  </Container>
-</Box>
+        <Typography variant="body1" sx={styles.description}>
+          Travelling Across Australia? Not sure what type of cyber scam can be tried on you? View our analytics that shows an indepth scam insights and the latest scam news across different states of Australia
+        </Typography>
 
+        <Stack direction={{ xs: "column", sm: "row" }} spacing={2} sx={styles.buttonRow}>
+          <Button sx={styles.helpButton}
+          onClick= {() => navigate("/helpcenter")}>View the latest insight</Button>
+         
+
+        </Stack>
+      </Paper>
+    </Box>
   );
 }

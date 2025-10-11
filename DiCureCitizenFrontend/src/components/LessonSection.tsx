@@ -1,4 +1,7 @@
-import React, { useMemo, useState } from "react";
+
+
+
+import React, { useState } from "react";
 import {
   Box,
   Paper,
@@ -20,44 +23,81 @@ import PasswordCheckGame from "../cards/PasswordCheckGame";
 import ForwardOrStopGame from "../cards/ForwardStopGame";
 import RespectGame from "../cards/RespectGame";
 import LegalEthicGame from "../cards/LegalEthicGame";
-import  PrivacyAwarenessGame from "../cards/PrivacyAwarenessGame";
+import PrivacyAwarenessGame from "../cards/PrivacyAwarenessGame";
+import phoneFrame from "../assets/iPhone Air - Light Gold - Portrait.png";
 
+import {
+  sectionBox,
+  dividerLine,
+  gridLayout,
+  sectionTitle,
+  paperContainer,
+  chipRow,
+  chipStyle,
+  lessonTitle,
+  subtitleText,
+  bulletIcon,
+  bulletText,
+  buttonRow,
+  navButton,
+  nextButton,
+  tipsButton,
+  practiseButton,
+  phoneWrapper,
+  phoneFrameStyle,
+  phoneInner,
+  riskyMessage,
+  safeMessage,
+  dialogPaper,
+  dividerBottom,
+} from "../styles/lessonSectionStyles";
 
-type Lesson = {
-  id: string;
-  title: string;
-  subtitle: React.ReactNode;
-  bullets: string[];
-  smsFrom: string;
-  riskySMS: string;
-  safeSMS: string;
-  highlight?: string[];
-  theme?: string;
-};
+// 🟡 highlight util
+function highlightText(text: string, needles: string[] = []) {
+  if (!needles.length) return text;
+  const esc = (s: string) => s.replace(/[-\\^$*+?.()|[\]{}]/g, "\\$&");
+  const pattern = new RegExp("(" + needles.map(esc).join("|") + ")", "gi");
+  const parts = text.split(pattern);
+  return parts.map((p, i) =>
+    needles.some((n) => new RegExp("^" + esc(n) + "$", "i").test(p)) ? (
+      <Box
+        key={i}
+        component="span"
+        sx={{
+          px: 0.5,
+          borderRadius: 0.5,
+          bgcolor: "warning.light",
+          fontWeight: 600,
+        }}
+      >
+        {p}
+      </Box>
+    ) : (
+      <span key={i}>{p}</span>
+    )
+  );
+}
 
-const LESSONS: Lesson[] = [
+const LESSONS = [
   {
     id: "privacy",
     title: "Safety & Security",
     subtitle: (
-  <>
-    Privacy is the right and ability to control personal information online, 
-    and security is protecting that information from unauthorised access, damage, and theft. 
-    Both of them are crucial for safe digital citizenship.
-    Imagine it to be like 
-    <b>locking the doors to your house and not sharing your keys with strangers. </b>  
-    Everyttime you think of sharing your personal information online, ask yourself:  
-    will you share it in person? Or will you give your house keys to a stranger?
-    <br />
-  
-    <Typography variant="subtitle1" component="div" sx={{ color: "Green", fontWeight: "bold", mt: 2 }}>
-      What can you do to protect your privacy and security online?
-    </Typography>
-  </>
-),
-
+      <>
+        Privacy is the right and ability to control personal information online, 
+        and security is protecting that information from unauthorised access, damage, and theft. 
+        Both of them are crucial for safe digital citizenship.
+        Imagine it to be like 
+        <b>locking the doors to your house and not sharing your keys with strangers. </b>  
+        Everyttime you think of sharing your personal information online, ask yourself:  
+        will you share it in person? Or will you give your house keys to a stranger?
+        <br />
+        <Typography variant="subtitle1" component="div" sx={{ color: "Green", fontWeight: "bold", mt: 2 }}>
+          What can you do to protect your privacy and security online?
+        </Typography>
+      </>
+    ),
     bullets: [
-    
       "Never Click on suspicious links or attachments in emails, messages, or websites.",
       "No Bank/Govt asks for OTP online, do not share it with anyone.",
       "Always open a website by typing the URL yourself or using a trusted bookmark.",
@@ -74,16 +114,14 @@ const LESSONS: Lesson[] = [
     id: "literacy",
     title: "Digital Literacy",
     subtitle:(<> It is just the way you find, create and consume an information. 
-    It equips you with the ability to locate, interpret and then understand the information from any source. 
-    <br/>Once you read an information, Think about the credibility of the source,
-     <b>How true the fact stated inside the message can be. </b> 
-     Will forwarding this impact one's online reputation?
-     Critical thinking is another way of approaching digital literacy. 
-     <Typography variant="subtitle1" component="div" sx={{ color: "Green", fontWeight: "bold", mt: 2 }}>
-      What can you do to improve your Digital Literacy?
-    </Typography></>),
-
-      
+      It equips you with the ability to locate, interpret and then understand the information from any source. 
+      <br/>Once you read an information, Think about the credibility of the source,
+      <b>How true the fact stated inside the message can be. </b> 
+      Will forwarding this impact one's online reputation?
+      Critical thinking is another way of approaching digital literacy. 
+      <Typography variant="subtitle1" component="div" sx={{ color: "Green", fontWeight: "bold", mt: 2 }}>
+        What can you do to improve your Digital Literacy?
+      </Typography></>),
     bullets: [
       "Do not forward/share any chain information without verifying it first.",
       "Always cross-check with trusted fact-checking sites.",
@@ -121,7 +159,6 @@ const LESSONS: Lesson[] = [
     highlight: ["Auntie May", "funny video"],
     theme: "#EFFEFF",
   },
-
   {
     id: "legal",
     title: "Legal & Ethical Use",
@@ -154,7 +191,6 @@ const LESSONS: Lesson[] = [
     highlight: ["Download for free", "freemovies-download.com"],
     theme: "#FFF0FA",
   },
-
   {
     id: "awareness",
     title: "Privacy Awareness",
@@ -162,7 +198,7 @@ const LESSONS: Lesson[] = [
       <>
         Privacy awareness means understanding how much of your personal data 
         is visible online and what others can do with it. 
-        <br /> <b>Your data is valuable and you must treat it like your wallet. 
+         <b>Your data is valuable and you must treat it like your wallet. 
         Would you open your wallet  on a public platform?</b> <br />
         Every app, website, or service collects some informations about you
         being aware helps you stay safe and make better choices.
@@ -188,39 +224,12 @@ const LESSONS: Lesson[] = [
     highlight: ["Medicare number", "share your full name"],
     theme: "#F0FFF0",
   },
-
 ];
-
-function highlightText(text: string, needles: string[] = []) {
-  if (!needles.length) return text;
-  const esc = (s: string) => s.replace(/[-\\^$*+?.()|[\]{}]/g, "\\$&");
-  const pattern = new RegExp("(" + needles.map(esc).join("|") + ")", "gi");
-  const parts = text.split(pattern);
-  return parts.map((p, i) =>
-    needles.some((n) => new RegExp("^" + esc(n) + "$", "i").test(p)) ? (
-      <Box
-        key={i}
-        component="span"
-        sx={{
-          px: 0.5,
-          borderRadius: 0.5,
-          bgcolor: "warning.light",
-          fontWeight: 600,
-        }}
-      >
-        {p}
-      </Box>
-    ) : (
-      <span key={i}>{p}</span>
-    )
-  );
-}
 
 export default function LessonSection() {
   const [idx, setIdx] = useState(0);
   const [showSafe, setShowSafe] = useState(false);
   const [showDIY, setShowDIY] = useState(false);
-
   const total = LESSONS.length;
   const lesson = LESSONS[idx];
 
@@ -229,246 +238,173 @@ export default function LessonSection() {
     setIdx((p) => (p + dir + total) % total);
   };
 
-  const phoneBG = useMemo(
-    () => (lesson.theme ? lesson.theme : "#FFEDE6"),
-    [lesson.theme]
-  );
-
   return (
-    <Box id="learnCitizenship" component="section"  sx={{ mt: { xs: 12, md: 16 } }}>
-      <Box sx={{ px: 4, py: 2, display: "flex", alignItems: "center" }}>
-        <Typography
-          variant= "h4"
-          fontWeight={800}
-          sx={{ mx: "auto" }}
-          
-        >
-          Learn how to become a Good Digital Citizen, Practise with real-life simulations
+    <Box id="learnCitizenship" component="section" sx={sectionBox}>
+      <Divider sx={dividerLine} />
+      <Box sx={gridLayout}>
+        <Typography variant="h4" fontWeight={800} sx={sectionTitle}>
+          Learn How to Become a Good Digital Citizen
         </Typography>
-      </Box>
-
-      <Divider />
-
-      <Box
-        sx={{
-          px: { xs: 2, md: 4 },
-          py: 4,
-          display: "grid",
-          gridTemplateColumns: { xs: "1fr", md: "1fr 1fr" },
-          gap: 3,
-          maxWidth: 1200,
-          mx: "auto",
-        }}
-      >
-        
-        <Paper
-          elevation={3}
-          sx={{
-            p: { xs: 3, md: 4 },
-            borderRadius: 4,
-            display: "flex",
-            flexDirection: "column",
-            gap: 2,
-          }}
-        >
-          <Stack direction="row" alignItems="center" spacing={1}>
+        <Paper elevation={0} sx={paperContainer}>
+          <Stack direction="row" alignItems="center" spacing={1} sx={chipRow}>
             <Chip
               label={`${idx + 1}/${total}`}
               variant="outlined"
-              color="default"
               size="small"
+              sx={chipStyle}
             />
             <Chip
-              icon={<ShieldIcon />}
+              icon={<ShieldIcon sx={{ color: "white" }} />}
               label="Lesson"
-              color="primary"
               variant="outlined"
               size="small"
+              sx={chipStyle}
             />
           </Stack>
 
-          <Typography variant="h4" sx={{ fontWeight: 800 }}>
+          <Typography variant="h5" sx={lessonTitle}>
             {lesson.title}
           </Typography>
-          <Typography variant="subtitle1" color="text.secondary">
+
+          <Typography variant="body2" sx={subtitleText}>
             {lesson.subtitle}
           </Typography>
 
-          <Divider sx={{ my: 1 }} />
+          <Divider sx={dividerLine} />
 
           <Stack spacing={1.2}>
             {lesson.bullets.map((b, i) => (
               <Stack key={i} direction="row" spacing={1} alignItems="flex-start">
-                <CheckCircleOutlineIcon
-                  fontSize="small"
-                  style={{ marginTop: 2 }}
-                  color="success"
-                />
-                <Typography>{b}</Typography>
+                <CheckCircleOutlineIcon sx={bulletIcon} />
+                <Typography sx={bulletText}>{b}</Typography>
               </Stack>
             ))}
           </Stack>
 
-          <Stack
-            direction={{ xs: "column", sm: "row" }}
-            spacing={1.5}
-            sx={{ mt: 3 }}
-          >
-            <Button
-              startIcon={<ArrowBackIosNewIcon />}
-              variant="outlined"
-              onClick={() => go(-1)}
-            >
+          <Stack direction={{ xs: "column", sm: "row" }} spacing={2} sx={buttonRow}>
+            <Button startIcon={<ArrowBackIosNewIcon />} variant="outlined" onClick={() => go(-1)} sx={navButton}>
               Previous
             </Button>
-            <Button
-              endIcon={<ArrowForwardIosIcon />}
-              variant="contained"
-              onClick={() => go(1)}
-            >
+            <Button endIcon={<ArrowForwardIosIcon />} variant="contained" onClick={() => go(1)} sx={nextButton}>
               Next
             </Button>
-            <Button
-              startIcon={<TipsAndUpdatesIcon />}
-              onClick={() => setShowSafe((s) => !s)}
-              sx={{ ml: { sm: "auto" } }}
-            >
+            <Button startIcon={<TipsAndUpdatesIcon />} onClick={() => setShowSafe((s) => !s)} sx={tipsButton}>
               {showSafe ? "Show the scenario" : "What to do in this scenario?"}
             </Button>
           </Stack>
 
-        
-          <Button
-            variant="outlined"
-            color= "success"
-            onClick={() => setShowDIY(true)}
-            sx={{ mt: 2 }}
-          >
-            Click Here to Practise the lessons you learnt!!
+          <Button variant="contained" color="success" onClick={() => setShowDIY(true)} sx={practiseButton}>
+            Practise Yourself
           </Button>
         </Paper>
 
-        
-        <Box sx={{ display: "grid", placeItems: "center", p: { xs: 2, md: 3 } }}>
+        {/* Phone simulation */}
+        <Box sx={phoneWrapper}>
+          <Box sx={phoneFrameStyle}>
+            <Box component="img" src={phoneFrame} alt="Phone Frame" sx={{ width: "100%", height: "auto" }} />
+            <Box sx={phoneInner}>
+              <Box
+        sx={{
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "space-between",
+          bgcolor: "rgba(30,30,30,0.95)",
+          p: "6px 10px",
+          borderTopLeftRadius: "35px",
+          borderTopRightRadius: "35px",
+          position: "absolute",
+          top: 0,
+          left: 0,
+          width: "100%",
+          height: "15%",
+          zIndex: 2,
+        }}
+      >
+        <Typography
+          sx={{
+            color: "#0094FF",
+            fontWeight: 600,
+            fontSize: "0.7rem",
+            ml: 2,
+            p: "2px"
+          }}
+        >
+          {"<"}
+        </Typography>
+
+        <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
           <Box
             sx={{
-              width: 320,
-              height: 560,
-              borderRadius: "40px",
-              border: "14px solid #111",
-              boxShadow: "0 8px 40px rgba(0,0,0,0.15)",
-              backgroundColor: "#fff",
-              position: "relative",
-              overflow: "hidden",
+              width: 20,
+              height: 26,
+              borderRadius: "50%",
+              bgcolor: "rgba(255,255,255,0.2)",
               display: "flex",
-              flexDirection: "column",
+              alignItems: "center",
+              justifyContent: "center",
             }}
           >
-            
-            <Box
-              sx={{
-                position: "absolute",
-                top: 0,
-                left: "50%",
-                transform: "translateX(-50%)",
-                width: 140,
-                height: 24,
-                bgcolor: "#111",
-                borderBottomLeftRadius: 20,
-                borderBottomRightRadius: 20,
-                zIndex: 2,
-              }}
-            />
-           
-            <Box
-              sx={{
-                pt: 4,
-                pb: 1,
-                px: 2,
-                bgcolor: "#f5f5f7",
-                borderBottom: "1px solid #eaeaea",
-                fontSize: 12,
-                color: "#555",
-                textAlign: "center",
-              }}
-            >
-              {lesson.smsFrom} • Today 9:30 AM
-            </Box>
+            <Typography sx={{ color: "white", fontSize: "0.7rem" }}>👤</Typography>
+          </Box>
+          <Typography sx={{ color: "white", fontSize: "0.85rem", fontWeight: 600, whiteSpace: "nowrap" }}>
+            {lesson.smsFrom || "JM-BANK-S"}
+          </Typography>
+        </Box>
 
-         
-            <Box
-              sx={{
-                flex: 1,
-                px: 2,
-                py: 3,
-                display: "flex",
-                flexDirection: "column",
-                justifyContent: "flex-start",
-                gap: 2,
-                background: phoneBG,
-                overflowY: "auto",
-              }}
-            >
-              {!showSafe && (
-                <Paper
-                  sx={{
-                    alignSelf: "flex-start",
-                    maxWidth: "85%",
-                    p: 1.5,
-                    borderRadius: 2,
-                    borderTopLeftRadius: 0,
-                    bgcolor: "#e5e5ea",
-                    color: "#000",
-                    boxShadow: "none",
-                  }}
-                >
-                  <Typography variant="body2">
-                    {highlightText(lesson.riskySMS, lesson.highlight)}
-                  </Typography>
-                </Paper>
-              )}
+        <Box sx={{ width: 24 }} /> 
+      </Box>
+      
 
-              {showSafe && (
-                <Paper
-                  sx={{
-                    alignSelf: "flex-end",
-                    maxWidth: "85%",
-                    p: 1.5,
-                    borderRadius: 2,
-                    borderTopRightRadius: 0,
-                    bgcolor: "#d2f8d2",
-                    color: "#094409",
-                    boxShadow: "none",
-                  }}
-                >
-                  <Typography variant="body2">{lesson.safeSMS}</Typography>
-                </Paper>
-              )}
-            </Box>
+  <Paper sx={riskyMessage}>
+    <Typography sx={{ fontSize: { xs: "0.95rem", md: "1rem" }, lineHeight: 1.5 }}>
+      {highlightText(lesson.riskySMS, lesson.highlight)}
+    </Typography>
+  </Paper>
+
+
+  {showSafe && (
+    <Box
+      sx={{
+        mt: 2,
+        display: "flex",
+        justifyContent: "flex-end",
+        animation: "fadeIn 0.5s ease-in-out",
+        "@keyframes fadeIn": {
+          from: { opacity: 0, transform: "translateY(10px)" },
+          to: { opacity: 1, transform: "translateY(0)" },
+        },
+      }}
+    >
+      <Paper
+        sx={{
+          ...safeMessage,
+          borderTopRightRadius: 0,
+          bgcolor: "rgba(0,128,0,0.85)",
+        }}
+      >
+        <Typography sx={{ fontSize: { xs: "0.95rem", md: "1rem" }, lineHeight: 1.5 }}>
+          {lesson.safeSMS}
+        </Typography>
+      </Paper>
+    </Box>
+  )}
+</Box>
+
           </Box>
         </Box>
-        
       </Box>
 
-    
+      <Dialog open={showDIY} onClose={() => setShowDIY(false)} PaperProps={{ sx: dialogPaper }}>
+        <DialogContent>
+          {lesson.id === "literacy" && <ForwardOrStopGame onBack={() => setShowDIY(false)} />}
+          {lesson.id === "awareness" && <PrivacyAwarenessGame onBack={() => setShowDIY(false)} />}
+          {lesson.id === "privacy" && <PasswordCheckGame onBack={() => setShowDIY(false)} />}
+          {lesson.id === "respect" && <RespectGame onBack={() => setShowDIY(false)} />}
+          {lesson.id === "legal" && <LegalEthicGame onBack={() => setShowDIY(false)} />}
+        </DialogContent>
+      </Dialog>
 
-      
-      <Dialog open={showDIY} onClose={() => setShowDIY(false)}>
-     
-        <DialogContent>{lesson.id === "literacy" && <ForwardOrStopGame onBack={() => setShowDIY(false)} />}
-{lesson.id === "awareness" && <PrivacyAwarenessGame onBack={() => setShowDIY(false)} />}
-{lesson.id === "privacy" && <PasswordCheckGame onBack={() => setShowDIY(false)} />}
-{lesson.id === "respect" && <RespectGame onBack={() => setShowDIY(false)} />}
-{lesson.id === "legal" && <LegalEthicGame onBack={() => setShowDIY(false)} />}</DialogContent>      </Dialog>
- <Box sx={{ textAlign: "center", mt: 4, mb: 6 }}>
-  <Button
-    variant="contained"
-
-    sx={{ px: 4, py: 1.5, fontWeight: 600, borderRadius: 4 }}
-  >
-    Interactive Quiz coming soon!
-  </Button>
-</Box>
+      <Divider sx={dividerBottom} />
     </Box>
   );
 }

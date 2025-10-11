@@ -4,7 +4,7 @@ OUT_DIR = "./artifacts"
 os.makedirs(OUT_DIR, exist_ok=True)
 
 BLOB_URL = os.getenv("MODEL_BLOB_URL")  # set this in Azure App Settings
-local_path = os.path.join(OUT_DIR, "scam_roberta.pt")
+local_path = os.path.join(OUT_DIR, "scam_roberta_v1_1_link.pt")
 
 if not os.path.isfile(local_path):
     if not BLOB_URL:

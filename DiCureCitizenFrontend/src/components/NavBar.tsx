@@ -152,12 +152,17 @@ export default function NavBar() {
         ModalProps={{ keepMounted: true }}
         sx={{ display: { xs: "block", md: "none" },
         "& .MuiDrawer-paper": {
-          bgcolor: "rgba(0, 0, 0, 0.5)",
-          backdropFilter: "blur(10px)",
+          bgcolor: "rgba(0, 0, 0, 0.1)", 
+          backdropFilter: "blur(10px)", 
           width: 300,
         }}}
       >
+        <Box sx={glassStyles.effect} />
+        <Box sx={glassStyles.tint} />
+        <Box sx={glassStyles.shine} />
+        <Box sx={navBarStyles.content}>
         {drawer}
+        </Box>
       </Drawer>
     </>
   );

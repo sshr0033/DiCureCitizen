@@ -10,6 +10,12 @@ import {
   loginButton,
 } from "../styles/loginPageStyles";
 
+
+/* 
+@author Team marshmellow
+@version 0.0.1
+Footer class to provide a general Footer to the entire website. 
+*/
 export default function LoginPage({ children }: { children: React.ReactNode }) {
   const [auth, setAuth] = useState(false);
   const [user, setUser] = useState("");

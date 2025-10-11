@@ -18,6 +18,12 @@ import {
 } from "../styles/heroBannerStyles";
 
 
+/* 
+@author Team marshmellow
+@version 0.0.1
+Footer class to provide a general Footer to the entire website. 
+*/
+
 type HoverKey = "default" | "detect" | "learn" | "insights" | "help";
 
 interface HeroContent {
@@ -153,6 +159,8 @@ export default function HeroBanner() {
           <Button
             variant="contained"
             sx={liquidButtonStyle}
+            component={RouterLink}
+            to="/helpcenter"
             onMouseEnter={() => setHovered("help")}
             onMouseLeave={() => setHovered("default")}
           >

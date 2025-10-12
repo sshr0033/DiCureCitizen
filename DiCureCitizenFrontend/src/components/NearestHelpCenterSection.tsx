@@ -49,29 +49,32 @@ export default function NearesrHelpCenterSection() {
   };
 
   const findNearby = (pos: { lat: number; lng: number }, type: string) => {
-    if (!serviceRef.current) return;
-    setLoading(true);
-    setResults([]);
+  if (!serviceRef.current) return;
+  setLoading(true);
+  setResults([]);
 
-    const request: google.maps.places.PlaceSearchRequest = {
-      location: pos,
-      radius: 30000,
-    };
-
-    if (type === "police") request.type = "police";
-    else if (type === "bank") request.type = "bank";
-    else {
-      request.keyword = "cyber security|cybercrime|cyber help";
-      request.type = "point_of_interest";
-    }
-
-    serviceRef.current.nearbySearch(request, (res, status) => {
-      setLoading(false);
-      if (status === window.google.maps.places.PlacesServiceStatus.OK && res) {
-        setResults(res.slice(0, 5));
-      } else setResults([]);
-    });
+  const request: google.maps.places.PlaceSearchRequest = {
+    location: pos,
+    rankBy: google.maps.places.RankBy.DISTANCE, 
   };
+
+  if (type === "police") request.type = "police";
+  else if (type === "bank") request.type = "bank";
+  else {
+    request.keyword = "cyber security|cybercrime|cyber help";
+    request.type = "point_of_interest";
+  }
+
+  serviceRef.current.nearbySearch(request, (res, status) => {
+    setLoading(false);
+    if (status === window.google.maps.places.PlacesServiceStatus.OK && res) {
+    
+      setResults(res.slice(0, 5));
+    } else {
+      setResults([]);
+    }
+  });
+};
 
   const handleLocate = () => {
     if (!navigator.geolocation) {

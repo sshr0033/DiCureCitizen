@@ -51,6 +51,7 @@ import {
   dialogPaper,
   dividerBottom,
 } from "../styles/lessonSectionStyles";
+import { useNavigate } from "react-router-dom";
 
 
 function highlightText(text: string, needles: string[] = []) {
@@ -237,6 +238,7 @@ export default function LessonSection() {
   const [showSafe, setShowSafe] = useState(false);
   const [showDIY, setShowDIY] = useState(false);
   const total = LESSONS.length;
+  const navigate = useNavigate();
   const lesson = LESSONS[idx];
 
   const go = (dir: 1 | -1) => {
@@ -300,7 +302,10 @@ export default function LessonSection() {
           </Stack>
 
           <Button variant="contained" color="success" onClick={() => setShowDIY(true)} sx={practiseButton}>
-            Practise Yourself
+            Click here, Practise these lessons on small activities
+          </Button>
+          <Button variant="contained" color="success" onClick={() => navigate("/quiz")} sx={practiseButton}>
+            Test yourself with an Interactive Quiz and Earn certificate
           </Button>
         </Paper>
 

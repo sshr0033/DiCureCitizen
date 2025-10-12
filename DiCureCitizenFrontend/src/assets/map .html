@@ -1,0 +1,455 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8" />
+  <title>Australia Scam Map</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <!-- Leaflet CSS -->
+  <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+
+  <style>
+    body, html {
+      margin: 0;
+      padding: 0;
+      height: 100%;
+      width: 100%;
+      font-family: Arial, sans-serif;
+    }
+
+    #map {
+      height: 100vh;
+      width: 100%;
+    }
+
+    .leaflet-tooltip {
+      background: rgba(255, 255, 255, 0.2);
+      border-radius: 12px;
+      padding: 10px 16px;
+      box-shadow: 0 8px 24px rgba(0,0,0,0.2);
+      font-size: 16px;
+      color: #000000;
+      backdrop-filter: blur(10px) saturate(180%);
+      border: 1px solid rgba(255, 255, 255, 0.3);
+      min-width: 400px;
+      max-width: 600px;
+      line-height: 1.4;
+      white-space: normal;
+      text-align: justify;
+    }
+
+    .leaflet-tooltip,
+    .leaflet-interactive {
+      outline: none;
+    }
+
+    .leaflet-tooltip span.state-name {
+      font-size: 22px;
+      font-weight: bold;
+    }
+
+    .leaflet-tooltip span.rate-label {
+      font-weight: bold;
+    }
+
+    .top-info-container {
+      position: absolute;
+      top: 20px;
+      left: 50%;
+      transform: translateX(-50%);
+      display: flex;
+      gap: 15px;
+      z-index: 1000;
+    }
+
+    .info-box {
+      min-width: 180px;
+      padding: 12px 18px;
+      background: rgba(255, 255, 255, 0.1);
+      backdrop-filter: blur(2px) saturate(180%);
+      border-radius: 12px;
+      border: 1px solid rgba(255,255,255,0.2);
+      box-shadow: 0 8px 24px rgba(0,0,0,0.2);
+      color: #fff;
+      text-align: center;
+      font-size: 16px;
+      font-weight: bold;
+    }
+
+    .info-title {
+      font-size: 20px;
+      font-weight: bold;
+      margin-bottom: 6px;
+      color: #000000;
+    }
+
+    .info-value {
+      font-size: 18px;
+      font-weight: normal;
+      margin-top: 2px;
+      color: #000000;
+    }
+
+    #state-popup {
+      display: none;
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 800px;
+      max-width: 90%;
+      background: rgba(255,255,255,0.15);
+      backdrop-filter: blur(10px) saturate(180%);
+      border-radius: 12px;
+      border: 1px solid rgba(255,255,255,0.3);
+      box-shadow: 0 8px 24px rgba(0,0,0,0.3);
+      color: #000000;
+      z-index: 2000;
+      padding: 30px;
+      overflow-y: auto;
+    }
+
+    #state-popup h3 {
+      margin-top: 0;
+      font-size: 26px;
+      color: #000000;
+    }
+
+    #state-popup p, 
+    #state-popup ul, 
+    #state-popup span {
+      font-size: 18px; 
+      color: #000;
+    }
+
+    #state-popup .close-btn {
+      position: absolute;
+      top: 8px;
+      right: 12px;
+      font-size: 18px;
+      cursor: pointer;
+      color: #000000;
+    }
+
+    #popup-overlay {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 1500;
+    }
+
+    #loading-overlay {
+      position: fixed;
+      top:0;
+      left:0;
+      width:100%;
+      height:100%;
+      background: rgba(0, 0, 0, 0.5);
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      z-index:5000;
+      font-size:24px;
+      color:#fff;
+      font-weight:bold;
+      opacity: 1; 
+      transition: opacity 2s ease;
+    }
+
+    #loading-text {
+      width: 170px;
+      padding: 20px 40px;
+      background: rgba(255, 255, 255, 0.5);
+      color: #000;
+      border-radius: 12px;
+    }
+
+  </style>
+</head>
+
+<body>
+  <!-- Loading overlay -->
+  <div id="loading-overlay">
+    <div id="loading-text">Loading data<span id="dots">...</span></div>
+  </div>
+
+  <!-- Map -->
+  <div id="map"></div>
+
+  <!-- Top container -->
+  <div class="top-info-container">
+    <div class="info-box">
+      <div class="info-title">Reported Losses</div>
+      <div class="info-value" id="total-loss">-</div>
+    </div>
+    <div class="info-box">
+      <div class="info-title">Reported Scams</div>
+      <div class="info-value" id="total-reports">-</div>
+    </div>
+    <div class="info-box">
+      <div class="info-title">Top Scam Methods</div>
+      <div class="info-value" id="top-contact">-</div>
+    </div>
+  </div>
+
+  <!-- Popup window-->
+  <div id="popup-overlay"></div>
+  <div id="state-popup">
+    <span class="close-btn">&times;</span>
+    <h3 id="popup-title"></h3>
+
+    <p><strong>Latest news:</strong></p>
+    <div style="width:100%; height:500px;">
+      <iframe id="popup-video-frame" width="100%" height="100%" 
+              src="" 
+              frameborder="0" 
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+              allowfullscreen>
+      </iframe>
+    </div>
+
+    <p><strong>Brief summary:</strong> <span id="popup-summary" style="display:block; text-align:justify;"></span></p>
+  </div>
+
+  <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+  <script src="https://unpkg.com/papaparse@5.3.2/papaparse.min.js"></script>
+
+  <script>
+
+    // Initialize map
+    var map = L.map('map').setView([-27, 133], 5);
+
+    // Add tile layer
+    L.tileLayer('https://{s}.basemaps.cartocdn.com/light_nolabels/{z}/{x}/{y}{r}.png', {
+      attribution: '&copy; <a href="https://www.openstreetmap.org/">OSM</a> contributors &copy; <a href="https://carto.com/">CARTO</a>',
+      subdomains: 'abcd',
+      maxZoom: 19
+    }).addTo(map);
+
+    // Data storage
+    var scamDataByState = {};    
+    var totalData = {Amount_lost:0, Number_of_reports:0, ContactModes:{}}; 
+    var latestScamData = {};     
+    var populationData = {};     
+    var scamRateByState = {};    
+
+    // Load Scamwatch
+    async function fetchAllScamwatch() {
+      let allRows = [];
+      let limit = 1000;
+      let offset = 0;
+
+      while (true) {
+          let url = `https://bqez24synlkm3g66keunszlk2a0jrmde.lambda-url.ap-southeast-2.on.aws/?table=scamwatch&limit=${limit}&offset=${offset}`;
+          let res = await fetch(url);
+          let data = await res.json();
+
+          if (data.rows && data.rows.length > 0) {
+              allRows.push(...data.rows);
+          }
+
+          offset += limit;
+          if (offset >= (data.total || 0)) break;
+      }
+
+      // Process data
+      allRows.forEach(row => {
+          let amount = row.Amount_lost ? parseFloat(row.Amount_lost.replace(/[$,]/g, '')) : 0;
+          let state = row.Address_State;
+
+          if (!scamDataByState[state]) 
+              scamDataByState[state] = { Amount_lost: 0, Number_of_reports: 0, ContactModes: {} };
+
+          scamDataByState[state].Amount_lost += amount;
+          scamDataByState[state].Number_of_reports += row.Number_of_reports || 0;
+
+          let mode = row.Scam___Contact_Mode || "Unknown";
+          if (!scamDataByState[state].ContactModes[mode]) 
+              scamDataByState[state].ContactModes[mode] = 0;
+          scamDataByState[state].ContactModes[mode] += 1;
+
+          totalData.Amount_lost += amount;
+          totalData.Number_of_reports += row.Number_of_reports || 0;
+          if (!totalData.ContactModes[mode]) totalData.ContactModes[mode] = 0;
+          totalData.ContactModes[mode] += 1;
+      });
+
+      updateInfoBoxes(totalData);
+      console.log("Scamwatch loaded");
+    }
+
+    let scamwatchPromise = fetchAllScamwatch();
+
+    // Load latest_scam
+    fetch("https://bqez24synlkm3g66keunszlk2a0jrmde.lambda-url.ap-southeast-2.on.aws/?table=latest_scam")
+    .then(res => res.json())
+    .then(data => {
+      if (data.rows && data.rows.length > 0) {
+        data.rows.forEach(row => {
+          latestScamData[row.state_name] = {
+            insight: row.insights,
+            summary: row.brief_summary,
+            video_link: row.video_link
+          };
+        });
+        console.log("Latest scam data loaded:", latestScamData);
+      }
+    });
+
+    // Load population
+    fetch("https://bqez24synlkm3g66keunszlk2a0jrmde.lambda-url.ap-southeast-2.on.aws/?table=au_state_population")
+    .then(res => res.json())
+    .then(data => {
+      if (data.rows && data.rows.length > 0) {
+        data.rows.forEach(row => {
+          if (row.state_name && row.population) {
+            populationData[row.state_name] = parseFloat(row.population);
+          }
+        });
+        console.log("Population data loaded:", populationData);
+      }
+    });
+
+    function formatCurrency(num){
+      return "$"+num.toLocaleString(undefined,{minimumFractionDigits:2,maximumFractionDigits:2});
+    }
+
+    function getTopContactModes(contactModes, topN=5){
+      return Object.entries(contactModes)
+                   .sort((a,b)=>b[1]-a[1])
+                   .slice(0,topN)
+                   .map(a => a[0]);
+    }
+
+    function updateInfoBoxes(data){
+      document.getElementById("total-loss").innerText = formatCurrency(data.Amount_lost);
+      document.getElementById("total-reports").innerText = data.Number_of_reports;
+      document.getElementById("top-contact").innerText = getTopContactModes(data.ContactModes).join(", ");
+    }
+
+    function style(feature){
+      return {
+        fillColor: '#58D68D', 
+        weight: 1,
+        opacity: 1,
+        color: 'white',
+        fillOpacity: 0.9
+      };
+    }
+
+    // State highlight
+    function highlightFeature(e){
+      e.target.setStyle({weight:3,color:'#ADD8E6',fillOpacity:1});
+      e.target.bringToFront();
+    }
+
+    function resetHighlight(e){
+      geojson.resetStyle(e.target);
+    }
+
+    var selectedLayer = null;
+
+    // Mouse hover
+    function onEachFeature(feature, layer){
+      layer.on({
+        mouseover: function(e){
+          if(selectedLayer !== layer) highlightFeature(e);
+          let stateName = feature.properties.STE_NAME21;
+
+          let insight = latestScamData[stateName] ? latestScamData[stateName].insight : "";
+
+          let scamRateText = "";
+          if (scamDataByState[stateName] && populationData[stateName]) {
+            let rate = (scamDataByState[stateName].Number_of_reports / populationData[stateName]) * 100;
+            scamRateText = `<span class="rate-label">Scam Rate:</span> ${rate.toFixed(2)}%<br>`;
+          }
+
+          layer.bindTooltip(
+            `<span class="state-name">${stateName}</span><br>${scamRateText}${insight}`, 
+            {sticky:true, direction:'top'}
+          ).openTooltip(e.latlng);
+        },
+        
+        mouseout: function(e){
+          if(selectedLayer !== layer) resetHighlight(e);
+          layer.closeTooltip();
+        },
+        click: function(e){
+          if(selectedLayer === layer){
+            resetHighlight({target:layer});
+            selectedLayer = null;
+            updateInfoBoxes(totalData);
+          } else {
+            if(selectedLayer) resetHighlight({target:selectedLayer});
+            selectedLayer = layer;
+            layer.setStyle({weight:3,color:'#666',fillOpacity:0.9});
+            let stateName = feature.properties.STE_NAME21;
+            let stateData = scamDataByState[stateName];
+            if(stateData) updateInfoBoxes(stateData); 
+            else updateInfoBoxes({Amount_lost:0,Number_of_reports:0,ContactModes:{}}); 
+            showStatePopup(stateName, stateData);
+          }
+        }
+      });
+    }
+
+    // Popup window
+    function showStatePopup(stateFullName, stateData){
+      let data = latestScamData[stateFullName] || {insight:"",summary:"",video_link:""}; 
+      document.getElementById("popup-title").innerText = stateFullName;
+
+      document.getElementById("popup-video-frame").src = data.video_link 
+        ? data.video_link.replace("watch?v=", "embed/") 
+        : "";
+
+      document.getElementById("popup-summary").innerText = data.summary;
+
+      document.getElementById("state-popup").style.display = "block";
+      document.getElementById("popup-overlay").style.display = "block";
+    }
+
+    document.querySelector("#state-popup .close-btn").onclick = function(){
+      document.getElementById("state-popup").style.display = "none";
+      document.getElementById("popup-overlay").style.display = "none";
+      document.getElementById("popup-video-frame").src = ""; 
+    };
+    document.getElementById("popup-overlay").onclick = function(){
+      document.getElementById("state-popup").style.display = "none";
+      this.style.display = "none";
+      document.getElementById("popup-video-frame").src = ""; 
+    };
+
+    // Load Australia GeoJSON
+    let geojsonPromise = fetch("https://augeojson.s3.ap-southeast-2.amazonaws.com/australia_states.geojson")
+      .then(response => response.json())
+      .then(data => {
+        geojson = L.geoJson(data, {style: style, onEachFeature: onEachFeature}).addTo(map);
+      });
+
+    // Loading animation
+    let dots = 0;
+    setInterval(() => {
+      dots = (dots + 1) % 4;
+      document.getElementById('dots').innerText = '.'.repeat(dots);
+    }, 500);
+
+    // Hide loading layer
+    Promise.all([scamwatchPromise, geojsonPromise]).then(() => {
+
+      // Text box hidden instantly
+      document.getElementById("loading-text").style.display = "none";
+      
+      // Background hidden gradiently
+      const overlay = document.getElementById("loading-overlay");
+      overlay.style.opacity = 0;
+      setTimeout(() => {
+        overlay.style.display = "none";
+      }, 2000);
+    });
+
+  </script>
+</body>
+</html>

@@ -2,6 +2,11 @@ import { Box, Typography, Button, Container } from "@mui/material";
 import HelpBg from "../assets/worriedman.jpg"; 
 import { useNavigate } from "react-router-dom";
 
+/* 
+@author Team marshmellow
+@version 0.0.1
+Footer class to provide a general Footer to the entire website. 
+*/
 export default function HelpCenter() {
     const navigate = useNavigate();
   return (

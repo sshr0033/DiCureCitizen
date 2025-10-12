@@ -8,6 +8,7 @@ import QuizAndLessons from "./pages/QuizAndLessons";
 import NearestHelpPage from "./pages/NearestHelpPage";
 import ScamAudio from "./pages/ScamAudioPage";
 import InteractiveQuizPage from "./pages/InteractiveQuizPage";
+import ResourcePage from "./pages/ResourcePage";
 
 
 
@@ -26,6 +27,7 @@ export default function App() {
              <Route path="/scamAudio" element={<ScamAudio />} />
 <Route path="/quiz" element={<InteractiveQuizPage />} />
             <Route path="/helpcenter" element={<NearestHelpPage/>} />
+             <Route path="/resources" element={<ResourcePage/>} />
         
           </Routes>
         </LoginPage>

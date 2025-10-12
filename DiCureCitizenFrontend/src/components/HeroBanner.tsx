@@ -153,6 +153,8 @@ export default function HeroBanner() {
           <Button
             variant="contained"
             sx={liquidButtonStyle}
+            component={RouterLink}
+            to="/resources"
             onMouseEnter={() => setHovered("insights")}
             onMouseLeave={() => setHovered("default")}
           >

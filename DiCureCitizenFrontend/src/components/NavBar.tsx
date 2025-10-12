@@ -21,10 +21,16 @@ const navItems = [
   { label: "Detect Scam", path: "/detectscam" },
   { label: "Listen to Scam Audios", path: "/scamAudio" },
    { label: "Learn Digital Citizenship", path: "/lessons" },
-  { label: "Resources", path: "/detectscam#articles" }
+  { label: "Resources", path: "/resources" }
  
 ];
 
+
+/* 
+@author Team marshmellow
+@version 0.0.1
+Footer class to provide a general Footer to the entire website. 
+*/
 export default function NavBar() {
   const [mobileOpen, setMobileOpen] = useState(false);
   const handleDrawerToggle = () => setMobileOpen((prev) => !prev);

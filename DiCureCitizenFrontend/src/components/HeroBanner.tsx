@@ -47,7 +47,7 @@ const content: Record<HoverKey, HeroContent> = {
       "Our AI-powered system analyses messages and calls to instantly detect scams with 97% accuracy in real time. Download our scam guide pdf that guides you with how to safe guard yourself from such scammers.",
   },
   learn: {
-    number: 9,
+    number: 10,
     subtitle: "Learning modules to protect yourself, with rewarding CERTIFICATE",
     description:
       "Get step-by-step guides, real examples, and prevention tips to identify and stop scams before they reach you. Earn Certificate of being a Good Digital Citizen",
@@ -143,6 +143,8 @@ export default function HeroBanner() {
           <Button
             variant="contained"
             sx={liquidButtonStyle}
+            component={RouterLink}
+            to="/lessons"
             onMouseEnter={() => setHovered("learn")}
             onMouseLeave={() => setHovered("default")}
           >

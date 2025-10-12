@@ -35,10 +35,10 @@ interface HeroContent {
 
 const content: Record<HoverKey, HeroContent> = {
   default: {
-    number: 1189600,
+    number: 1421359,
     subtitle: "Victims, number update per month",
     description:
-      "Between 2021 and 2023, scams cost Australians AU$7.8 billion and affected more than one million people.",
+      "Between 2020 and 2025, scams cost Australians AU$2.01 billion and affected more than one million people.",
   },
   detect: {
     number: "97%",

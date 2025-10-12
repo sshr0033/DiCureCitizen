@@ -17,7 +17,7 @@ import {
   DialogActions,
 } from "@mui/material";
 import { PlayCircleOutline, PauseCircleOutline } from "@mui/icons-material";
-import quizVideo from "../assets/quiz.mp4";
+
 import { Replay10, Forward10 } from "@mui/icons-material";
 import { CheckCircle, Cancel } from "@mui/icons-material";
 
@@ -33,6 +33,9 @@ interface Question {
   explanation: string;
   correction: string;
 }
+
+const quizVideo = "https://dicurecitizen-assets.s3.ap-southeast-2.amazonaws.com/quiz.mp4";
+
 
 const questions: Question[] = [
   {
@@ -406,6 +409,8 @@ setFeedbackType("");
     a.click();
     URL.revokeObjectURL(url);
   };
+
+  
 
   
   const handleDownloadSchedule = () => {

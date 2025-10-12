@@ -20,6 +20,8 @@ import { PlayCircleOutline, PauseCircleOutline } from "@mui/icons-material";
 
 import { Replay10, Forward10 } from "@mui/icons-material";
 import { CheckCircle, Cancel } from "@mui/icons-material";
+import html2canvas from "html2canvas";
+import jsPDF from "jspdf";
 
 
 import { useNavigate } from "react-router-dom";
@@ -35,6 +37,84 @@ interface Question {
 }
 
 const quizVideo = "https://dicurecitizen-assets.s3.ap-southeast-2.amazonaws.com/quiz.mp4";
+
+
+
+async function downloadCertificate(name: string) {
+  if (!name.trim()) {
+    alert("Please enter your name");
+    return;
+  }
+
+  // 🟡 Create isolated certificate container
+  const cert = document.createElement("div");
+  cert.style.width = "1200px";
+  cert.style.height = "900px";
+  cert.style.display = "flex";
+  cert.style.flexDirection = "column";
+  cert.style.alignItems = "center";
+  cert.style.justifyContent = "center";
+  cert.style.background = "radial-gradient(circle at center, #faf6ed 0%, #f1e7c8 100%)";
+  cert.style.border = "14px solid #d4af37";
+  cert.style.fontFamily = "'Times New Roman', serif";
+  cert.style.color = "#2c2c2c";
+  cert.style.position = "relative";
+  cert.style.padding = "80px 60px";
+  cert.style.boxSizing = "border-box";
+  cert.style.textAlign = "center";
+  cert.style.zIndex = "9999"; // ensure it's on top
+
+  cert.innerHTML = `
+    <h1 style="font-size:58px;font-weight:bold;color:#1e1e1e;margin-bottom:10px;">
+      Certificate of Completion
+    </h1>
+    <p style="font-size:22px;margin:12px 0;">This certifies that</p>
+    <h2 style="font-size:48px;margin:10px 0;font-style:italic;color:#7b5d00;font-family:'Georgia',serif;">
+      ${name}
+    </h2>
+    <p style="font-size:22px;margin:10px 0;">has successfully completed the</p>
+    <h3 style="font-size:30px;font-weight:600;margin:8px 0 30px 0;color:#2d2d2d;">
+      Interactive Digital Citizenship Quiz
+    </h3>
+    <div style="width:60%;height:2px;background:#d4af37;margin:40px 0;"></div>
+    <p style="font-size:18px;margin:8px 0;">Date: ${new Date().toLocaleDateString()}</p>
+    <p style="font-size:16px;margin-top:5px;">© 2025 DiCureCitizen</p>
+    <div style="position:absolute;bottom:60px;right:120px;text-align:center;">
+      <img src="/logo.png" alt="Signature"
+           style="width:140px;opacity:0.9;transform:rotate(-3deg);margin-bottom:5px;" />
+    </div>
+  `;
+
+  
+  document.body.appendChild(cert);
+
+  try {
+    const canvas = await html2canvas(cert, {
+      scale: 2,
+      useCORS: true,
+      allowTaint: false,
+      backgroundColor: null,
+      logging: false,
+    });
+
+    const imgData = canvas.toDataURL("image/png");
+    const pdf = new jsPDF({
+      orientation: "landscape",
+      unit: "px",
+      format: [1200, 900],
+    });
+
+    pdf.addImage(imgData, "PNG", 0, 0, 1200, 900);
+    pdf.save(`Certificate_${name}.pdf`);
+  } catch (err) {
+    console.error("❌ Error generating certificate:", err);
+    alert("Something went wrong while generating the certificate. Please try again.");
+  } finally {
+    document.body.removeChild(cert);
+  }
+}
+
+
 
 
 const questions: Question[] = [
@@ -234,6 +314,8 @@ export default function InteractiveQuizSection() {
   const [answeredCorrectly, setAnsweredCorrectly] = useState<Set<number>>(new Set());
   const [completedScenarioMsg, setCompletedScenarioMsg] = useState("");
   const [exitDialogOpen, setExitDialogOpen] = useState(false);
+  const [userName, setUserName] = useState("");
+
 const navigate = useNavigate();
 const [feedbackType, setFeedbackType] = useState<"" | "correct" | "wrong">("");
 
@@ -397,18 +479,7 @@ setFeedbackType("");
   const progressPercent = (answeredCount / questions.length) * 100;
 
 
-  const handleDownloadCertificate = () => {
-    const blob = new Blob(
-      ["Congratulations! You have successfully completed the Interactive Scenario Quiz."],
-      { type: "text/plain" }
-    );
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement("a");
-    a.href = url;
-    a.download = "DigitalCitizenship_Certificate.txt";
-    a.click();
-    URL.revokeObjectURL(url);
-  };
+  
 
   
 
@@ -541,7 +612,7 @@ END:VCALENDAR`;
             </Typography>
           </Box>
         ) : (
-          <Paper elevation={3} sx={{ p: 3, borderRadius: 3, maxWidth: 800 }}>
+          <Paper elevation={3} sx={{ p: 3, borderRadius: 3, maxWidth:{xs:300 , md: 800}  }}>
             <Typography variant="h6" fontWeight="bold" gutterBottom>
               Q: {currentQ.question}
             </Typography>
@@ -601,7 +672,14 @@ END:VCALENDAR`;
           </Paper>
         )}
       
-        <Box mt={3} width="100%" maxWidth={480} textAlign="center">
+        <Box
+  mt={{ xs: 2, sm: 3, md: 4 }}
+  width={{ xs: "40%", sm: "80%", md: "80%", lg: "480px" }}
+  textAlign="center"
+  mx="auto"
+  px={{ xs: 1.5, sm: 2, md: 0 }}
+>
+
           {!quizStarted ? (
             <Button
               variant="contained"
@@ -627,26 +705,72 @@ END:VCALENDAR`;
             </>
           )}
 
-          <Stack direction="row" justifyContent="center" spacing={2}>
+          <Stack  direction={{ xs: "column", sm: "row", md: "row" }} justifyContent="center" spacing={2}>
             {quizStarted && (
               <>
             <Button variant="contained" color="info" onClick={handlePrevScenario}   sx={glassButton} disabled={!quizStarted}>
-               Previous
+               Previous Scenario
             </Button>
 
             {quizStarted && currentScenario === scenarioTimes.length - 1 ? (
-              answeredCount >= 9 ? (
-                <Button variant="contained" color="success" onClick={handleDownloadCertificate}>
-                  🎓 Download Certificate
-                </Button>
-              ) : (
-                <Button variant="contained" color="secondary" sx={glassButton} onClick={handleDownloadSchedule}>
-                  Schedule for Later
-                </Button>
-              )
-            ) : (
+  answeredCount >= 0 ? (
+    <>
+    <Box
+  sx={{
+    width: "100%",
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center",
+    mt: { xs: 1.5, sm: 2, md: 2.5 },
+    mb: { xs: 1, sm: 2 },
+  }}
+>
+  <input
+    type="text"
+    placeholder="Enter your name"
+    onChange={(e) => setUserName(e.target.value)}
+    style={{
+      width: "100%",
+      maxWidth: "300px",
+      padding: "10px 14px",
+      borderRadius: "8px",
+      border: "1px solid rgba(255,255,255,0.3)",
+      background: "rgba(255,255,255,0.1)",
+      color: "white",
+      fontSize: "1rem",
+      textAlign: "center",
+      outline: "none",
+      transition: "all 0.3s ease",
+    }}
+    onFocus={(e) => (e.target.style.border = "1px solid #90caf9")}
+    onBlur={(e) => (e.target.style.border = "1px solid rgba(255,255,255,0.3)")}
+  />
+</Box>
+
+      <Button
+        variant="contained"
+        color="success"
+        sx ={glassButton}
+
+        onClick={() => downloadCertificate(userName)}
+      >
+        Download Certificate
+      </Button>
+    </>
+  ) : (
+    <Button
+      variant="contained"
+      color="secondary"
+      sx={glassButton}
+      onClick={handleDownloadSchedule}
+    >
+      Schedule for Later
+    </Button>
+  )
+) : 
+ (
               <Button variant="outlined"  onClick={handleNextScenario}   sx={glassButton} disabled={!quizStarted}>
-                Next 
+                Next Scenario
               </Button>
             )}
             </>

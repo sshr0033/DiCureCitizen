@@ -21,6 +21,20 @@ export default function ScamCheck() {
   const [result, setResult] = useState<number | null>(null);
   const [error, setError] = useState<string | null>(null);
 
+
+  function handleDownloadHelpPDF() {
+  const pdfUrl =
+    "https://dicurecitizen-assets.s3.ap-southeast-2.amazonaws.com/Scam_Booklet.pdf";
+  const link = document.createElement("a");
+  link.href = pdfUrl;
+  link.download = "Scam_Booklet.pdf"; // optional custom filename
+  link.target = "_blank";
+  document.body.appendChild(link);
+  link.click();
+  document.body.removeChild(link);
+}
+
+
   async function handleDetect() {
     const text = input
       .replace(/\\n|\\r|\r|\n/g, " ")
@@ -127,9 +141,12 @@ try {
 
               <Box sx={styles.helpSection}>
                 <Typography variant="body2" sx={styles.helpText}>
-                  Already clicked the link?
+                  Want to know how to safeguard yourself with scams?
                 </Typography>
-                <Button sx={styles.helpButton}>Help</Button>
+                <Button sx={styles.helpButton} onClick={handleDownloadHelpPDF}>
+  Download a pdf guide to safe guard yourself
+</Button>
+
               </Box>
             </Paper>
           </Fade>

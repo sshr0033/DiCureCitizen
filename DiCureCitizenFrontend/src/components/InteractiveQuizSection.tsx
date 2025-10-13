@@ -713,7 +713,7 @@ END:VCALENDAR`;
             </Button>
 
             {quizStarted && currentScenario === scenarioTimes.length - 1 ? (
-  answeredCount >= 0 ? (
+  answeredCount >= 9 ? (
     <>
     <Box
   sx={{

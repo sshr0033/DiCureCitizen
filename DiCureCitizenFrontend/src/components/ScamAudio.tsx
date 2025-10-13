@@ -1,18 +1,6 @@
 import React, { useEffect, useRef, useState } from "react";
-import {
-  Box,
-  Typography,
-  IconButton,
-  Slider,
-  Button,
-} from "@mui/material";
-import {
-  PlayArrow,
-  Pause,
-  Stop,
-  SkipNext,
-  Replay,
-} from "@mui/icons-material";
+import { Box, Typography, IconButton, Slider, Button } from "@mui/material";
+import { PlayArrow, Pause, Stop, SkipNext, Replay } from "@mui/icons-material";
 import phoneFramePortrait from "../assets/iPhone Air - Light Gold - Portrait.png";
 import ReportGuidePopUp from "./ReportGuidePopUp";
 import { getConversations } from "../api";
@@ -41,7 +29,7 @@ const ScamAudio: React.FC = () => {
       .catch((err) => console.error("Error fetching conversations:", err));
   }, []);
 
-  // Load available voices
+  // Load different type of available voices
   useEffect(() => {
     const loadVoices = () => {
       const allVoices = speechSynthesis.getVoices();
@@ -53,18 +41,23 @@ const ScamAudio: React.FC = () => {
     speechSynthesis.onvoiceschanged = loadVoices;
   }, []);
 
-  // Parse text into Person A / B dialogue
+  // Distinguish the  text into Person A / B dialogue
   const parseConversation = (text: string) => {
     if (!text) return [];
     const regex = /(Person\s*A\s*:|Person\s*B\s*:)/gi;
-    const parts = text.split(regex).map((p) => p.trim()).filter(Boolean);
+    const parts = text
+      .split(regex)
+      .map((p) => p.trim())
+      .filter(Boolean);
     const sequence: { speaker: "A" | "B"; line: string }[] = [];
 
     for (let i = 0; i < parts.length; i += 2) {
       const speaker = parts[i].toLowerCase();
       const line = parts[i + 1] || "";
-      if (speaker.includes("person a")) sequence.push({ speaker: "A", line: line.trim() });
-      if (speaker.includes("person b")) sequence.push({ speaker: "B", line: line.trim() });
+      if (speaker.includes("person a"))
+        sequence.push({ speaker: "A", line: line.trim() });
+      if (speaker.includes("person b"))
+        sequence.push({ speaker: "B", line: line.trim() });
     }
     return sequence;
   };
@@ -80,7 +73,7 @@ const ScamAudio: React.FC = () => {
   const currentConv = conversations[caseNo];
   const sequence = parseConversation(currentConv.conversation);
 
-  // Audio playback functions
+  // Audio playback
   const playAudio = () => {
     if (!voices.length) return;
 
@@ -99,7 +92,8 @@ const ScamAudio: React.FC = () => {
 
         setTimeout(() => {
           const el = document.getElementById(`line-${i}`);
-          if (scrollRef.current && el) el.scrollIntoView({ behavior: "smooth", block: "center" });
+          if (scrollRef.current && el)
+            el.scrollIntoView({ behavior: "smooth", block: "center" });
         }, 100);
 
         utter.onend = () => {
@@ -142,19 +136,21 @@ const ScamAudio: React.FC = () => {
 
   return (
     <Box sx={styles.mainContainer}>
-      {/* LEFT SECTION */}
+      {/** Left side information and guidance */}
       <Box sx={styles.textSection}>
         <Typography variant="h4" sx={styles.mainHeading}>
           Unsure About how Scammers try to trick you on call?
-          <br /> Hear Sample Conversation of a Scam Call and see how people safeguard themselves.
+          <br /> Hear Sample Conversation of a Scam Call and see how people
+          safeguard themselves.
         </Typography>
 
         <Typography variant="body1" sx={styles.description}>
-          Listen to these sample scam call conversations and learn what <b>personal details should
-          NEVER</b> be shared such as bank account numbers, card details, or passwords.
+          Listen to these sample scam call conversations and learn what{" "}
+          <b>personal details should NEVER</b> be shared such as bank account
+          numbers, card details, or passwords.
         </Typography>
 
-        {/* CASE SLIDER */}
+        {/** Slider to progress to another conversations */}
         <Box sx={styles.sliderSection}>
           <Typography variant="h6" sx={styles.caseTitle}>
             Show Case No. {caseNo + 1}
@@ -172,20 +168,34 @@ const ScamAudio: React.FC = () => {
           />
 
           <Box sx={styles.controlRow}>
-            <IconButton sx={styles.iconButton} onClick={isPlaying ? togglePause : playAudio}>
-              {isPlaying && !isPaused ? <Pause sx={{ fontSize: "2rem" }} /> : <PlayArrow sx={{ fontSize: "2rem" }} />}
+            <IconButton
+              sx={styles.iconButton}
+              onClick={isPlaying ? togglePause : playAudio}
+            >
+              {isPlaying && !isPaused ? (
+                <Pause sx={{ fontSize: "2rem" }} />
+              ) : (
+                <PlayArrow sx={{ fontSize: "2rem" }} />
+              )}
             </IconButton>
 
             <IconButton sx={styles.iconButton} onClick={stopAudio}>
               <Stop sx={{ fontSize: "2rem" }} />
             </IconButton>
 
-            <IconButton sx={styles.iconButton} onClick={() => { stopAudio(); setTimeout(playAudio, 300); }}>
+            <IconButton
+              sx={styles.iconButton}
+              onClick={() => {
+                stopAudio();
+                setTimeout(playAudio, 300);
+              }}
+            >
               <Replay sx={{ fontSize: "2rem" }} />
             </IconButton>
 
             <Typography>
-              {currentIndex !== null ? currentIndex + 1 : "Ready"} / {sequence.length}
+              {currentIndex !== null ? currentIndex + 1 : "Ready"} /{" "}
+              {sequence.length}
             </Typography>
 
             <IconButton sx={styles.iconButton} onClick={nextConversation}>
@@ -193,19 +203,23 @@ const ScamAudio: React.FC = () => {
             </IconButton>
           </Box>
 
-          {/* HELP BUTTON */}
+          {/** ReportGuide section button show the steps to take if scammed */}
           <Box sx={{ mt: 4 }}>
             <Typography variant="h6" sx={{ mb: 1 }}>
               Sounds Similar to You? Need Help?
             </Typography>
-            <Button variant="contained" sx={styles.helpButton} onClick={() => setHelpOpen(true)}>
+            <Button
+              variant="contained"
+              sx={styles.helpButton}
+              onClick={() => setHelpOpen(true)}
+            >
               SEE WHAT TO DO NEXT
             </Button>
           </Box>
         </Box>
       </Box>
 
-      {/* RIGHT: PHONE DISPLAY */}
+      {/**  Phone Display*/}
       <Box sx={styles.phoneContainer}>
         <Box ref={scrollRef} sx={styles.phoneScreen}>
           {sequence.map((msg, i) => (
@@ -231,7 +245,12 @@ const ScamAudio: React.FC = () => {
           ))}
         </Box>
 
-        <Box component="img" src={phoneFramePortrait} alt="Phone Frame" sx={styles.phoneFrame} />
+        <Box
+          component="img"
+          src={phoneFramePortrait}
+          alt="Phone Frame"
+          sx={styles.phoneFrame}
+        />
       </Box>
 
       <ReportGuidePopUp open={helpOpen} onClose={() => setHelpOpen(false)} />

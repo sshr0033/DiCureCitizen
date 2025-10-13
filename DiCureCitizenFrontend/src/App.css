@@ -9,3 +9,10 @@
     left: 100%;
   }
 }
+
+.gm-style iframe + div {
+  pointer-events: none !important;
+}
+.gm-style iframe + div > div {
+  pointer-events: auto !important;
+}

@@ -1,6 +1,5 @@
 import type { SxProps, Theme } from "@mui/material/styles";
 
-// 🔹 App Bar
 export const appBar: SxProps<Theme> = {
   background: "rgba(20,30,35,0.65)",
   backdropFilter: "blur(12px)",
@@ -10,7 +9,6 @@ export const appBar: SxProps<Theme> = {
   zIndex: 1200,
 };
 
-// 🔹 Toolbar layout
 export const toolbar: SxProps<Theme> = {
   width: "100%",
   display: "flex",
@@ -18,7 +16,6 @@ export const toolbar: SxProps<Theme> = {
   alignItems: "center",
 };
 
-// 🔹 Logo area
 export const logoBox: SxProps<Theme> = {
   display: "flex",
   alignItems: "center",
@@ -39,7 +36,6 @@ export const logoText: SxProps<Theme> = {
   fontSize: "0.95rem",
 };
 
-// 🔹 Desktop nav links
 export const navLinksContainer: SxProps<Theme> = {
   display: { xs: "none", md: "flex" },
   gap: 3,
@@ -60,7 +56,6 @@ export const navButton: SxProps<Theme> = {
   "&:hover": { bgcolor: "rgba(255,255,255,0.25)" },
 };
 
-// 🔹 Icon buttons
 export const iconGroup: SxProps<Theme> = {
   display: "flex",
   alignItems: "center",
@@ -86,7 +81,6 @@ export const accessibilityButton: SxProps<Theme> = {
   "&:hover": { bgcolor: "rgba(255,255,255,0.3)" },
 };
 
-// 🔹 Drawer (mobile menu)
 export const drawer: SxProps<Theme> = {
   display: { xs: "block", md: "none" },
   "& .MuiDrawer-paper": {
@@ -115,7 +109,10 @@ export const drawerHeader: SxProps<Theme> = {
 };
 
 export const drawerLogo: SxProps<Theme> = { height: 28, width: 28 };
-export const drawerTitle: SxProps<Theme> = { fontWeight: 600, fontSize: "1.1rem" };
+export const drawerTitle: SxProps<Theme> = {
+  fontWeight: 600,
+  fontSize: "1.1rem",
+};
 
 export const drawerItem: SxProps<Theme> = {
   textAlign: "center",

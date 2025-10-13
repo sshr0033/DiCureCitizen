@@ -1,10 +1,9 @@
 import { Box, Container, Button, Typography } from "@mui/material";
 import { Link } from "react-router-dom";
-import "../styles/pageStyles.css"; 
-
+import "../styles/pageStyles.css";
 
 /* 
-@author Team marshmellow
+@author Team Phoenix Sentinels
 @version 0.0.1
 Footer class to provide a general Footer to the entire website. 
 */

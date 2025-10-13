@@ -17,12 +17,14 @@ import {
   swipeBox,
 } from "../styles/heroBannerStyles";
 
-
 /* 
-@author Team marshmellow
+@author Team Phoenix Sentinels
 @version 0.0.1
-Footer class to provide a general Footer to the entire website. 
+Hero Banner show casing the phone and the details of each button to provide a user journey.
+
 */
+
+//Button names on the phone
 
 type HoverKey = "default" | "detect" | "learn" | "insights" | "help";
 
@@ -32,7 +34,7 @@ interface HeroContent {
   description: string;
 }
 
-
+//Hovering detaild for each button on the left sided phone
 const content: Record<HoverKey, HeroContent> = {
   default: {
     number: 1421359,
@@ -48,7 +50,8 @@ const content: Record<HoverKey, HeroContent> = {
   },
   learn: {
     number: 10,
-    subtitle: "Learning modules to protect yourself, with rewarding CERTIFICATE",
+    subtitle:
+      "Learning modules to protect yourself, with rewarding CERTIFICATE",
     description:
       "Get step-by-step guides, real examples, and prevention tips to identify and stop scams before they reach you. Earn Certificate of being a Good Digital Citizen",
   },
@@ -66,14 +69,16 @@ const content: Record<HoverKey, HeroContent> = {
   },
 };
 
+//main function
 export default function HeroBanner() {
   const [hovered, setHovered] = useState<HoverKey>("default");
 
   const { number, subtitle, description } = content[hovered];
 
+  //component
   return (
     <Box sx={heroContainer}>
-    
+      {/*Left side of the hero banner that contains the description which changes for each hover of the button*/}
       <Box sx={heroLeft}>
         <Typography
           variant="h1"
@@ -91,6 +96,8 @@ export default function HeroBanner() {
             transition: "all 0.4s ease",
           }}
         >
+          {/*Adding the countdown effect*/}
+
           {typeof number === "number" ? (
             <CountUp start={0} end={number} duration={1.25} separator="," />
           ) : (
@@ -124,7 +131,7 @@ export default function HeroBanner() {
         </Typography>
       </Box>
 
-    
+      {/*Right side containing the phone and the wallpaper with buttons*/}
       <Box sx={phoneBox}>
         <Box sx={wallpaperBox(wallpaper)} />
         <Box component="img" src={phoneFrame} alt="Phone Frame" sx={frameBox} />
@@ -173,35 +180,33 @@ export default function HeroBanner() {
         </Stack>
       </Box>
 
-     
-      {/* Swipe Up */}
-<Box
-  sx={swipeBox}
-  onClick={() => {
-    const scamSection = document.getElementById("scam-awareness");
-    if (scamSection) {
-      scamSection.scrollIntoView({ behavior: "smooth" });
-    }
-  }}
->
-  <Typography
-    sx={{
-      fontSize: { xs: "0.7rem", md: "0.9rem" },
-      fontWeight: 600,
-      cursor: "pointer",
-    }}
-  >
-    Swipe up to explore
-  </Typography>
-  <KeyboardArrowUpIcon
-    sx={{
-      fontSize: { xs: "1.5rem", md: "2rem" },
-      animation: `${bounce} 1.5s infinite ease-in-out`,
-      cursor: "pointer",
-    }}
-  />
-</Box>
-
+      {/* Last section to allow users know about sections below, scroll up indicator*/}
+      <Box
+        sx={swipeBox}
+        onClick={() => {
+          const scamSection = document.getElementById("scam-awareness");
+          if (scamSection) {
+            scamSection.scrollIntoView({ behavior: "smooth" });
+          }
+        }}
+      >
+        <Typography
+          sx={{
+            fontSize: { xs: "0.7rem", md: "0.9rem" },
+            fontWeight: 600,
+            cursor: "pointer",
+          }}
+        >
+          Swipe up to explore
+        </Typography>
+        <KeyboardArrowUpIcon
+          sx={{
+            fontSize: { xs: "1.5rem", md: "2rem" },
+            animation: `${bounce} 1.5s infinite ease-in-out`,
+            cursor: "pointer",
+          }}
+        />
+      </Box>
     </Box>
   );
 }

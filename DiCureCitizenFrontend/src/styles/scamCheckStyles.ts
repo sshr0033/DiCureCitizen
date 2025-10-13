@@ -1,7 +1,6 @@
 import { keyframes } from "@mui/system";
 import type { SxProps, Theme } from "@mui/material/styles";
 
-// 🟢 Hand animation
 const moveHand = keyframes`
   0% { transform: translate(0, 0) scale(1); opacity: 1; }
   40% { transform: translate(40px, -40px) scale(1.1); opacity: 1; }
@@ -9,7 +8,6 @@ const moveHand = keyframes`
   100% { transform: translate(750px, -20px) scale(1); opacity: 0; }
 `;
 
-// 🟢 Container
 export const mainContainer: SxProps<Theme> = {
   minHeight: "100vh",
   display: "flex",
@@ -31,7 +29,6 @@ export const innerLayout: SxProps<Theme> = {
   maxWidth: 1200,
 };
 
-// 🟢 Left card styles
 export const leftCard: SxProps<Theme> = {
   p: { xs: 2, md: 3 },
   borderRadius: 4,
@@ -45,7 +42,6 @@ export const leftCard: SxProps<Theme> = {
   minHeight: 280,
 };
 
-// 🟢 Result card
 export const resultCard: SxProps<Theme> = {
   p: { xs: 2, md: 3 },
   borderRadius: 4,
@@ -59,7 +55,6 @@ export const resultCard: SxProps<Theme> = {
   minHeight: 280,
 };
 
-// 🟢 Common typography
 export const cardTitle: SxProps<Theme> = {
   color: "white",
   fontWeight: 700,
@@ -71,7 +66,6 @@ export const cardSubtitle: SxProps<Theme> = {
   opacity: 0.9,
 };
 
-// 🟢 Input & Button
 export const errorAlert: SxProps<Theme> = { mb: 1 };
 
 export const textInput: SxProps<Theme> = {
@@ -94,12 +88,11 @@ export const detectButton: SxProps<Theme> = {
   "&:hover": { background: "#f1f1f1" },
 };
 
-// 🟢 Dynamic color-coded results
 export const resultBox = (score: number): SxProps<Theme> => {
   let bgColor = "rgba(0,0,0,0.3)";
-  if (score > 60) bgColor = "rgba(255,0,0,0.4)"; // 🔴 red
-  else if (score > 40) bgColor = "rgba(255,255,0,0.25)"; // 🟡 yellow
-  else bgColor = "rgba(0,255,0,0.25)"; // 🟢 green
+  if (score > 60) bgColor = "rgba(255,0,0,0.4)";
+  else if (score > 40) bgColor = "rgba(255,255,0,0.25)";
+  else bgColor = "rgba(0,255,0,0.25)";
 
   return {
     mt: 2,
@@ -115,9 +108,9 @@ export const resultBox = (score: number): SxProps<Theme> => {
 
 export const resultPercent = (score: number): SxProps<Theme> => {
   let color = "#fff";
-  if (score > 60) color = "#ff5b5b"; // red
-  else if (score > 40) color = "#ffd93b"; // yellow
-  else color = "#9cff9c"; // green
+  if (score > 60) color = "#ff5b5b";
+  else if (score > 40) color = "#ffd93b";
+  else color = "#9cff9c";
 
   return {
     fontWeight: 700,
@@ -128,7 +121,6 @@ export const resultPercent = (score: number): SxProps<Theme> => {
   };
 };
 
-// 🟢 Help Section
 export const helpSection: SxProps<Theme> = { mt: 2 };
 export const helpText: SxProps<Theme> = { color: "white", mb: 1 };
 export const helpButton: SxProps<Theme> = {
@@ -141,7 +133,6 @@ export const helpButton: SxProps<Theme> = {
   "&:hover": { background: "#f1f1f1" },
 };
 
-// 🟢 Phone mock
 export const phoneContainer: SxProps<Theme> = {
   position: "relative",
   width: { xs: 220, sm: 260, md: 330 },
@@ -166,7 +157,6 @@ export const phoneFrame: SxProps<Theme> = {
   zIndex: 2,
 };
 
-// 🟢 Hand animation
 export const handPointer: SxProps<Theme> = {
   position: "absolute",
   bottom: { xs: "10%", md: "20%" },

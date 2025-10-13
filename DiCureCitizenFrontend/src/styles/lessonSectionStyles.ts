@@ -36,7 +36,7 @@ export const sectionTitle: SxProps<Theme> = {
 
 export const paperContainer: SxProps<Theme> = {
   p: { xs: 2, sm: 3, md: 6 },
-  ml:{md: 20},
+  ml: { md: 20 },
   borderRadius: 4,
   display: "flex",
   flexDirection: "column",
@@ -114,13 +114,13 @@ export const phoneWrapper: SxProps<Theme> = {
   display: "flex",
   justifyContent: { xs: "center", md: "center" },
   alignItems: "center",
-   ml: {md: 6, lg: 35 }
+  ml: { md: 10, lg: 35 },
 };
 
 export const phoneFrameStyle: SxProps<Theme> = {
   position: "relative",
-  width: { xs: 240, sm: 280, md: 350 },
-  mt: { xs: -2, md: -10 },
+  width: { xs: 260, sm: 300, md: 380, lg: 380 },
+  mt: { xs: 0, lg: -6 },
 };
 
 export const phoneInner: SxProps<Theme> = {
@@ -131,7 +131,8 @@ export const phoneInner: SxProps<Theme> = {
   width: "92%",
   height: "96%",
   borderRadius: "35px",
-  background: "linear-gradient(180deg, rgba(20,20,20,0.95) 0%, rgba(15,15,15,0.95) 100%)",
+  background:
+    "linear-gradient(180deg, rgba(20,20,20,0.95) 0%, rgba(15,15,15,0.95) 100%)",
   overflow: "hidden",
   p: { xs: 2, sm: 3 },
   display: "flex",
@@ -141,11 +142,9 @@ export const phoneInner: SxProps<Theme> = {
   zIndex: 1,
 };
 
-
-
 export const riskyMessage: SxProps<Theme> = {
-    mt: "40%",
- alignSelf: "flex-start",
+  mt: "40%",
+  alignSelf: "flex-start",
   maxWidth: "85%",
   p: 2,
   borderRadius: 3,

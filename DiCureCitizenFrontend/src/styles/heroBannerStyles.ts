@@ -1,7 +1,5 @@
-
- import { keyframes } from "@mui/material";
+import { keyframes } from "@mui/material";
 import type { SxProps, Theme } from "@mui/system";
-
 
 export const bounce = keyframes`
   0%, 100% { transform: translateY(0) scale(1); opacity: 0.8; }
@@ -22,7 +20,7 @@ export const heroContainer: SxProps<Theme> = {
   position: "relative",
   overflow: "hidden",
 };
-   
+
 export const heroLeft: SxProps<Theme> = {
   maxWidth: { xs: "100%", sm: "90%", md: "50%" },
   color: "white",

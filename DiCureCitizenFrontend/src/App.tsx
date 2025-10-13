@@ -10,10 +10,6 @@ import ScamAudio from "./pages/ScamAudioPage";
 import InteractiveQuizPage from "./pages/InteractiveQuizPage";
 import ResourcePage from "./pages/ResourcePage";
 
-
-
-
-
 export default function App() {
   return (
     <ThemeProvider theme={theme}>
@@ -23,12 +19,11 @@ export default function App() {
           <Routes>
             <Route path="/detectscam" element={<DetectScam />} />
             <Route path="/" element={<HomePage />} />
-             <Route path="/lessons" element={<QuizAndLessons />} />
-             <Route path="/scamAudio" element={<ScamAudio />} />
-<Route path="/quiz" element={<InteractiveQuizPage />} />
-            <Route path="/helpcenter" element={<NearestHelpPage/>} />
-             <Route path="/resources" element={<ResourcePage/>} />
-        
+            <Route path="/lessons" element={<QuizAndLessons />} />
+            <Route path="/scamAudio" element={<ScamAudio />} />
+            <Route path="/quiz" element={<InteractiveQuizPage />} />
+            <Route path="/helpcenter" element={<NearestHelpPage />} />
+            <Route path="/resources" element={<ResourcePage />} />
           </Routes>
         </LoginPage>
       </Router>

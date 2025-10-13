@@ -13,21 +13,23 @@ import phoneFramePortrait from "../assets/iPhone Air - Light Gold - Portrait.png
 import handIcon from "../assets/hand.png";
 import screenRecording from "../assets/messageRecord.mp4";
 import { predictText, type PredictResponse } from "../api.ts";
-import * as styles from "../styles/scamCheckStyles.ts"; // 🎨 imported styles
+import * as styles from "../styles/scamCheckStyles.ts"; 
 
-export default function ScamCheck() {
+export default function SpamBox() {
   const [input, setInput] = useState("");
   const [loading, setLoading] = useState(false);
   const [result, setResult] = useState<number | null>(null);
   const [error, setError] = useState<string | null>(null);
 
 
+
+  //download handle for the scam guide if the user downloads it
   function handleDownloadHelpPDF() {
   const pdfUrl =
     "https://dicurecitizen-assets.s3.ap-southeast-2.amazonaws.com/Scam_Booklet.pdf";
   const link = document.createElement("a");
   link.href = pdfUrl;
-  link.download = "Scam_Booklet.pdf"; // optional custom filename
+  link.download = "Scam_Booklet.pdf"; 
   link.target = "_blank";
   document.body.appendChild(link);
   link.click();
@@ -58,7 +60,7 @@ try {
     // If API gives 0–1, multiply by 100
     prob = data <= 1 ? Math.round(data * 100) : Math.round(data);
   } else if (typeof data === "object" && data !== null) {
-    // If API gives object like { probability: 0.87 } or { score: 87 }
+    // catching the api return from the backend
     const value =
       (data ).probability ??
       0;
@@ -152,7 +154,7 @@ try {
           </Fade>
         )}
 
-        {/* 🟩 Phone Mock */}
+      {/** Phone model to the right side shifts to show the result block */}
         <Box sx={styles.phoneContainer}>
           <Box
             component="video"
@@ -172,7 +174,7 @@ try {
         </Box>
       </Box>
 
-      {/* 🟩 Animated Hand Pointer */}
+      {/** Hand animation */}
       <Box component="img" src={handIcon} alt="Hand" sx={styles.handPointer} />
     </Box>
   );

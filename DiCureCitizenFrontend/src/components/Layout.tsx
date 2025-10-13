@@ -1,8 +1,6 @@
-
 import type { ReactNode } from "react";
 import Footer from "./Footer";
 import NavBar from "./NavBar";
-
 
 type LayoutProps = {
   children: ReactNode;
@@ -11,7 +9,7 @@ type LayoutProps = {
 /* 
 @author Team marshmellow
 @version 0.0.1
-Footer class to provide a general Footer to the entire website. 
+Layout class to provide a common layout to all pages
 */
 
 export default function Layout({ children }: LayoutProps) {

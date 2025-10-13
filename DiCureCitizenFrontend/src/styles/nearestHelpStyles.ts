@@ -1,5 +1,3 @@
-
-
 export const pageContainer = {
   minHeight: "80vh",
   display: "flex",
@@ -14,9 +12,9 @@ export const pageContainer = {
 
 export const titleBlock = {
   textAlign: "center",
-  
+
   mt: { xs: 2, md: 0 },
-  mb: { xs: 8, md: 1},
+  mb: { xs: 8, md: 1 },
   maxWidth: "800px",
   px: 1,
 };
@@ -119,9 +117,9 @@ export const phoneContainer = {
 export const mapFrame = {
   position: "absolute",
   top: { xs: "2%" },
-  left: { xs: "5%", sm: "4%" },
-  width: { xs: "90%", sm: "92%" },
-  height: { xs: "96%", sm: "96%" },
+  left: { xs: "5%", sm: "5%" },
+  width: { xs: "90%", sm: "89%" },
+  height: { xs: "95%", sm: "96%" },
   borderRadius: { xs: 7, sm: 12 },
   overflow: "hidden",
   backgroundColor: "#f8f8f8",
@@ -134,5 +132,5 @@ export const phoneFrame = {
   width: "100%",
   height: "100%",
   objectFit: "contain",
-  zIndex: 2,
+  zIndex: 0,
 };

@@ -26,7 +26,8 @@ const libraries: ("places")[] = ["places"];
 /* 
 @author Team marshmellow
 @version 0.0.1
-Footer class to provide a general Footer to the entire website. 
+NearesrHelpCenterSection for the help center to show users nearest help centers like bank, police center where they can confirm 
+the scam or report them
 */
 
 export default function NearesrHelpCenterSection() {
@@ -43,11 +44,13 @@ export default function NearesrHelpCenterSection() {
     libraries,
   });
 
+  //load map using the google api
   const handleMapLoad = (map: google.maps.Map) => {
     mapRef.current = map;
     serviceRef.current = new window.google.maps.places.PlacesService(map);
   };
 
+  //set the lat and longitude of the selected location
   const findNearby = (pos: { lat: number; lng: number }, type: string) => {
   if (!serviceRef.current) return;
   setLoading(true);
@@ -76,6 +79,7 @@ export default function NearesrHelpCenterSection() {
   });
 };
 
+//handle user location every time
   const handleLocate = () => {
     if (!navigator.geolocation) {
       alert("Geolocation not supported!");
@@ -109,8 +113,11 @@ export default function NearesrHelpCenterSection() {
     category === "police" ? "red" : category === "bank" ? "green" : "purple";
 
   return (
+
     <Box sx={styles.pageContainer}>
-      {/* 🟩 Title Section */}
+
+    {/**Title box */}
+      
       <Box sx={styles.titleBlock}>
         <Typography variant="h3" sx={styles.titleText}>
           Help Centres Near You
@@ -121,9 +128,9 @@ export default function NearesrHelpCenterSection() {
         </Typography>
       </Box>
 
-      {/* 🟦 Main Layout */}
+     
       <Box sx={styles.mainLayout}>
-        {/* Left Glass Panel */}
+       
         <Paper elevation={0} sx={styles.leftPanel}>
           <Typography variant="h5" sx={styles.infoText}>
             Please provide your location access to help us find you the nearest help center.
@@ -194,7 +201,7 @@ export default function NearesrHelpCenterSection() {
           </Paper>
         </Paper>
 
-        {/* Right Map Mockup */}
+      {/** Right side having mobile and the google map inside the mobile view */}
         <Box sx={styles.phoneContainer}>
           <Box sx={styles.mapFrame}>
             <GoogleMap

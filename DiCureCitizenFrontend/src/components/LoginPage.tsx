@@ -10,11 +10,10 @@ import {
   loginButton,
 } from "../styles/loginPageStyles";
 
-
 /* 
 @author Team marshmellow
 @version 0.0.1
-Footer class to provide a general Footer to the entire website. 
+Login Page to provide safeguard to the website.
 */
 export default function LoginPage({ children }: { children: React.ReactNode }) {
   const [auth, setAuth] = useState(false);
@@ -25,14 +24,12 @@ export default function LoginPage({ children }: { children: React.ReactNode }) {
 
   return (
     <Box sx={pageContainer}>
-     
       <video autoPlay loop muted playsInline style={videoBackground}>
         <source src={LoginVideo} type="video/mp4" />
       </video>
 
       <Box sx={overlay} />
 
-      
       <Container maxWidth="xs" sx={contentWrapper}>
         <Box sx={glassBox}>
           <Typography variant="h5" fontWeight={700} gutterBottom>

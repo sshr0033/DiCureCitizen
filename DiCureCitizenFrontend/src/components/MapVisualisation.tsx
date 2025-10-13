@@ -1,7 +1,12 @@
 import { useState } from "react";
 import { Box, CircularProgress } from "@mui/material";
-import map2 from "../assets/map .html?url"; 
+import map2 from "../assets/map .html?url";
 
+/* 
+@author Team marshmellow
+@version 0.0.1
+MapVisualisation for the data visualisation simply to shoot the html file made
+*/
 export default function MapVisualisation() {
   const [loaded, setLoaded] = useState(false);
 

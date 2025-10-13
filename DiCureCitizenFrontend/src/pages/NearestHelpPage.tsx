@@ -18,11 +18,11 @@ export default function NearestHelpPage() {
 
   return (
     <Layout>
-      {/* 🟦 Gradient background wraps only content, not full viewport */}
+      
       <Box
         sx={{
           background: "linear-gradient(180deg, #0f2027 0%, #203a43 40%, #2c5364 100%)",
-          minHeight: "calc(100vh - 160px)", // Leaves space for Nav + Footer
+          minHeight: "calc(100vh - 160px)", 
           py: { xs: 6, md: 8 },
         }}
       >

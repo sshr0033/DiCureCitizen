@@ -20,16 +20,14 @@ const navItems = [
   { label: "Home", path: "/" },
   { label: "Detect Scam", path: "/detectscam" },
   { label: "Listen to Scam Audios", path: "/scamAudio" },
-   { label: "Learn Digital Citizenship", path: "/lessons" },
-  { label: "Resources", path: "/resources" }
- 
+  { label: "Learn Digital Citizenship", path: "/lessons" },
+  { label: "Resources", path: "/resources" },
 ];
-
 
 /* 
 @author Team marshmellow
 @version 0.0.1
-Footer class to provide a general Footer to the entire website. 
+Nav Bar to provide a general Header for all pages
 */
 export default function NavBar() {
   const [mobileOpen, setMobileOpen] = useState(false);
@@ -69,7 +67,7 @@ export default function NavBar() {
             <Typography sx={styles.logoText}>DiCureCitizen</Typography>
           </Box>
 
-          {/* Center: Desktop Navigation */}
+          {/**Item names on the top of the nav bar */}
           <Box sx={styles.navLinksContainer}>
             {navItems.map((item) => (
               <Button
@@ -84,19 +82,18 @@ export default function NavBar() {
             ))}
           </Box>
 
-          {/* Right: Icons */}
           <Box sx={styles.iconGroup}>
-            {/* Mobile menu */}
-            <IconButton onClick={handleDrawerToggle} sx={styles.menuButtonMobile}>
+            {/** Mobile view navbar, becomes a dialog box for better access */}
+            <IconButton
+              onClick={handleDrawerToggle}
+              sx={styles.menuButtonMobile}
+            >
               <MenuIcon />
             </IconButton>
-
-           
           </Box>
         </Toolbar>
       </AppBar>
 
-      {/* Drawer for mobile */}
       <Drawer
         anchor="right"
         open={mobileOpen}

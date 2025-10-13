@@ -1,13 +1,13 @@
 import { Box, Typography, Button, Paper, Stack } from "@mui/material";
 import phoneFrameLandscape from "../assets/iPhone Air - Light Gold - Landscape.png";
-import * as styles from "../styles/scamAwarenessStyles"; // 🟢 import external styles
+import * as styles from "../styles/scamAwarenessStyles"; 
 import { useNavigate } from "react-router-dom";
 
 export default function ScamAwareness() {
   const navigate = useNavigate();
   return (
     <Box id="scam-awareness" sx={styles.sectionBox}>
-      {/* -------------- PHONE PREVIEW -------------- */}
+    {/** Phone view with the video playing after integration with the youtube */}
       <Box sx={styles.phoneWrapper}>
         <Box sx={styles.videoContainer}>
           <iframe
@@ -29,7 +29,7 @@ export default function ScamAwareness() {
         />
       </Box>
 
-      {/* -------------- TEXT & BUTTONS -------------- */}
+     {/** Resource connection button right to the phone */}
       <Paper elevation={3} sx={styles.paperCard}>
         <Typography variant="h3" sx={styles.heading}>
          Know Scams Happening around Australia !
@@ -41,7 +41,7 @@ export default function ScamAwareness() {
 
         <Stack direction={{ xs: "column", sm: "row" }} spacing={2} sx={styles.buttonRow}>
           <Button sx={styles.helpButton}
-          onClick= {() => navigate("/helpcenter")}>View the latest insight</Button>
+          onClick= {() => navigate("/resources")}>View the latest insight</Button>
          
 
         </Stack>

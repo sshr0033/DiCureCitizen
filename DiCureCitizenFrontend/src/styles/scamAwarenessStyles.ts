@@ -1,6 +1,5 @@
 import type { SxProps, Theme } from "@mui/material/styles";
 
-// 🔹 Section container
 export const sectionBox: SxProps<Theme> = {
   minHeight: "60vh",
   display: "flex",
@@ -12,7 +11,6 @@ export const sectionBox: SxProps<Theme> = {
   gap: { xs: 6, lg: 12 },
 };
 
-// 🔹 Phone preview
 export const phoneWrapper: SxProps<Theme> = {
   position: "relative",
   width: { xs: 320, sm: 480, md: 700 },
@@ -40,7 +38,6 @@ export const phoneFrame: SxProps<Theme> = {
   pointerEvents: "none",
 };
 
-// 🔹 Info card
 export const paperCard: SxProps<Theme> = {
   width: { xs: "100%", sm: "90%", md: "500px" },
   p: { xs: 3, sm: 4, md: 5 },
@@ -53,7 +50,6 @@ export const paperCard: SxProps<Theme> = {
   flexShrink: 0,
 };
 
-// 🔹 Text styles
 export const heading: SxProps<Theme> = {
   fontSize: { xs: "1.8rem", sm: "2.2rem", md: "2.6rem" },
   fontWeight: 700,
@@ -67,7 +63,6 @@ export const description: SxProps<Theme> = {
   color: "rgba(255,255,255,0.9)",
 };
 
-// 🔹 Buttons
 export const buttonRow: SxProps<Theme> = {
   justifyContent: { xs: "center", lg: "flex-start" },
   alignItems: "center",

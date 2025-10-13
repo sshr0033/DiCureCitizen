@@ -1,15 +1,17 @@
+{
+  /*Deprecated*/
+}
+
 import { useState } from "react";
 import { Box, Typography, Card, CardContent, Button } from "@mui/material";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Navigation } from "swiper/modules";
 import { sectionStyles, cardStyles, buttonStyles } from "../styles";
 
-
 import FraudImg from "../assets/Realestate.png";
 import PropertyImg from "../assets/shock.jpeg";
 import BankImg from "../assets/cardscam.jpeg";
 import AtoImg from "../assets/readdocu.jpeg";
-
 
 const cards = [
   {
@@ -64,14 +66,15 @@ export default function Article() {
   return (
     <Box id="articles" component="section" sx={sectionStyles.articleSection}>
       <Typography variant="h4" fontWeight={800} textAlign="center">
-        Get to know the latest trending scams around Australia <br /> & how to avoid them.
+        Get to know the latest trending scams around Australia <br /> & how to
+        avoid them.
       </Typography>
 
       <Swiper
         modules={[Navigation]}
         navigation
         loop
-        pagination={false} 
+        pagination={false}
         spaceBetween={16}
         slidesPerView={1}
         breakpoints={{
@@ -116,7 +119,6 @@ export default function Article() {
                   </CardContent>
                 </Card>
 
-                {/* BACK OF CARD */}
                 <Card sx={cardStyles.back}>
                   <CardContent sx={cardStyles.content}>
                     <Typography variant="h6" fontWeight={700} gutterBottom>

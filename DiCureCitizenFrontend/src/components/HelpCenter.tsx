@@ -1,14 +1,18 @@
+{
+  /*Deprecated. as scams need to be reported by fillimg official forms that are not available to open public.*/
+}
+
 import { Box, Typography, Button, Container } from "@mui/material";
-import HelpBg from "../assets/worriedman.jpg"; 
+import HelpBg from "../assets/worriedman.jpg";
 import { useNavigate } from "react-router-dom";
 
 /* 
-@author Team marshmellow
+@author Phoenix Sentinels
 @version 0.0.1
-Footer class to provide a general Footer to the entire website. 
+Help Center  class to provide a short explanation how prepare and report scams
 */
 export default function HelpCenter() {
-    const navigate = useNavigate();
+  const navigate = useNavigate();
   return (
     <Box
       component="section"
@@ -21,7 +25,6 @@ export default function HelpCenter() {
         overflow: "hidden",
       }}
     >
-    
       <Box
         sx={{
           position: "absolute",
@@ -29,12 +32,11 @@ export default function HelpCenter() {
           backgroundImage: `url(${HelpBg})`,
           backgroundSize: "cover",
           backgroundPosition: "center",
-          filter: "blur(7px)",  
-          transform: "scale(1.1)", 
+          filter: "blur(7px)",
+          transform: "scale(1.1)",
         }}
       />
 
-     
       <Box
         sx={{
           position: "absolute",
@@ -43,7 +45,6 @@ export default function HelpCenter() {
         }}
       />
 
-     
       <Container maxWidth="md" sx={{ position: "relative", zIndex: 1 }}>
         <Typography
           variant="h4"
@@ -59,11 +60,12 @@ export default function HelpCenter() {
           sx={{
             mb: 4,
             fontWeight: 600,
-            color: "#eae8da", 
+            color: "#eae8da",
           }}
         >
-          Explore our curated resources that includes help resources and guides you
-          on how to prepare your documents to get help from CyberHelp in Australia
+          Explore our curated resources that includes help resources and guides
+          you on how to prepare your documents to get help from CyberHelp in
+          Australia
         </Typography>
 
         <Button
@@ -78,7 +80,7 @@ export default function HelpCenter() {
             textTransform: "none",
             "&:hover": { bgcolor: "#3a4a1c" },
           }}
-            onClick={() => navigate("/helpcenter")}
+          onClick={() => navigate("/helpcenter")}
         >
           Help Center
         </Button>

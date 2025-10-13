@@ -5,15 +5,14 @@ export const mainContainer: SxProps<Theme> = {
   display: "flex",
   flexDirection: { xs: "column", lg: "row" },
   alignItems: "center",
-  justifyContent: "center", 
-  px: { xs: 2, lg: 10 },     
-  py: { xs: 3, lg: 4 },    
-  gap: { xs: 6, lg: 8 },    
+  justifyContent: "center",
+  px: { xs: 2, lg: 10 },
+  py: { xs: 3, lg: 4 },
+  gap: { xs: 6, lg: 8 },
   background: "linear-gradient(180deg, #0f2027 0%, #203a43 40%, #2c5364 100%)",
   position: "relative",
 };
 
-// 🔹 Text section
 export const textSection: SxProps<Theme> = {
   maxWidth: "700px",
   mb: { xs: 6, lg: 1 },
@@ -30,7 +29,6 @@ export const description: SxProps<Theme> = {
   opacity: 0.8,
 };
 
-// 🔹 Slider + Controls
 export const sliderSection: SxProps<Theme> = {
   mt: 6,
   color: "#fff",
@@ -57,7 +55,6 @@ export const iconButton: SxProps<Theme> = {
   color: "white",
 };
 
-// 🔹 Help Button
 export const helpButton: SxProps<Theme> = {
   borderRadius: "50px",
   px: 4,
@@ -67,7 +64,6 @@ export const helpButton: SxProps<Theme> = {
   "&:hover": { background: "rgba(255,255,255,0.5)" },
 };
 
-// 🔹 Phone display
 export const phoneContainer: SxProps<Theme> = {
   position: "relative",
   width: 340,
@@ -112,7 +108,6 @@ export const phoneFrame: SxProps<Theme> = {
   zIndex: 3,
 };
 
-// 🔹 Loading state
 export const loadingBox: SxProps<Theme> = {
   minHeight: "100vh",
   display: "flex",

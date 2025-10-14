@@ -35,8 +35,8 @@ export const sectionTitle: SxProps<Theme> = {
 };
 
 export const paperContainer: SxProps<Theme> = {
-  p: { xs: 2, sm: 3, md: 6 },
-  ml: { md: 20 },
+  p: { xs: 2, sm: 3, md: 5 },
+  ml: { md: 25 },
   borderRadius: 4,
   display: "flex",
   flexDirection: "column",
@@ -45,7 +45,7 @@ export const paperContainer: SxProps<Theme> = {
   backdropFilter: "blur(16px)",
   border: "1px solid rgba(255,255,255,0.25)",
   color: "white",
-  width: { xs: "100%", md: "115%", lg: "150%" },
+  width: { xs: "100%", md: "115%", lg: "170%" },
   maxHeight: { md: "80vh" },
   overflowY: { md: "auto" },
   justifySelf: "center",
@@ -102,7 +102,7 @@ export const tipsButton: SxProps<Theme> = {
 };
 
 export const practiseButton: SxProps<Theme> = {
-  mt: 3,
+  mt: 1,
   fontWeight: 600,
   borderRadius: 3,
   background: "rgba(255,255,255,0.2)",
@@ -119,7 +119,7 @@ export const phoneWrapper: SxProps<Theme> = {
 
 export const phoneFrameStyle: SxProps<Theme> = {
   position: "relative",
-  width: { xs: 260, sm: 300, md: 380, lg: 380 },
+  width: { xs: 260, sm: 300, md: 380, lg: 350 },
   mt: { xs: 0, lg: -6 },
 };
 

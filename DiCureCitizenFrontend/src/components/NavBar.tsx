@@ -21,7 +21,7 @@ const navItems = [
   { label: "Detect Scam", path: "/detectscam" },
   { label: "Listen to Scam Audios", path: "/scamAudio" },
   { label: "Learn Digital Citizenship", path: "/lessons" },
-  { label: "Resources", path: "/resources" },
+  { label: "Help Center", path: "/helpcenter" },
 ];
 
 /* 

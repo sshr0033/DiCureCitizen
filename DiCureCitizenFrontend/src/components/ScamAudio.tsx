@@ -4,7 +4,10 @@ import { PlayArrow, Pause, Stop, SkipNext, Replay } from "@mui/icons-material";
 import phoneFramePortrait from "../assets/iPhone Air - Light Gold - Portrait.png";
 import ReportGuidePopUp from "./ReportGuidePopUp";
 import { getConversations } from "../api";
-import * as styles from "../styles/scamAudioStyles"; // 🟢 Import styles
+import * as styles from "../styles/scamAudioStyles"; 
+import { Link as RouterLink } from "react-router-dom";
+
+
 
 type Conversation = {
   conversationId: number;
@@ -204,7 +207,7 @@ const ScamAudio: React.FC = () => {
           </Box>
 
           {/** ReportGuide section button show the steps to take if scammed */}
-          <Box sx={{ mt: 4 }}>
+          <Box sx={{ mt: 4}}>
             <Typography variant="h6" sx={{ mb: 1 }}>
               Sounds Similar to You? Need Help?
             </Typography>
@@ -213,7 +216,15 @@ const ScamAudio: React.FC = () => {
               sx={styles.helpButton}
               onClick={() => setHelpOpen(true)}
             >
-              SEE WHAT TO DO NEXT
+              SAFE GUARD YOUR SELF WITH QUICK STEPS
+            </Button>
+            <Button
+              variant="contained"
+              sx={styles.helpButton}
+              component={RouterLink}
+              to="/helpcenter"
+            >
+              REPORT THEM
             </Button>
           </Box>
         </Box>

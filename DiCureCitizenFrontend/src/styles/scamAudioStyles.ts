@@ -59,6 +59,7 @@ export const helpButton: SxProps<Theme> = {
   borderRadius: "50px",
   px: 4,
   py: 1,
+  ml: 1,
   background: "rgba(255,255,255,0.3)",
   color: "white",
   "&:hover": { background: "rgba(255,255,255,0.5)" },

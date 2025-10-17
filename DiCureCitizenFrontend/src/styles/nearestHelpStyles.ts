@@ -10,19 +10,48 @@ export const pageContainer = {
   color: "white",
 };
 
+export const insightsCard = {
+  width: "100%",
+  maxWidth: "1300px",
+  mt: { xs: 2, md: 3 },
+  mb: { xs: 4, md: 2 },
+  px: { xs: 2, md: 3 },
+  py: { xs: 2, md: 2.5 },
+  borderRadius: 4,
+  display: "flex",
+  alignItems: "center",
+  justifyContent: "space-between",
+  gap: 2,
+  background: "rgba(255,255,255,0.15)",
+  backdropFilter: "blur(12px)",
+  color: "white",
+};
+
+export const insightsButton = {
+  flexShrink: 0,
+  borderRadius: "999px",
+  px: 3,
+  py: 1.2,
+  fontWeight: 700,
+  background: "white",
+  color: "#222",
+  "&:hover": { background: "#f1f1f1" },
+};
+
+
 export const titleBlock = {
   textAlign: "center",
 
   mt: { xs: 2, md: 0 },
   mb: { xs: 8, md: 1 },
-  maxWidth: "800px",
+  maxWidth: "600px",
   px: 1,
 };
 
 export const titleText = {
-  fontWeight: 700,
+  fontWeight: 600,
   fontSize: { xs: "1.8rem", sm: "2.4rem", md: "2.8rem" },
-  mb: 1,
+  mb: 4,
 };
 
 export const subtitleText = {
@@ -30,6 +59,7 @@ export const subtitleText = {
   color: "rgba(255,255,255,0.9)",
   fontSize: { xs: "1rem", sm: "1.2rem" },
   lineHeight: 1.6,
+  mb: 1
 };
 
 export const mainLayout = {
@@ -110,15 +140,15 @@ export const listItem = {
 export const phoneContainer = {
   position: "relative",
   width: { xs: 280, sm: 320, md: 370 },
-  height: { xs: 580, sm: 680, md: 750 },
+  height: { xs: 580, sm: 680, md: 650 },
   flexShrink: 0,
 };
 
 export const mapFrame = {
   position: "absolute",
   top: { xs: "2%" },
-  left: { xs: "5%", sm: "5%" },
-  width: { xs: "90%", sm: "89%" },
+  left: { xs: "5%", sm: "11%" },
+  width: { xs: "90%", sm: "78%" },
   height: { xs: "95%", sm: "96%" },
   borderRadius: { xs: 7, sm: 12 },
   overflow: "hidden",

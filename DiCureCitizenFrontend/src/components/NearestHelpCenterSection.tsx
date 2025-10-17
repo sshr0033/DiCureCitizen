@@ -1,4 +1,6 @@
 import { useState, useRef, useEffect } from "react";
+import { Link as RouterLink } from "react-router-dom";
+
 import {
   Box,
   Button,
@@ -18,10 +20,10 @@ import {
   InfoWindow,
 } from "@react-google-maps/api";
 import phoneFrame from "../assets/iPhone Air - Light Gold - Portrait.png";
-import * as styles from "../styles/nearestHelpStyles"; 
+import * as styles from "../styles/nearestHelpStyles";
 
 const DEFAULT_CENTER = { lat: -33.8688, lng: 151.2093 };
-const libraries: ("places")[] = ["places"];
+const libraries: "places"[] = ["places"];
 
 /* 
 @author Team marshmellow
@@ -31,10 +33,15 @@ the scam or report them
 */
 
 export default function NearesrHelpCenterSection() {
-  const [category, setCategory] = useState<"police" | "bank" | "cyber">("police");
-  const [userPos, setUserPos] = useState<{ lat: number; lng: number } | null>(null);
+  const [category, setCategory] = useState<"police" | "bank" | "cyber">(
+    "police"
+  );
+  const [userPos, setUserPos] = useState<{ lat: number; lng: number } | null>(
+    null
+  );
   const [results, setResults] = useState<google.maps.places.PlaceResult[]>([]);
-  const [selected, setSelected] = useState<google.maps.places.PlaceResult | null>(null);
+  const [selected, setSelected] =
+    useState<google.maps.places.PlaceResult | null>(null);
   const [loading, setLoading] = useState(false);
   const mapRef = useRef<google.maps.Map | null>(null);
   const serviceRef = useRef<google.maps.places.PlacesService | null>(null);
@@ -52,34 +59,33 @@ export default function NearesrHelpCenterSection() {
 
   //set the lat and longitude of the selected location
   const findNearby = (pos: { lat: number; lng: number }, type: string) => {
-  if (!serviceRef.current) return;
-  setLoading(true);
-  setResults([]);
+    if (!serviceRef.current) return;
+    setLoading(true);
+    setResults([]);
 
-  const request: google.maps.places.PlaceSearchRequest = {
-    location: pos,
-    rankBy: google.maps.places.RankBy.DISTANCE, 
+    const request: google.maps.places.PlaceSearchRequest = {
+      location: pos,
+      rankBy: google.maps.places.RankBy.DISTANCE,
+    };
+
+    if (type === "police") request.type = "police";
+    else if (type === "bank") request.type = "bank";
+    else {
+      request.keyword = "cyber security|cybercrime|cyber help";
+      request.type = "point_of_interest";
+    }
+
+    serviceRef.current.nearbySearch(request, (res, status) => {
+      setLoading(false);
+      if (status === window.google.maps.places.PlacesServiceStatus.OK && res) {
+        setResults(res.slice(0, 5));
+      } else {
+        setResults([]);
+      }
+    });
   };
 
-  if (type === "police") request.type = "police";
-  else if (type === "bank") request.type = "bank";
-  else {
-    request.keyword = "cyber security|cybercrime|cyber help";
-    request.type = "point_of_interest";
-  }
-
-  serviceRef.current.nearbySearch(request, (res, status) => {
-    setLoading(false);
-    if (status === window.google.maps.places.PlacesServiceStatus.OK && res) {
-    
-      setResults(res.slice(0, 5));
-    } else {
-      setResults([]);
-    }
-  });
-};
-
-//handle user location every time
+  //handle user location every time
   const handleLocate = () => {
     if (!navigator.geolocation) {
       alert("Geolocation not supported!");
@@ -89,7 +95,10 @@ export default function NearesrHelpCenterSection() {
     setLoading(true);
     navigator.geolocation.getCurrentPosition(
       (pos) => {
-        const position = { lat: pos.coords.latitude, lng: pos.coords.longitude };
+        const position = {
+          lat: pos.coords.latitude,
+          lng: pos.coords.longitude,
+        };
         setUserPos(position);
         mapRef.current?.panTo(position);
         mapRef.current?.setZoom(13);
@@ -106,37 +115,43 @@ export default function NearesrHelpCenterSection() {
     if (userPos && serviceRef.current) findNearby(userPos, category);
   }, [userPos, category]);
 
-  if (loadError) return <Typography color="error">Error loading map</Typography>;
+  if (loadError)
+    return <Typography color="error">Error loading map</Typography>;
   if (!isLoaded) return <CircularProgress />;
 
   const markerColor =
     category === "police" ? "red" : category === "bank" ? "green" : "purple";
 
   return (
-
     <Box sx={styles.pageContainer}>
+      {/**Title box */}
 
-    {/**Title box */}
-      
       <Box sx={styles.titleBlock}>
         <Typography variant="h3" sx={styles.titleText}>
           Help Centres Near You
         </Typography>
-        <Typography variant="h6" sx={styles.subtitleText}>
-          Find nearby police, banks, or cyber help centres that can assist you in
-          reporting scams or fraudulent activities safely.
-        </Typography>
+        
       </Box>
 
-     
       <Box sx={styles.mainLayout}>
-       
+        
         <Paper elevation={0} sx={styles.leftPanel}>
           <Typography variant="h5" sx={styles.infoText}>
-            Please provide your location access to help us find you the nearest help center.
+            
+            Find nearby police, banks, or cyber help centres that can assist you
+          in reporting scams or fraudulent activities safely.
+            
           </Typography>
+          <Typography variant="h6" sx={styles.subtitleText}>
+          Please provide your location access to help us find you the nearest
+            help center.
+        </Typography>
 
-          <Button onClick={handleLocate} disabled={loading} sx={styles.locateButton}>
+          <Button
+            onClick={handleLocate}
+            disabled={loading}
+            sx={styles.locateButton}
+          >
             {loading ? <CircularProgress size={22} /> : "Use My Location"}
           </Button>
 
@@ -173,7 +188,9 @@ export default function NearesrHelpCenterSection() {
               </Typography>
             )}
             {!loading && results.length === 0 && (
-              <Typography color="text.secondary">No results found nearby.</Typography>
+              <Typography color="text.secondary">
+                No results found nearby.
+              </Typography>
             )}
 
             <List>
@@ -191,7 +208,6 @@ export default function NearesrHelpCenterSection() {
                   sx={styles.listItem}
                 >
                   <ListItemText
-                    
                     primary={r.name}
                     secondary={r.vicinity || r.formatted_address}
                   />
@@ -201,7 +217,7 @@ export default function NearesrHelpCenterSection() {
           </Paper>
         </Paper>
 
-      {/** Right side having mobile and the google map inside the mobile view */}
+        {/** Right side having mobile and the google map inside the mobile view */}
         <Box sx={styles.phoneContainer}>
           <Box sx={styles.mapFrame}>
             <GoogleMap
@@ -273,6 +289,25 @@ export default function NearesrHelpCenterSection() {
           />
         </Box>
       </Box>
+{/** Insights card at the bottom */}
+      <Paper elevation={0} sx={styles.insightsCard}>
+        <Box>
+          <Typography variant="h6" sx={{ fontWeight: 700, mb: 0.5 }}>
+            Reported the scam?
+          </Typography>
+          <Typography variant="body2" sx={{ opacity: 0.9, mb: 1.5 }}>
+            There are many scams reported near you. See the latest insights to
+            understand scam rates across Australia and stay a step ahead.
+          </Typography>
+        </Box>
+        <Button
+          component={RouterLink}
+          to="/resources"
+          sx={styles.insightsButton}
+        >
+          View insights & resources
+        </Button>
+      </Paper>
     </Box>
   );
 }

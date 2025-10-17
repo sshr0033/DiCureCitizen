@@ -36,13 +36,9 @@ export const logoText: SxProps<Theme> = {
   fontSize: "0.95rem",
 };
 
+
 export const navLinksContainer: SxProps<Theme> = {
-  display: { xs: "none", md: "flex" },
-  gap: 3,
-  px: 4,
-  py: 0.6,
-  borderRadius: "999px",
-  bgcolor: "rgba(255,255,255,0.15)",
+  display: "none",
 };
 
 export const navButton: SxProps<Theme> = {
@@ -62,8 +58,9 @@ export const iconGroup: SxProps<Theme> = {
   gap: 1,
 };
 
+
 export const menuButtonMobile: SxProps<Theme> = {
-  display: { xs: "flex", md: "none" },
+  display: "flex",
   color: "white",
   bgcolor: "rgba(255,255,255,0.15)",
   borderRadius: "50%",
@@ -72,22 +69,17 @@ export const menuButtonMobile: SxProps<Theme> = {
 };
 
 export const accessibilityButton: SxProps<Theme> = {
-  display: { xs: "none", md: "flex" },
-  bgcolor: "rgba(255,255,255,0.15)",
-  color: "white",
-  borderRadius: "50%",
-  p: 1.2,
-  transition: "0.3s",
-  "&:hover": { bgcolor: "rgba(255,255,255,0.3)" },
+  display: "none",
 };
 
 export const drawer: SxProps<Theme> = {
-  display: { xs: "block", md: "none" },
+  display: "block",
   "& .MuiDrawer-paper": {
-    width: 240,
+    width: 280,
     boxSizing: "border-box",
     bgcolor: "rgba(20,30,35,0.95)",
     color: "white",
+    borderLeft: "1px solid rgba(255,255,255,0.1)",
   },
 };
 
@@ -117,4 +109,10 @@ export const drawerTitle: SxProps<Theme> = {
 export const drawerItem: SxProps<Theme> = {
   textAlign: "center",
   "&:hover": { bgcolor: "rgba(255,255,255,0.1)" },
+};
+
+
+export const drawerItemActive: SxProps<Theme> = {
+  bgcolor: "rgba(255,255,255,0.12)",
+  "&:hover": { bgcolor: "rgba(255,255,255,0.18)" },
 };

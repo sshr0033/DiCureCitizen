@@ -26,7 +26,7 @@ Hero Banner show casing the phone and the details of each button to provide a us
 
 //Button names on the phone
 
-type HoverKey = "default" | "detect" | "learn" | "insights" | "help";
+type HoverKey = "default" | "detect" | "learn" | "insights" | "help" | "audio";
 
 interface HeroContent {
   number: number | string;
@@ -66,6 +66,12 @@ const content: Record<HoverKey, HeroContent> = {
     subtitle: "Major support channels available near you",
     description:
       "Get help if you've been scammed access recovery tools, government hotlines, and verified community support.",
+  },
+  audio: {
+    number: "500",
+    subtitle: "Scam audios to train yourself to identify scammers over calls",
+    description:
+      "Scammers are not restricted to text messages. They often call you pretending to be from your bank or government agency. Train yourself to identify such scammers by listening to real scam audios.",
   },
 };
 
@@ -161,6 +167,16 @@ export default function HeroBanner() {
             variant="contained"
             sx={liquidButtonStyle}
             component={RouterLink}
+            to="/scamAudio"
+            onMouseEnter={() => setHovered("audio")}
+            onMouseLeave={() => setHovered("default")}
+          >
+            Listen to Scam Audios
+          </Button>
+          <Button
+            variant="contained"
+            sx={liquidButtonStyle}
+            component={RouterLink}
             to="/resources"
             onMouseEnter={() => setHovered("insights")}
             onMouseLeave={() => setHovered("default")}
@@ -197,7 +213,7 @@ export default function HeroBanner() {
             cursor: "pointer",
           }}
         >
-          Swipe up to explore
+          
         </Typography>
         <KeyboardArrowUpIcon
           sx={{

@@ -3,7 +3,6 @@ import { Box, Typography, IconButton, Slider, Button } from "@mui/material";
 import { PlayArrow, Pause, Stop, SkipNext, Replay } from "@mui/icons-material";
 import phoneFramePortrait from "../assets/iPhone Air - Light Gold - Portrait.png";
 import ReportGuidePopUp from "./ReportGuidePopUp";
-import { getConversations } from "../api";
 import * as styles from "../styles/scamAudioStyles"; 
 import { Link as RouterLink } from "react-router-dom";
 

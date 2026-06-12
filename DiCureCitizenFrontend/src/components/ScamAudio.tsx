@@ -26,10 +26,48 @@ const ScamAudio: React.FC = () => {
   const scrollRef = useRef<HTMLDivElement | null>(null);
 
   // Fetch conversation data
+  // useEffect(() => {
+  //   getConversations()
+  //     .then((data) => setConversations(data))
+  //     .catch((err) => console.error("Error fetching conversations:", err));
+  // }, []);
+
+  // Fetch conversation data
   useEffect(() => {
-    getConversations()
-      .then((data) => setConversations(data))
-      .catch((err) => console.error("Error fetching conversations:", err));
+    // Mock data - no API call needed
+    const mockConversations: Conversation[] = [
+      {
+        conversationId: 1,
+        conversation: `Person A: Hello, this is Amazon Security. We detected suspicious activity on your account.
+Person B: Oh no, what happened?
+Person A: Please verify your credit card details to confirm your identity.
+Person B: Wait, Amazon would never ask for card details via call.
+Person A: This is urgent, just provide the last 4 digits.
+Person B: I'm hanging up and calling Amazon directly.`,
+        label: 1
+      },
+      {
+        conversationId: 2,
+        conversation: `Person A: Congratulations! You've won a $1000 Amazon gift card!
+Person B: I didn't enter any contest.
+Person A: Just click this link to claim your prize!
+Person B: No thanks, this is a scam.
+Person A: You're losing out on free money!
+Person B: Real companies don't operate this way.`,
+        label: 1
+      },
+      {
+        conversationId: 3,
+        conversation: `Person A: Hello, this is your bank calling. Your account has been compromised.
+Person B: Really? Which bank?
+Person A: Never mind that. What's your account number?
+Person B: I'm not sharing anything. I'll call my bank directly.
+Person A: But this is urgent!
+Person B: My bank has my number if there's an issue.`,
+        label: 1
+      }
+    ];
+    setConversations(mockConversations);
   }, []);
 
   // Load different type of available voices
